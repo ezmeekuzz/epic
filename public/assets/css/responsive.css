@@ -1,0 +1,978 @@
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .reviews-slider {
+    padding-left: 10%;
+  }
+  .reviews-slider .review-wrapper .head h3 {
+    font-size: 20px;
+  }
+  .reviews-slider .review-wrapper .body p {
+    font-size: 12px;
+  }
+  .reviews-slider .review-wrapper .foot .details h4 {
+    font-size: 18px;
+  }
+  .reviews-slider .review-wrapper .foot .details p {
+    font-size: 10px;
+  }
+  .reviews-slider .owl-dots .owl-dot span {
+    height: 15px;
+    width: 15px;
+  }
+  .reviews-slider .owl-dots .owl-dot {
+    border-width: 3px;
+  }
+  .testimonials .model-image img {
+    height: 500px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .home-banner .wrapper .home-content h1 {
+    font-size: 40px;
+  }
+  .navbar-brand img {
+    width: auto;
+    max-width: 170px;
+  }
+  .navbar-nav li a {
+    font-size: 12px;
+  }
+  .btn button {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+  .services .wrapper .pricing .price h1 {
+    font-size: 70px;
+  }
+  .scheduling .sched-wrapper .content1 {
+    padding: 90px 40px;
+  }
+  .login .log-wrapper .or h1::before {
+    left: 170px;
+    width: 250px;
+  }
+
+  .login .log-wrapper .or h1::after {
+    right: 170px;
+    width: 250px;
+  }
+  .step .images img {
+    width: 180px;
+    height: 10px;
+  }
+  .scheduling-2 .choose-provider .btn-back {
+    width: 30%;
+  }
+  .scheduling-3 .choose-provider .btn-back {
+    width: 30%;
+  }
+  .scheduling-4 .choose-provider .btn-back {
+    width: 30%;
+  }
+  .account-dashboard .account-wrapper .chat .conversation .convo-list {
+    position: relative !important;
+    margin-left: 120px;
+  }
+  .signup .sign-wrapper .btn-sign {
+    width: 30%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar-toggler {
+    position: absolute;
+    right: 0;
+    top: 25px;
+  }
+  .btn button {
+    margin-right: 40px;
+  }
+  .btn button {
+    margin-right: 24px;
+    width: fit-content;
+    position: absolute;
+    right: 30px;
+    top: 35px;
+  }
+  .home-banner {
+    padding: 120px 0;
+  }
+  .navbar-toggler.navbar-toggler--active:before,
+  .navbar-toggler.navbar-toggler--active:after {
+    background-color: #fff;
+  }
+  .navbar-nav li a {
+    color: unset;
+  }
+  .change_header_bg .no-filter {
+    filter: invert(1);
+  }
+  .mobile-show {
+    display: block;
+  }
+  .works .images img {
+    display: none;
+  }
+  .works .wrapper .content .step2 {
+    margin-top: 20px;
+  }
+  .footer .wrapper .social .list img {
+    width: 30px;
+  }
+  .footer .wrapper .social h1,
+  .footer .wrapper .links h1 {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  .footer .wrapper .links .list ul li a {
+    font-size: 14px;
+  }
+  .footer .wrapper .contact h1 {
+    font-size: 24px;
+  }
+  .footer .wrapper .contact .list span {
+    font-size: 14px;
+  }
+  .header-2 {
+    height: auto;
+  }
+  .header-2.change_header_bg .no-filter {
+    filter: invert(0);
+  }
+  .header-2 .navbar-toggler.navbar-toggler--active:before,
+  .header-2 .navbar-toggler.navbar-toggler--active:after {
+    background-color: #000;
+  }
+  .contact-banner .wrapper .contact-content h1 {
+    font-size: 25px;
+  }
+  .contact-banner .wrapper .contact-content p {
+    font-size: 16px;
+  }
+  .contact-banner .wrapper .contact-content .list img {
+    max-width: 30px;
+  }
+  .contact-banner .wrapper .contact-content .list {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .contact-banner .wrapper .con-form form input {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  .contact-banner .wrapper .con-form form textarea {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  .contact-banner .wrapper .con-form form button {
+    width: 100%;
+    padding: 15px;
+    font-size: 14px;
+  }
+  .section-heading h2 {
+    font-size: 30px;
+  }
+  .scheduling-2 .choose-provider .btn-back {
+    width: 50%;
+    padding: 15px;
+  }
+  .step .images img {
+    width: 80px;
+    height: 5px;
+  }
+  .signup .sign-wrapper .btn-sign {
+    width: 50%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bg-curve {
+    padding-top: 0;
+  }
+  .testimonials .model-image img {
+    height: 300px;
+  }
+  .bg-curve {
+    padding-top: 0;
+    transform: scale(1.6);
+  }
+  .testimonials {
+    overflow: hidden;
+  }
+  .testimonials .section-heading span {
+    color: #fff;
+  }
+  .reviews-slider {
+    padding-left: 0;
+  }
+  .scheduling {
+    padding: 50px 0;
+  }
+  .scheduling .sched-wrapper .content1 button {
+    width: 100%;
+  }
+  .scheduling .sched-wrapper {
+    background-position: center center;
+  }
+  .scheduling .sched-wrapper .content1 {
+    padding: 90px 20px;
+  }
+  .scheduling .sched-wrapper .content1 h1 {
+    font-size: 18px;
+  }
+  .scheduling .sched-wrapper .content1 p {
+    font-size: 13px;
+  }
+  .step .images img {
+    width: 50px;
+    height: 5px;
+  }
+  .sign-next {
+    padding: 20px 20px;
+  }
+  .sign-next .sign-wrapper h1 {
+    font-size: 18px;
+  }
+  .sign-next .sign-wrapper .account h2 {
+    font-size: 15px;
+  }
+  .sign-next .sign-wrapper .account .form .btn-continue {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .login .log-wrapper img {
+    width: 50%;
+  }
+  .login .log-wrapper .or h1::before {
+    left: 50px;
+    width: 80px;
+  }
+
+  .login .log-wrapper .or h1::after {
+    right: 50px;
+    width: 80px;
+  }
+  .login .log-wrapper .form form input {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  .login .log-wrapper .form form button {
+    padding: 15px;
+  }
+  .scheduling-1 .sched-wrapper h1 {
+    font-size: 20px;
+  }
+  .scheduling-1 .sched-wrapper .sched-list .list .sched img {
+    width: 20%;
+  }
+  .scheduling-1 .sched-wrapper .sched-list .list .sched span {
+    font-size: 13px;
+  }
+  .scheduling-2 .choose-provider .btn-back {
+    width: 50%;
+    padding: 15px;
+    text-align: center;
+    margin: auto;
+  }
+  .scheduling-2 .choose-provider .btn-back a {
+    font-size: 13px;
+  }
+  .scheduling-2 .choose-provider {
+    display: block;
+  }
+  .scheduling-2 .choose-provider h1 {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .scheduling-2 .sched-wrapper h1 {
+    font-size: 20px;
+  }
+  .scheduling-2 .sched-wrapper .sched-list .list .sched img {
+    width: 20%;
+  }
+  .scheduling-2 .sched-wrapper .sched-list .list .sched span {
+    font-size: 13px;
+  }
+  .scheduling-3 .choose-provider {
+    display: block;
+  }
+  .scheduling-3 .choose-provider .btn-back {
+    width: 50%;
+    padding: 15px;
+    text-align: center;
+    margin: auto;
+  }
+  .scheduling-3 .choose-provider .btn-back a {
+    font-size: 13px;
+  }
+  .scheduling-3 .choose-provider {
+    display: block;
+  }
+  .scheduling-3 .choose-provider h1 {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .scheduling-3 .sched-wrapper .content-side .btn-time1 {
+    width: 100%;
+  }
+  .scheduling-3 .sched-wrapper .content-side .btn-time {
+    display: block;
+  }
+  .scheduling-3 .sched-wrapper .content-side .btn-time .btn-1 {
+    width: 100%;
+  }
+  .scheduling-3 .sched-wrapper .content-side .btn-time .btn-2 {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .scheduling-3 .sched-wrapper .content-side .btn-time2 {
+    width: 100%;
+  }
+
+  .scheduling-4 .choose-provider {
+    display: block;
+  }
+  .scheduling-4 .choose-provider .btn-back {
+    width: 50%;
+    padding: 15px;
+    text-align: center;
+    margin: auto;
+  }
+  .scheduling-2 {
+    padding: 30px 20px;
+  }
+  .scheduling-3 {
+    padding: 30px 20px;
+  }
+  .scheduling-4 {
+    padding: 30px 20px;
+  }
+  .scheduling-4 .choose-provider .btn-back a {
+    font-size: 13px;
+  }
+  .scheduling-4 .choose-provider {
+    display: block;
+  }
+  .scheduling-4 .choose-provider h1 {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .scheduling-4 .sched-wrapper .content-side .btn-time1 {
+    width: 100%;
+  }
+  .scheduling-4 .sched-wrapper .content-side .btn-time {
+    display: block;
+  }
+  .scheduling-4 .sched-wrapper .content-side .btn-time .btn-1 {
+    width: 100%;
+  }
+  .scheduling-4 .sched-wrapper .content-side .btn-time .btn-2 {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .scheduling-4 .title h2 {
+    font-size: 18px;
+  }
+  .scheduling-4 .title span {
+    font-size: 15px;
+  }
+  .scheduling-4 .sched-wrapper .form form input {
+    padding: 15px;
+  }
+  .scheduling-4 .sched-wrapper .form form h2 {
+    font-size: 13px;
+  }
+  .scheduling-4 .sched-wrapper .form form button {
+    padding: 15px;
+    width: 100%;
+  }
+  .scheduling-3 .sched-wrapper .content-side .btn-time2 {
+    width: 100%;
+  }
+  .scheduling-3 .title h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .scheduling-3 .sched-wrapper .day-names {
+    font-size: 13px;
+  }
+  .scheduling-3 .sched-wrapper .days {
+    font-size: 10px;
+  }
+  .scheduling-3 .sched-wrapper h2 {
+    font-size: 25px;
+  }
+  .scheduling-3 .sched-wrapper .img {
+    margin-bottom: 20px;
+  }
+  .sign-next .sign-wrapper .account .radio .rad-1 {
+    margin-right: 0;
+  }
+  .sign-next .sign-wrapper .account .radio {
+    gap: 5px;
+  }
+  .sign-next .sign-wrapper .account .form form input {
+    padding: 15px;
+  }
+
+  .sign-next3 .sign-wrapper .account .radio .rad-1 {
+    margin-right: 0;
+  }
+  .sign-next3 .sign-wrapper .account .radio {
+    gap: 5px;
+  }
+  .sign-next3 .sign-wrapper .account .form form input {
+    padding: 15px;
+  }
+  .sign-next3 .sign-wrapper .account h2 {
+    font-size: 15px;
+  }
+  .sign-next3 .sign-wrapper .account .radio .rad-1 label {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  .sign-next3 .sign-wrapper .account .radio .rad-1 input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sign-next3 .sign-wrapper .account .radio .rad-2 label {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  .sign-next3 .sign-wrapper .account .radio .rad-2 input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sign-next .sign-wrapper .account .radio .rad-1 label {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  .sign-next .sign-wrapper .account .radio .rad-1 input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sign-next .sign-wrapper .account .radio .rad-2 label {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  .sign-next .sign-wrapper .account .radio .rad-2 input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
+  .sign-next3 .sign-wrapper .account .form .btn-continue {
+    width: 100%;
+    padding: 15px;
+  }
+  .sign-next3 .sign-wrapper h1 {
+    font-size: 20px;
+  }
+  .sign-next3 .sign-wrapper .account .form form .condition {
+    font-size: 15px;
+  }
+  .sign-next3 .sign-wrapper .account .form form .terms {
+    font-size: 15px;
+  }
+  .sign-next3 {
+    padding: 20px 20px;
+  }
+  .sign-next2 {
+    padding: 20px 20px;
+  }
+  .sign-next {
+    padding: 20px 20px;
+  }
+  .account-dashboard .account-wrapper .acct .images {
+    display: none;
+  }
+  .account-dashboard .account-wrapper {
+    padding: 20px;
+  }
+  .account-dashboard .account-wrapper h1 {
+    font-size: 20px;
+  }
+  .account-dashboard .account-wrapper .acct .content h2 {
+    font-size: 18px;
+  }
+  .account-dashboard .account-wrapper .acct .content p {
+    font-size: 13px;
+  }
+  .account-dashboard .account-wrapper .title .epic .text h2 {
+    font-size: 15px;
+  }
+  .account-dashboard .account-wrapper .title .epic .text span {
+    font-size: 10px;
+  }
+  .account-dashboard .account-wrapper .title {
+    display: block;
+  }
+  .account-dashboard .account-wrapper .title h3 {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .account-dashboard .account-wrapper .chat .conversation .convo-list {
+    position: relative !important;
+    margin-left: 30px;
+  }
+
+  .account-dashboard .account-wrapper .chat .conversation .convo-list .text h3 {
+    font-size: 10px;
+  }
+  .account-dashboard
+    .account-wrapper
+    .chat
+    .conversation
+    .convo-list1
+    .text
+    h3 {
+    font-size: 10px;
+  }
+  .account-dashboard .account-wrapper .chat .chat-wrapper .chat-name h2 {
+    font-size: 15px;
+  }
+  .account-dashboard .account-wrapper .chat .chat-message form input {
+    width: 50%;
+  }
+  .account-dashboard
+    .account-wrapper
+    .chat
+    .chat-message
+    form
+    input::placeholder {
+    font-size: 9px;
+  }
+  .account-dashboard .account-wrapper .chat .conversation {
+    padding: 40px 20px;
+    position: relative;
+    height: 200px;
+    overflow-y: auto;
+  }
+  .account-dashboard .account-wrapper .solution {
+    margin-top: 30px;
+  }
+  .account-dashboard .account-wrapper .solution .solution-title h2 {
+    font-size: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  .account-dashboard .account-wrapper .solution .solution-title .btn-sol {
+    text-align: center;
+    padding: 10px;
+  }
+  .account-dashboard .account-wrapper .solution .list {
+    display: block;
+  }
+  .account-dashboard .account-wrapper .solution .solution-title .btn-sol a {
+    font-size: 10px;
+  }
+  .account-dashboard .account-wrapper .solution .solution-title {
+    display: block;
+  }
+  .account-dashboard .account-wrapper .solution .list .list-solution h2 {
+    font-size: 10px;
+  }
+  .signup .sign-wrapper .btn-sign {
+    width: 100%;
+    padding: 15px;
+  }
+  .signup .sign-wrapper .content h1 {
+    font-size: 20px;
+  }
+  .signup .sign-wrapper .content p {
+    font-size: 13px;
+  }
+  .signup .sign-wrapper .content .btn-continue {
+    width: 100%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-banner .wrapper .home-content h1 {
+    font-size: 30px;
+    text-align: center;
+  }
+  .home-banner .wrapper .home-content p {
+    font-size: 14px;
+  }
+  .home-banner .wrapper .home-content h2 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .home-banner .wrapper .home-content .list li {
+    font-size: 14px;
+    margin-bottom: 5px;
+    width: 100%;
+  }
+  .home-banner .wrapper .home-content .list {
+    display: block;
+    margin-top: 0;
+  }
+  .home-banner .wrapper .home-content .home-btn {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+  .home-banner .wrapper .home-content .home-btn a {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+  .home-img img {
+    max-width: 400px;
+    margin: 0 auto;
+    display: block;
+  }
+  .services .title h1 {
+    font-size: 30px;
+  }
+  .home-banner {
+    padding: 120px 0 50px;
+  }
+  .services .wrapper .pricing .price h1 {
+    font-size: 50px;
+  }
+  .services .wrapper .pricing p {
+    font-size: 14px;
+  }
+
+  .services .wrapper .pricing button {
+    width: fit-content;
+    margin-top: 20px;
+    font-size: 14px;
+    display: inline-block;
+  }
+  .services .wrapper .pricing {
+    margin-bottom: 20px;
+  }
+  .works .wrapper .content h1 {
+    font-size: 30px;
+  }
+  .works .wrapper .content .step1,
+  .works .wrapper .content .step2 {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .works .wrapper .content .step2 p {
+    font-size: 14px;
+  }
+  .works .wrapper .content .step2 h2 {
+    font-size: 24px;
+  }
+  .footer .footnote {
+    padding: 20px 0 0;
+  }
+  .footer .footnote span {
+    font-size: 12px;
+  }
+  .footer .footnote .list li a {
+    font-size: 12px;
+  }
+  .navbar {
+    padding: 0;
+  }
+  .works .wrapper .content h1 {
+    font-size: 30px;
+    text-align: center;
+  }
+  .about-banner .wrapper .about-content h1 {
+    font-size: 30px;
+  }
+  .about-banner .wrapper .about-content p {
+    font-size: 13px;
+  }
+  .about-banner {
+    padding: 0px 0;
+  }
+  .about-banner .wrapper .about-content .home-btn a {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+  .faqs-banner {
+    height: auto;
+    background-position: right;
+    margin-bottom: -100px;
+  }
+  .faqs-banner .wrapper .faqs-content {
+    padding-top: 0;
+    padding-left: 20%;
+    padding-bottom: 20px;
+  }
+
+  .faqs-banner .wrapper .faqs-content h1 {
+    font-size: 30px;
+  }
+  .faqs-banner .wrapper .faqs-content p {
+    font-size: 14px;
+  }
+  .accordion-title {
+    font-size: 14px;
+    padding: 15px;
+  }
+  .accordion-content {
+    font-size: 12px;
+  }
+  .btn-accor a {
+    padding: 15px 40px;
+    font-size: 14px;
+  }
+  .services-list .wrapper .list h1 {
+    font-size: 24px;
+  }
+  .services-list .wrapper .list img {
+    width: auto;
+    max-width: 200px;
+  }
+  .shipping-banner .wrapper .shipping-content h1 {
+    font-size: 30px;
+  }
+  .shipping-banner .wrapper .shipping-content p {
+    font-size: 14px;
+  }
+  .shipping-banner .wrapper .shipping-content .home-btn a {
+    padding: 15px 40px;
+    font-size: 14px;
+  }
+  .shipping-banner {
+    padding: 0;
+  }
+  .terms p {
+    font-size: 14px;
+  }
+  .terms h2 {
+    font-size: 16px;
+  }
+  .terms h1 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 500px) {
+  .home-img img {
+    max-width: 100%;
+  }
+  .navbar-brand img {
+    width: auto;
+    max-width: 120px;
+    margin-top: 16px;
+  }
+  .btn button {
+    font-size: 9px;
+  }
+  .faqs-banner .wrapper .faqs-content {
+    padding-left: 0;
+  }
+}
+
+
+
+/* new responsive */
+
+
+@media(max-width: 768px){
+  .order-history h2, .scheduling-3 .sched-wrapper h2, .summary-table .summary-title h2, .point-wrapper h3, .date-option h2, .order-table .title {
+      font-size: 18px;
+  }
+  .table-common thead th {
+      font-size: 12px;
+  }
+  .table-common tbody td {
+      font-size: 12px;
+  }
+  .timezone-wrapper select, .point-wrapper select {
+    font-size: 12px;
+}
+.point-wrapper h3{
+  margin-bottom: 10px;
+}
+.point-wrapper select{
+  margin-bottom: 20px;
+}
+.date-pick {
+  gap: 10px;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.time-pick .time-select{
+  width: 100% !important;
+}
+.time-pick {
+  gap: 10px;
+  flex-direction: column;
+}
+.time-pick .am-pm {
+  width: 100%;
+}
+.summary-table .summary-title button {
+  font-size: 12px;
+}
+.summary-table .summary-title {
+  flex-direction: column;
+  gap: 10px;
+}
+.summary-table .table{
+  width: 800px;
+}
+.order-table .table{
+  width: 1000px;
+}
+.pagination {
+  flex-direction: column;
+  gap: 10px;
+}
+.form-wrapper select{
+  margin-bottom: 10px;
+}
+.order-table .filters {
+  flex-direction: column;
+  gap: 10px;
+}
+.order-table .filters .add-search .add {
+  font-size: 12px;
+}
+.form-note p {
+  font-size: 16px;
+}
+.common-wrapper h3 {
+  font-size: 14px;
+}
+.common-wrapper input:not([type=radio], [type=checkbox]), .common-wrapper select {
+  font-size: 14px;
+}
+.price-summary {
+  margin: 20px 0;
+  max-width: 100%;
+}
+.banner-container {
+  padding: 30px;
+  position: relative;
+}
+.banner-container:after{
+  content: '';
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.banner-container .row{
+  position: relative;
+  z-index: 20;
+}
+.radio-container label {
+  font-size: 14px;
+  gap: 10px;
+}
+.radio-container label span {
+  height: 25px;
+  width: 25px;
+}
+}
+@media(max-width: 600px){
+  .order-history .table{
+    width: 500px;
+  }
+  .container-title {
+      margin-bottom: 20px;
+      text-align: center;
+  }
+  .container-title h3 {
+      font-size: 20px;
+  }
+  .order-history, .scheduling-3 .sched-wrapper, .point-wrapper, .date-option {
+    padding: 20px;
+}
+.scheduling-3 .sched-wrapper #currentMonthYear {
+  font-size: 14px;
+}
+.table-btns span, .table-btns a {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+.summary-table{
+  padding: 20px;
+}
+.admin-form .form-title {
+  font-size: 18px;
+}
+.admin-form .form-wrapper select, .admin-form .form-wrapper input, .admin-form .form-wrapper p {
+  font-size: 12px;
+}
+.container-form-footer a {
+  font-size: 12px;
+}
+.order-table, .admin-form{
+  padding: 20px;
+}
+.order-table .filters .add-search .search-entries input {
+  width: 100%;
+}
+.container-title h2 {
+  font-size: 18px;
+}
+.price-summary .summary-row h3 {
+    font-size: 11px;
+}
+.price-summary .total-summary-row h3 {
+  font-size: 14px;
+}
+.price-summary .total-summary-row h2 {
+  font-size: 14px;
+}
+.banner-container .intro-content h2 {
+  text-align: center;
+  font-size: 30px;
+}
+.banner-container .intro-content p {
+  font-size: 14px;
+  text-align: center;
+}
+.intro-content{
+  text-align: center;
+}
+.banner-container .intro-content a {
+  padding: 10px 40px;
+  font-size: 14px;
+}
+.banner-container {
+  min-height: auto;
+}
+.scheduling-container .select-wrapper .sched-wrapper {
+  padding: 30px;
+}
+.time-pick select{
+  font-size: 14px;
+}
+
+}
+
+@media(max-width: 520px){
+  .order-table .filters .add-search {
+      gap: 10px;
+      flex-direction: column;
+  }
+}
