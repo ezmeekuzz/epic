@@ -20,6 +20,8 @@ $routes->get('/scheduling', 'SchedulingController::index');
 $routes->get('/scheduling/intro', 'SchedulingController::intro');
 $routes->get('/scheduling/account-information', 'SchedulingController::accountInformation');
 $routes->get('/scheduling/service-information', 'SchedulingController::serviceInformation');
+$routes->post('/scheduling/getSizes', 'SchedulingController::getSizes');
+$routes->post('/scheduling/calculateTotal', 'SchedulingController::calculateTotal');
 
 //Admin Routes
 $routes->get('/admin/login', 'admin\LoginController::index');

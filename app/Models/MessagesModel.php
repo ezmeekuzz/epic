@@ -13,7 +13,7 @@ class MessagesModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'firstname', 'lastname', 'phone', 'email', 'message'
+        'firstname', 'lastname', 'phone', 'email', 'message', 'messagedate'
     ];
 
     // Dates

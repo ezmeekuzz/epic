@@ -1404,10 +1404,10 @@ body {
   font-weight: 500;
   margin-bottom: 20px;
 }
-.scheduling .sched-wrapper .content1 a {
+.scheduling .sched-wrapper .content1 button {
   background-color: #89c4f2;
   border: none;
-  padding: 20px 30px 20px 30px;
+  padding: 15px;
   width: 30%;
   color: #fff;
   font-weight: bold;
@@ -2565,3 +2565,28 @@ body {
   font-size: 14px;
   background-color: transparent;
 }/*# sourceMappingURL=main.css.map */
+
+
+
+/* new css */
+.quantity-row{
+  display: flex;
+  align-items: flex-end;
+}
+.quantity-row .inner{
+  width: 100%;
+}
+.btn-add {
+  border: 1px solid #89C4F2;
+  border-radius: 50%;
+  color: #89C4F2;
+  margin-left: 10px;
+  padding: 4px 10px;
+  background: #89C4F2;
+  color: #fff;
+  margin-bottom: 5px;
+}
+.btn-add:hover{
+  color: #89C4F2;
+  background-color: transparent;
+}

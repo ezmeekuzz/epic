@@ -11,7 +11,7 @@
               <div class="pricing">
                 <div class="price">
                   <div class="title">
-                    <h2>Summer Advantage</h2>
+                    <h2>Summer Storage</h2>
                     <span>(May to August)</span>
                   </div>
                   <div class="title-wrapper">
@@ -35,7 +35,7 @@
                   <p>Shipping Services are available</p>
                   <p>Summer school and study abroad options</p>
                 </div>
-                <button>LETS GET STARTED</button>
+                <button onclick="window.location.href='/scheduling/account-information'">LETS GET STARTED</button>
               </div>
             </div>
             <div class="col-lg-6">
@@ -64,7 +64,7 @@
                     <p>Additional items can be added</p>
                 <p>Shipping Services are available</p>
                   </div>
-                <button>LETS GET STARTED</button>
+                <button onclick="window.location.href='/scheduling/account-information'">LETS GET STARTED</button>
               </div>
             </div>
           </div>
