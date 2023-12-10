@@ -1404,7 +1404,7 @@ body {
   font-weight: 500;
   margin-bottom: 20px;
 }
-.scheduling .sched-wrapper .content1 button {
+.scheduling .sched-wrapper .content1 a {
   background-color: #89c4f2;
   border: none;
   padding: 15px;

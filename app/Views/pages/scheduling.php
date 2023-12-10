@@ -16,7 +16,7 @@
                     Created Appointment, Or If You Have Questions, Call Anissa
                     At 336-549-5216
                   </p>
-                  <a href="scheduling/intro">CONTINUE</a>
+                  <a href="/scheduling/intro">CONTINUE</a>
                 </div>
               </div>
               <div class="col-lg-6">

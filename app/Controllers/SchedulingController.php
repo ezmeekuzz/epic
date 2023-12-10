@@ -34,7 +34,7 @@ class SchedulingController extends BaseController
         ];
         return view('pages/account-information', $data);
     }
-    public function serviceInformation() {
+    public function serviceInformation($serviceType) {
         $itemModel = new ItemsModel();
         $iresult = $itemModel->findAll();
         $data = [
@@ -42,7 +42,12 @@ class SchedulingController extends BaseController
             'description' => 'The mission of EPIC Storage Solutions is to provide High Point University students and parents with a convenient, accountable, and safe moving and storage experience. EPIC was established in 2009 and is locally owned and operated in High Point, NC by Anissa Roy. Anissa is a graduate of High Point College in the class 1991 and after a successful corporate career, her goal was to operating her own business. Over the last 13 plus years, we have had the opportunity to service 1000s of HPU students helping us to evolve into the company we are today. We pride ourselves in providing a high touch and always available experience. This approach allows us to directly engage in each customer relationship placing a personal touch on each parent and student experience.',
             'records' => $iresult
         ];
-        return view('pages/service-information', $data);
+        if($serviceType === 'summer-storage') {
+            return view('pages/summer-storage', $data);
+        }
+        else {
+            return view('pages/summer-advantage', $data);
+        }
     }
     public function getSizes()
     {
@@ -64,16 +69,21 @@ class SchedulingController extends BaseController
         // For simplicity, let's assume the price is hardcoded based on the item and size
         $priceData = $this->getPriceByItemAndSize($item, $size);
         $price = $priceData['cost'];
+        $item_id = $priceData['item_id'];
         $item_name = $priceData['item_name'];
         $size = $priceData['size'];
+        $size_id = $priceData['size_id'];
 
         $total = $price * $quantity;
 
         // Return the total, item_name, and size as JSON
         return $this->response->setJSON([
             'total' => $total,
+            'item_id' => $item_id,
             'item_name' => $item_name,
             'size' => $size,
+            'price' => $price,
+            'size_id' => $size_id,
         ]);
     }
     // Helper method to get the price based on the item and size (replace with your actual logic)
@@ -82,7 +92,7 @@ class SchedulingController extends BaseController
         $sizeModel = new SizesModel(); // Replace with your actual size model
         // Assuming you have a 'price' column in your 'sizes' table
         $priceRow = $sizeModel
-            ->select('sizes.cost, sizes.size, items.item_name')
+            ->select('sizes.cost, sizes.size, items.item_name, items.item_id, sizes.size_id')
             ->join('items', 'items.item_id = sizes.item_id')
             ->where('items.item_id', $item)
             ->where('sizes.size_id', $size)
@@ -92,15 +102,19 @@ class SchedulingController extends BaseController
         if ($priceRow) {
             return [
                 'cost' => $priceRow['cost'],
+                'item_id' => $priceRow['item_id'],
                 'item_name' => $priceRow['item_name'],
                 'size' => $priceRow['size'],
+                'size_id' => $priceRow['size_id'],
             ];
         }
 
         return [
             'cost' => 0, // Default to 0 if not found
+            'item_id' => '',
             'item_name' => '',
             'size' => '',
+            'size_id' => '',
         ];
     }
 }

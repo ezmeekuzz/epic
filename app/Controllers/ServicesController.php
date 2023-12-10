@@ -14,4 +14,16 @@ class ServicesController extends BaseController
         ];
         return view('pages/services', $data);
     }
+    public function summerStorageSession() 
+    {
+        $session = session();
+        $session->set('selectedService', 'summer-storage');
+        return redirect()->to('/scheduling/account-information/'. $session->get('selectedService'));
+    }
+    public function summerAdvantageSession()
+    {
+        $session = session();
+        $session->set('selectedService', 'summer-advantage');
+        return redirect()->to('/scheduling/account-information/'. $session->get('selectedService'));
+    }
 }

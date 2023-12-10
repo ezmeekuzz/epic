@@ -109,7 +109,7 @@
             </div>
             <div class="container-form-footer">
                 <a href="/scheduling/intro" class="back-btn"><i class="fa fa-arrow-left"></i> BACK</a>
-                <a href="javascript:void(0);" class="continue-btn">CONTINUE <i class="fa fa-arrow-right"></i></a>
+                <a href="javascript:void(0);" class="continue-btn" data-service-type="<?=session()->get('selectedService');?>">CONTINUE <i class="fa fa-arrow-right"></i></a>
             </div>
           </div>
         </section>

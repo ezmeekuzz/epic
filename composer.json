@@ -11,7 +11,8 @@
     },
     "require": {
         "php": "^7.4 || ^8.0",
-        "codeigniter4/framework": "^4.0"
+        "codeigniter4/framework": "^4.0",
+        "square/square": "33.0.0.20231115"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

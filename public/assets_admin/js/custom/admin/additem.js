@@ -3,19 +3,17 @@ function addsizes() {
     elem += '<div class="sizesLists"><div class="form-group"><label for="size" style="float: left;">Size</label><div style="float: right;"><a href="javascript:void(0);" onclick="addsizes();" title="Add Size"><i class="fa fa-plus-circle" style="font-size: 18px; color: blue;"></i></a><a href="#" style="color: red; font-size: 18px;" class="remove-size"><i class="fa fa-trash"></i></a></div><input type="text" class="form-control" id="size" name="size[]" placeholder=""></div><div class="form-group"><label for="cost">Cost</label><input type="text" class="form-control" id="cost" name="cost[]" placeholder="0.00"></div></div>';
     $('.sizes').append(elem);
 }
-// Function to remove elements
+
 $('.sizes').on('click', '.remove-size', function() {
     $(this).closest('.sizesLists').remove();
 });
 $(document).ready(function() {
-    // Submit form using AJAX
+    
     $('#additem').submit(function(event) {
-        event.preventDefault(); // Prevent the form from submitting in the traditional way
-
-        // Serialize the form data
+        event.preventDefault();
+        
         var formData = $(this).serialize();
-
-        // Check if item_name is empty
+        
         if ($('#item_name').val().trim() === '') {
             swal({
                 type: 'error',
@@ -24,8 +22,7 @@ $(document).ready(function() {
             });
             return;
         }
-
-        // Check if size field is empty
+        
         if ($('input[name="size[]"]').filter(function() {
             return $.trim(this.value) !== '';
         }).length === 0) {
@@ -36,14 +33,13 @@ $(document).ready(function() {
             });
             return;
         }
-
-        // Perform AJAX request
+        
         $.ajax({
             type: 'POST',
-            url: '/admin/additem/insert', // Replace with your server-side script URL
+            url: '/admin/additem/insert',
             data: formData,
             success: function(response) {
-                // Handle success response here
+                
                 swal({
                     type: 'success',
                     title: 'Success',

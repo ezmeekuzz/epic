@@ -27,8 +27,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
+    <style>   
+      #loading {
+          position: fixed;
+          display: none;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          opacity: 0.7;
+          background-color: #fff;
+          z-index: 99999;
+      }
+      #loading-image {
+          z-index: 100;
+          width: 10%;
+          opacity: 1;
+      }
+    </style>
   </head>
   <body>
     <!-- FOR HEADER -->

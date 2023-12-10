@@ -101,7 +101,7 @@
                   <p>Shipping Services are available</p>
                   <p>Summer school and study abroad options</p>
                 </div>
-                <button>LETS GET STARTED</button>
+                <button onclick="window.location.href='/services/summerStorageSession'">LETS GET STARTED</button>
               </div>
             </div>
             <div class="col-lg-6">
@@ -138,7 +138,7 @@
                   <p>Additional items can be added</p>
                   <p>Shipping Services are available</p>
                 </div>
-                <button>LETS GET STARTED</button>
+                <button onclick="window.location.href='/services/summerAdvantageSession'">LETS GET STARTED</button>
               </div>
             </div>
           </div>

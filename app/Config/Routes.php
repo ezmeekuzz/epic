@@ -18,10 +18,16 @@ $routes->get('/terms-condition', 'TermsconditionController::index');
 $routes->get('/testimonials', 'TestimonialsController::index');
 $routes->get('/scheduling', 'SchedulingController::index');
 $routes->get('/scheduling/intro', 'SchedulingController::intro');
-$routes->get('/scheduling/account-information', 'SchedulingController::accountInformation');
-$routes->get('/scheduling/service-information', 'SchedulingController::serviceInformation');
+$routes->get('/scheduling/account-information/(:any)', 'SchedulingController::accountInformation/$1');
+$routes->get('/scheduling/service-information/(:any)', 'SchedulingController::serviceInformation/$1');
 $routes->post('/scheduling/getSizes', 'SchedulingController::getSizes');
 $routes->post('/scheduling/calculateTotal', 'SchedulingController::calculateTotal');
+$routes->get('/services/summerStorageSession', 'ServicesController::summerStorageSession');
+$routes->get('/services/summerAdvantageSession', 'ServicesController::summerAdvantageSession');
+$routes->get('/pay', 'PayController::index');
+$routes->post('/pay/sendPayment', 'PayController::sendPayment');
+$routes->post('/pay/processPayment', 'PayController::processPayment');
+$routes->get('/pay/removeServiceSession', 'PayController::removeServiceSession');
 
 //Admin Routes
 $routes->get('/admin/login', 'admin\LoginController::index');

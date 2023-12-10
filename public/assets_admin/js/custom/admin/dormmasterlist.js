@@ -25,7 +25,7 @@ $('.delete-btn').on('click', function() {
                 method: 'DELETE',
                 success: function(response) {
                     if (response.status === 'success') {
-                        // Remove the deleted row from the table
+                        
                         table.row(row).remove().draw(false);
                     }
                 }

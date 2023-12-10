@@ -20,7 +20,7 @@
                             </div>
                             <div class="form-wrapper common-wrapper">
                                 <h3>Select Quantity Of Additional Boxes You Are Purchasing.  *</h3>
-                                <select name="box_quantity" id="box_quantity" onchange="updateTotalPrice()">
+                                <select name="box_quantity" id="box_quantity">
                                     <option disabled selected>Select a quantity</option>
                                     <option hidden></option>
                                     <option value="1">1</option>
@@ -53,7 +53,7 @@
                                 <div class="form-row">
                                     <div class="col-lg-4">
                                         <h5>Select Item</h5>
-                                        <select name="item_id" id="item_id" onchange="getSizes();">
+                                        <select name="item_id" id="item_id">
                                             <option disabled selected>Select an item</option>
                                             <option hidden></option>
                                             <?php foreach($records as $item) : ?>
@@ -75,7 +75,7 @@
                                                 <input type="number" name="quantity" id="quantity" />
                                             </div>
                                             <!-- new button to add -->
-                                            <button type="button" onclick="updateTotal();"  class="btn btn-add"><i class="fa fa-plus"></i></button>
+                                            <button type="button" class="btn btn-add"><i class="fa fa-plus"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -122,15 +122,25 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="price-summary">
-                                <div class="summary-row" id="basePrice" data-cost="0.00">
-                                    <h2>Base Price</h2>
-                                    <h2 id="base-price-row">$0.00</h2>
+                                <div class="serviceType" hidden>
+                                    <label>Service Type</label>
+                                    <input type="hidden" name="serviceType" id="serviceType" value="<?=session()->get('selectedService');?>" />
+                                </div>
+                                <div class="summary-row">
+                                    <h2>Base Price (x 1)</h2>
+                                    <h2 id="base-price-row">$425.00</h2>
+                                    <input type="hidden" name="base_name" id="base_name" value="Base Price" />
+                                    <input type="hidden" name="base_amount" id="base_amount" value="425.00" />
+                                    <input type="hidden" name="base_total_amount" id="base_total_amount" value="425.00" />
+                                    <input type="hidden" name="base_quantity" id="base_quantity" value="1" />
                                 </div>
                                 <!-- Placeholder for dynamically generated rows -->
+                                <div id="additional-box-row"></div>
                                 <div id="dynamic-summary-rows"></div>
                                 <div class="total-summary-row">
                                     <h2>TOTAL</h2>
                                     <h3 id="total-price">$0.00</h3>
+                                    <input type="hidden" name="totalAmount" id="totalAmount" value="0.00" />
                                 </div>
                             </div>
                         </div>
@@ -144,5 +154,5 @@
           </div>
         </section>
     </main>
-    <script src="<?=base_url();?>assets_admin/js/custom/service-information.js"></script>
+    <script src="<?=base_url();?>assets_admin/js/custom/summer-storage.js"></script>
     <?=$this->include('templates/footer');?>

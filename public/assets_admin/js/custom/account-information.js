@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Check if there is data in local storage
+    // Retrieve and display stored data
     var storedData = localStorage.getItem('studentData');
     if (storedData) {
-        // If data exists, populate the form fields
         var data = JSON.parse(storedData);
+        console.log('Stored Data:', data);
         Object.keys(data).forEach(function (key) {
             var element = document.getElementById(key);
             if (element) {
@@ -12,18 +12,58 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Add click event listener to the "CONTINUE" button
+    // Event listener for the CONTINUE button
     document.querySelector('.continue-btn').addEventListener('click', function () {
-        // Capture form data
+        var serviceType = $(this).data('service-type');
+
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var student_id = $('#student_id').val();
+        var phone_number = $('#phone_number').val();
+        var email_address = $('#email_address').val();
+        var dorm_id = $('#dorm_id').val();
+        var dorm_room_number = $('#dorm_room_number').val();
+        var street_name = $('#street_name').val();
+        var parent_phone_number = $('#parent_phone_number').val();
+        var parent_email_address = $('#parent_email_address').val();
+        
+        if(!first_name || !last_name || !student_id || !parent_email_address || !phone_number || !email_address || !dorm_id || !dorm_room_number || !street_name || !parent_phone_number) {
+            Swal.fire({
+                title: "Warning",
+                text: "Fields should not be empty!",
+                icon: "error"
+            });
+            return;
+        }
+
+        if(!isValidEmail(email_address) || !isValidEmail(parent_email_address)) {
+            Swal.fire({
+                title: "Warning",
+                text: "Email(s) should be in email format!",
+                icon: "error"
+            });
+            return;
+        }
+
+        // Function to check if the email is in a valid format
+        function isValidEmail(email) {
+            // Use a simple regular expression for basic email format validation
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Gather form data
         var formData = {};
         document.querySelectorAll('input, select').forEach(function (element) {
             formData[element.id] = element.value;
         });
 
-        // Save form data to local storage
+        console.log('Form Data:', formData);
+
+        // Store form data in local storage
         localStorage.setItem('studentData', JSON.stringify(formData));
 
-        // Navigate to the "/scheduling/service-information" page
-        window.location.href = '/scheduling/service-information';
+        // Redirect to the service information page with the service type
+        window.location.href = '/scheduling/service-information/' + serviceType;
     });
 });

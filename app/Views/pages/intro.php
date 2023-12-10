@@ -10,7 +10,7 @@
                                 <!-- <p>Please Ensure That You Have Paid For Your Storage Package Before Booking A Time Slot. To Edit Or Change A Previously Created Appointment, Or If You Have Questions, Call Anissa At 336-549-5216</p> -->
                                 <p>It is time to schedule your pick-up. If you are not ready to schedule now, you will receive a reminder email from our team. Once you have scheduled at time, you will receive a confirmation email and a reminder the day prior to your scheduled pickup.</p>
                                 <p>You can change your pickup up day or time up to 48 hours prior to your original scheduled time. If you have any questions, please call our office at 336 549 5216.</p>
-                                <a href="/scheduling/account-information">CONTINUE</a>
+                                <a href="/services">CONTINUE</a>
                             </div>
                         </div>
                         <div class="col-lg-6">
