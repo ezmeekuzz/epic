@@ -1404,7 +1404,7 @@ body {
   font-weight: 500;
   margin-bottom: 20px;
 }
-.scheduling .sched-wrapper .content1 a {
+.scheduling .sched-wrapper .content1 button {
   background-color: #89c4f2;
   border: none;
   padding: 15px;
@@ -2564,29 +2564,52 @@ body {
   color: #000;
   font-size: 14px;
   background-color: transparent;
-}/*# sourceMappingURL=main.css.map */
+}
 
+.services .wrapper .pricing .price .title h2, .services .wrapper .pricing .price h1 {
+  font-size: 40px;
+}
 
+.services .wrapper {
+  max-width: 1600px;
+}
 
-/* new css */
-.quantity-row{
+.bullet-intro {
+  margin: 0 auto 20px;
+  text-align: left;
+}
+
+.card-bullet, .bullet-intro, .cont {
+  max-width: 400px;
+  text-align: left;
+}
+
+.services .wrapper .pricing .price .title span {
+  font-size: 25px;
+}
+
+.include-wrapper {
+  margin-bottom: 20px;
+}
+
+.services .wrapper .pricing p, .card-bullet li, .bullet-intro {
+  text-transform: uppercase;
+}
+
+.quantity-row {
   display: flex;
   align-items: flex-end;
+  gap: 10px;
 }
-.quantity-row .inner{
-  width: 100%;
-}
+
 .btn-add {
-  border: 1px solid #89C4F2;
+  background-color: #89C4F2;
   border-radius: 50%;
-  color: #89C4F2;
-  margin-left: 10px;
-  padding: 4px 10px;
-  background: #89C4F2;
   color: #fff;
-  margin-bottom: 5px;
+  border: 1px solid #89C4F2;
+  margin-bottom: 10px;
 }
-.btn-add:hover{
-  color: #89C4F2;
+.btn-add:hover {
   background-color: transparent;
-}
+  color: #89C4F2;
+}/*# sourceMappingURL=main.css.map */

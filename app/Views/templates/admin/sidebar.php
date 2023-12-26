@@ -36,10 +36,10 @@
                     <div class="sidebar-nav scrollbar scroll_light">
                         <ul class="metismenu " id="sidebarNav">
                             <li class="nav-static-title">Personal</li>
-                            <li <?php if($activelink == 'dashboard') { echo 'class="active"'; } ?>>
-                                <a href="<?=base_url()?>admin/dashboard" aria-expanded="false">
-                                    <i class="nav-icon ti ti-dashboard"></i>
-                                    <span class="nav-title">Dashboard</span>
+                            <li <?php if($activelink == 'bookings') { echo 'class="active"'; } ?>>
+                                <a href="<?=base_url()?>admin/bookings" aria-expanded="false">
+                                    <i class="nav-icon ti ti-book"></i>
+                                    <span class="nav-title">Bookings</span>
                                 </a>
                             </li>
                             <li class="nav-static-title">Users</li>

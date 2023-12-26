@@ -199,5 +199,5 @@
         </div>
       </div>
     </div>
-    <script src="<?=base_url();?>assets_admin/js/custom/pay.js"></script>
+    <script src="<?=base_url();?>assets_admin/js/custom/pay-summer-storage.js"></script>
     <?=$this->include('templates/footer');?>

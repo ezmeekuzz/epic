@@ -13,7 +13,7 @@ class BookingsModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'serviceType', 'card_holder_name', 'card_number', 'expiry_date', 'cvc', 'booking_date', 'base_price', 'additional_box_quantity', 'additional_box_amount', 'addtl_box_total_amount', 'total_amount', 'status'
+        'serviceType', 'reference_code', 'card_holder_name', 'card_number', 'expiry_date', 'cvc', 'booking_date', 'base_price', 'additional_box_quantity', 'additional_box_amount', 'addtl_box_total_amount', 'total_amount', 'picking_date', 'picking_time', 'status'
     ];
 
     // Dates

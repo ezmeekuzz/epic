@@ -20,8 +20,10 @@ $routes->get('/scheduling', 'SchedulingController::index');
 $routes->get('/scheduling/intro', 'SchedulingController::intro');
 $routes->get('/scheduling/account-information/(:any)', 'SchedulingController::accountInformation/$1');
 $routes->get('/scheduling/service-information/(:any)', 'SchedulingController::serviceInformation/$1');
+$routes->get('/scheduling/choose-schedule/(:any)', 'SchedulingController::chooseSchedule/$1');
 $routes->post('/scheduling/getSizes', 'SchedulingController::getSizes');
 $routes->post('/scheduling/calculateTotal', 'SchedulingController::calculateTotal');
+$routes->post('/scheduling/finalizeSchedule', 'SchedulingController::finalizeSchedule');
 $routes->get('/services/summerStorageSession', 'ServicesController::summerStorageSession');
 $routes->get('/services/summerAdvantageSession', 'ServicesController::summerAdvantageSession');
 $routes->get('/pay', 'PayController::index');
@@ -33,8 +35,14 @@ $routes->get('/pay/removeServiceSession', 'PayController::removeServiceSession')
 $routes->get('/admin/login', 'admin\LoginController::index');
 $routes->get('/admin/logout', 'admin\LogoutController::index');
 $routes->post('/admin/loginfunc', 'admin\LoginController::loginfunc');
-$routes->get('/admin', 'admin\DashboardController::index');
-$routes->get('/admin/dashboard', 'admin\DashboardController::index');
+$routes->get('/admin', 'admin\BookingsController::index');
+$routes->get('/admin/bookings', 'admin\BookingsController::index');
+$routes->post('/admin/bookings/getData', 'admin\BookingsController::getData');
+$routes->delete('/admin/bookings/delete/(:num)', 'admin\BookingsController::delete/$1');
+$routes->get('/admin/bookings/updateStatus/(:num)', 'admin\BookingsController::updateStatus/$1');
+$routes->get('/admin/bookings/bookingDetails', 'admin\BookingsController::bookingDetails');
+$routes->get('/admin/bookings/exportToCsv', 'admin\BookingsController::exportToCsv');
+$routes->get('/admin/bookings/exportToExcel', 'admin\BookingsController::exportToExcel');
 //Users
 $routes->get('/admin/add-user', 'admin\AdduserController::index');
 $routes->post('/admin/adduser/insert', 'admin\AdduserController::insert');

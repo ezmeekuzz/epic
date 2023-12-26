@@ -8,8 +8,7 @@ class LogoutController extends BaseController
 {
     public function index()
     {
-        $session = session();
-        $session->destroy();
+        session()->remove(['user_id', 'firstname', 'lastname', 'emailaddress']);
         return redirect()->to('/admin');
     }
 }

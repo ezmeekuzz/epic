@@ -61,7 +61,7 @@
       </section>
 
       <section class="services">
-        <div class="container">
+        <div class="container-xl">
           <div class="title">
             <h1>Our <span>EPIC Services</span></h1>
           </div>
@@ -70,32 +70,27 @@
               <div class="pricing">
                 <div class="price">
                   <div class="title">
-                    <h2>Summer Advantage</h2>
+                    <h2>Summer Storage</h2>
                     <span>(May to August)</span>
                   </div>
                   <div class="title-wrapper">
-                    <p
-                      style="
-                        font-size: 18px;
-                        font-weight: bold;
-                        margin-bottom: 20px;
-                      "
-                    >
-                      This offering is for current HPU students.
-                    </p>
+                    <p style="font-size: 18px; font-weight: bold; margin-bottom: 20px;" class="equal-height">This offering is for current HPU students.</p>
                     <div>
-                      <p>Standard package includes:</p>
-                      <h1>$425.00</h1>
+                      <p>Standard package includes:   </p>
+                      <h1>$425.00 </h1>
                     </div>
                   </div>
                   <!-- <span>Audit Fee</span> -->
+                  
                 </div>
-                <ul class="card-bullet">
-                  <li>5 Large Boxes (18”x18”x24”)</li>
-                  <li>Packing Tape</li>
-                  <li>Secure Storage</li>
-                  <li>Pick-up and redelivery to your dorm</li>
-                </ul>
+                <div class="include-wrapper">
+                  <ul class="card-bullet">
+                    <li>5 Large Boxes (18”x18”x24”)</li>
+                    <li>Packing Tape</li>
+                    <li>Secure Storage</li>
+                    <li>Pick-up and redelivery to your dorm</li>
+                  </ul>
+                </div>
                 <div class="cont">
                   <p>Additional boxes and items can be added</p>
                   <p>Shipping Services are available</p>
@@ -112,32 +107,27 @@
                     <span>(July to August)</span>
                   </div>
                   <div class="title-wrapper">
-                    <p
-                      style="
-                        font-size: 18px;
-                        font-weight: bold;
-                        margin-bottom: 20px;
-                      "
-                    >
-                      This offering is for incoming HPU Freshman attending the
-                      Summer Advantage Program
-                    </p>
+                    <p style="font-size: 18px; font-weight: bold; margin-bottom: 20px;" class="equal-height">This offering is for incoming HPU Freshman attending <br>the Summer Advantage Program</p>
                     <div>
-                      <p>Large box (18”x18”x24”):</p>
-                      <h1>$50.00 <span>per box and includes:</span></h1>
+                      <p>Large box (18”x18”x24”)</p>
+                      <h1>$50.00</h1>
                     </div>
                   </div>
                   <!-- <span>Audit Fee</span> -->
+                  
                 </div>
-                <ul class="card-bullet">
-                  <li>Packing Tape</li>
-                  <li>Secure Storage</li>
-                  <li>Pick-up and redelivery to your dorm</li>
-                </ul>
-                <div class="cont">
-                  <p>Additional items can be added</p>
-                  <p>Shipping Services are available</p>
-                </div>
+                  <div class="include-wrapper">
+                    <p class="bullet-intro">Order Per Box & Includes:</p>
+                    <ul class="card-bullet">
+                      <li>Packing Tape</li>
+                      <li>Secure Storage</li>
+                      <li>Pick-up and redelivery to your dorm</li>
+                    </ul>
+                  </div>
+                  <div class="cont">
+                    <p>Additional items can be added</p>
+                <p>Shipping Services are available</p>
+                  </div>
                 <button onclick="window.location.href='/services/summerAdvantageSession'">LETS GET STARTED</button>
               </div>
             </div>

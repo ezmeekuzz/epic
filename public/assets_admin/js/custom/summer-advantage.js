@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateBoxQuantity() {
         var selectedQuantity = document.getElementById('box_quantity').value;
 
-        if (selectedQuantity === '' || isNaN(selectedQuantity) || selectedQuantity == 0) {
-            clearBoxSummary();
+        if (selectedQuantity === '' || isNaN(selectedQuantity)) {
             return;
         }
 
@@ -35,22 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
         updateTotalPrice();
     }
 
-    function clearBoxSummary() {
-        var dynamicSummaryRows = document.getElementById('additional-box-row');
-        dynamicSummaryRows.innerHTML = '';
-    
-        updateTotalPrice();
-    }
-
     function updateTotalPrice() {
         try {
-            var baseTotalAmount = calculateBaseTotalAmount();
             var addtlBoxTotalAmount = calculateAdditionalBoxTotalAmount();
             var itemTotalAmount = calculateItemTotalAmount();
 
-            var totalCost = baseTotalAmount + addtlBoxTotalAmount + itemTotalAmount;
+            var totalCost = addtlBoxTotalAmount + itemTotalAmount;
 
-            //console.log(baseTotalAmount + ', ' + addtlBoxTotalAmount + ', ' + itemTotalAmount);
             document.getElementById('total-price').innerText = '$' + totalCost.toFixed(2);
             document.getElementById('totalAmount').value = totalCost.toFixed(2);
 
@@ -58,10 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Error while updating total price:', error);
         }
-    }
-
-    function calculateBaseTotalAmount() {
-        return parseFloat(document.getElementById('base_total_amount').value);
     }
 
     function calculateAdditionalBoxTotalAmount() {
@@ -78,10 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 itemTotalAmount += parseFloat(itemTotalAmountInputs[i].value);
             }
         }
-        //console.log(itemTotalAmount);
+
         return itemTotalAmount;
     }
-    
+
     updateTotalPrice();
 
     $('#item_id').on('change', getSizes);
@@ -118,11 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var size = $('#size_id').val();
         var quantity = $('#quantity').val();
 
-        if (quantity == 0) {
-            removeExistingRow(item, size);
-            return;
-        }
-
         $.ajax({
             url: '/scheduling/calculateTotal',
             method: 'POST',
@@ -136,40 +117,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 var existingItem = $('.order_item_id').filter(function () {
                     return $(this).val() == item;
                 });
-                
+
                 var existingSize = $('.order_size_id').filter(function () {
                     return $(this).val() == size;
                 });
-                
+
                 var existingRow = null;
-                
+
                 existingItem.each(function () {
                     var currentItemRow = $(this).closest('.summary-row');
                     var currentSize = currentItemRow.find('.order_size_id').val();
-                
+
                     if (currentSize == size) {
                         existingRow = currentItemRow;
                         return false;
                     }
                 });
-                
+
                 if (existingRow) {
-                    
                     var existingQuantityInput = existingRow.find('.item_quantity');
                     var existingTotalAmountInput = existingRow.find('.item_total_amount');
                     var existingLabel = existingRow.find('.data-label');
                     var existingAddtlBoxTotalAmount = existingRow.find('.addtlBoxTotalAmount');
-                
+
                     existingQuantityInput.val(quantity);
                     existingTotalAmountInput.val(data.total.toFixed(2));
                     existingLabel.html(`${data.item_name} ${data.size} (x ${quantity})`);
                     existingAddtlBoxTotalAmount.html('$' + data.total.toFixed(2));
-                    
+
                     updateLocalStorage();
 
                     updateTotalPrice();
                 } else {
-                    
                     var dynamicSummaryRows = $('#dynamic-summary-rows');
                     var summaryRow = $('<div>').addClass('summary-row');
                     summaryRow.html(`
@@ -182,10 +161,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         <input type="hidden" name="item_quantity[]" class="item_quantity" value="${quantity}" />
                     `);
                     dynamicSummaryRows.append(summaryRow);
-                
+
                     updateTotalPrice();
                 }
-                
+
             },
             error: function (error) {
                 console.error('Error:', error);
@@ -193,28 +172,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function removeExistingRow(item, size) {
-        var existingRow = $('.order_item_id').filter(function () {
-            return $(this).val() == item;
-        }).closest('.summary-row');
-    
-        existingRow.each(function () {
-            var currentItemRow = $(this);
-            var currentSize = currentItemRow.find('.order_size_id').val();
-    
-            if (currentSize == size) {
-                currentItemRow.remove();
-                updateLocalStorage();
-                updateTotalPrice();
-                return false;
-            }
-        });
-    }
-    
     function initializePage() {
-
         updateTotalPrice();
-        
+
         var storedFormData = localStorage.getItem('formData');
         if (storedFormData) {
             var formData = JSON.parse(storedFormData);
@@ -237,17 +197,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         }
-        
+
         var storedSelectedItems = localStorage.getItem('selectedItems');
         if (storedSelectedItems) {
-            
             selectedItems = JSON.parse(storedSelectedItems);
-            
-            var baseTotalAmount = parseFloat(document.getElementById('base_total_amount').value);
-            
+
             var addtlBoxTotalAmountInput = document.getElementById('addtl_box_total_amount');
             var addtlBoxTotalAmount = addtlBoxTotalAmountInput ? parseFloat(addtlBoxTotalAmountInput.value) : 0;
-            
+
             var itemTotalAmountInputs = document.getElementsByName('item_total_amount[]');
             var itemTotalAmount = 0;
 
@@ -256,60 +213,47 @@ document.addEventListener('DOMContentLoaded', function () {
                     itemTotalAmount += parseFloat(itemTotalAmountInputs[i].value);
                 }
             }
-            
-            var grandTotal = baseTotalAmount + addtlBoxTotalAmount + itemTotalAmount;
-            
+
+            var grandTotal = addtlBoxTotalAmount + itemTotalAmount;
+
             document.getElementById('total-price').innerText = '$' + grandTotal.toFixed(2);
             document.getElementById('totalAmount').value = grandTotal.toFixed(2);
-            
+
             localStorage.setItem('storedTotalPrice', grandTotal.toFixed(2));
-            //console.log(baseTotalAmount + ', ' + addtlBoxTotalAmount + ', ' + itemTotalAmount);
         }
-        
+
         var storedRows = localStorage.getItem('storedRows');
         if (storedRows) {
-            
             $('#dynamic-summary-rows').append(storedRows);
         }
-        
+
         var storedTotalPrice = localStorage.getItem('storedTotalPrice');
         if (storedTotalPrice !== null && !isNaN(storedTotalPrice)) {
-            
             $('#total-price').text('$' + parseFloat(storedTotalPrice).toFixed(2));
         } else {
             console.error('Invalid storedTotalPrice value:', storedTotalPrice);
         }
-        
+
         document.querySelector('.continue-btn').addEventListener('click', function () {
-            
             var formData = {};
             document.querySelectorAll('input, select').forEach(function (element) {
                 if (element.type === 'radio' && element.checked) {
-                    
                     formData[element.name] = element.value;
-                    
                     localStorage.setItem(element.name, element.checked);
                 } else if (element.tagName === 'SELECT') {
-                    
                     formData[element.id] = element.value;
-                    
                     localStorage.setItem(element.id, element.value);
                 } else {
                     formData[element.id] = element.value;
-                    
                     localStorage.setItem(element.id, element.value);
                 }
             });
-            
+
             localStorage.setItem('formData', JSON.stringify(formData));
-            
             localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
-            
             localStorage.setItem('storedRows', $('#dynamic-summary-rows').html());
-            
             window.location.href = '/pay';
         });
-        
 
         updateTotalPrice();
     }
@@ -318,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateLocalStorage() {
         var storedRows = $('#dynamic-summary-rows').html();
         localStorage.setItem('storedRows', storedRows);
-    
+
         var storedTotalPrice = $('#total-price').text().replace('$', '');
         localStorage.setItem('storedTotalPrice', storedTotalPrice);
     }

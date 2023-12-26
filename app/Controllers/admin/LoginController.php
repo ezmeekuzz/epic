@@ -12,7 +12,7 @@ class LoginController extends BaseController
     {
         // Check if the user is logged in
         if (session()->has('user_id')) {
-            return redirect()->to('/admin/dashboard');
+            return redirect()->to('/admin/bookings');
         }
         $data = [
             'title' => 'Login | Epic Storage Solutions',
@@ -34,7 +34,7 @@ class LoginController extends BaseController
             session()->set('firstname', $result['firstname']);
             session()->set('lastname', $result['lastname']);
             session()->set('emailaddress', $result['emailaddress']);
-            return redirect()->to('/admin/dashboard');
+            return redirect()->to('/admin/bookings');
         } else {
             return redirect()->back()->with('error', 'Invalid login credentials');
         }

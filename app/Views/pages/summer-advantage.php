@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-wrapper common-wrapper">
-                                <h3>Our Base Package Includes Five 18 X 18 X 24 Boxes. If You Need Additional Boxes, Please Select Quantity Below ($50) Each. *</h3>
+                                <h3>Please Select The Quantity of Boxes ($50) Each. *</h3>
                                 <div class="radio-container">
                                     <div class="radio-wrapper">
                                         <input type="radio" name ="is_boxes_included" id="is_boxes_included" value="Yes" checked>
@@ -23,7 +23,6 @@
                                 <select name="box_quantity" id="box_quantity">
                                     <option disabled selected>Select a quantity</option>
                                     <option hidden></option>
-                                    <option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -73,50 +72,11 @@
                                         <div class="quantity-row">
                                             <div class="inner">
                                                 <h5>Select Quantity</h5>
-                                                <input type="number" name="quantity" id="quantity" min="1" />
+                                                <input type="number" name="quantity" id="quantity" />
                                             </div>
                                             <!-- new button to add -->
                                             <button type="button" class="btn btn-add"><i class="fa fa-plus"></i></button>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-wrapper common-wrapper">
-                                <h3>Do You Need Car Storage For May - August? (Full Summer)  *</h3>
-                                <div class="radio-container">
-                                    <div class="radio-wrapper">
-                                        <input type="radio" name ="is_storage_car_in_may" id="is_storage_car_in_may1" value="Yes">
-                                        <label for="is_storage_car_in_may1"><span><div></div></span> Yes</label>
-                                    </div>
-                                    <div class="radio-wrapper">
-                                        <input type="radio" name ="is_storage_car_in_may" id="is_storage_car_in_may2" value="No" checked>
-                                        <label for="is_storage_car_in_may2"><span><div></div></span> No</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-wrapper common-wrapper">
-                                <h3>Do You Need Other Vehicle Storage For May - August? (Full Summer)(Motorcycle, Scooter, Bike)*</h3>
-                                <div class="radio-container">
-                                    <div class="radio-wrapper">
-                                        <input type="radio" name ="is_storage_vehicle_in_may" id="is_storage_vehicle_in_may1" value="Yes">
-                                        <label for="is_storage_vehicle_in_may1"><span><div></div></span> Yes</label>
-                                    </div>
-                                    <div class="radio-wrapper">
-                                        <input type="radio" name ="is_storage_vehicle_in_may" id="is_storage_vehicle_in_may2" value="No" checked>
-                                        <label for="is_storage_vehicle_in_may2"><span><div></div></span> No</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-wrapper common-wrapper">
-                                <h3>Are you doing summer school?</h3>
-                                <div class="radio-container">
-                                    <div class="radio-wrapper">
-                                        <input type="radio" name ="is_summer_school" id="is_summer_school1" value="Yes">
-                                        <label for="is_summer_school1"><span><div></div></span> Yes</label>
-                                    </div>
-                                    <div class="radio-wrapper">
-                                        <input type="radio" name ="is_summer_school" id="is_summer_school2" value="No" checked>
-                                        <label for="is_summer_school2"><span><div></div></span> No</label>
                                     </div>
                                 </div>
                             </div>
@@ -126,14 +86,6 @@
                                 <div class="serviceType" hidden>
                                     <label>Service Type</label>
                                     <input type="hidden" name="serviceType" id="serviceType" value="<?=session()->get('selectedService');?>" />
-                                </div>
-                                <div class="summary-row">
-                                    <h2>Base Price (x 1)</h2>
-                                    <h2 id="base-price-row">$425.00</h2>
-                                    <input type="hidden" name="base_name" id="base_name" value="Base Price" />
-                                    <input type="hidden" name="base_amount" id="base_amount" value="425.00" />
-                                    <input type="hidden" name="base_total_amount" id="base_total_amount" value="425.00" />
-                                    <input type="hidden" name="base_quantity" id="base_quantity" value="1" />
                                 </div>
                                 <!-- Placeholder for dynamically generated rows -->
                                 <div id="additional-box-row"></div>
@@ -155,5 +107,5 @@
           </div>
         </section>
     </main>
-    <script src="<?=base_url();?>assets_admin/js/custom/summer-storage.js"></script>
-    <?=$this->include('templates/footer');?>
+    <script src="<?=base_url();?>assets_admin/js/custom/summer-advantage.js"></script>
+    <?=$this->include('templates/footer');?>s

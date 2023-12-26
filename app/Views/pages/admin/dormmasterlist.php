@@ -15,10 +15,10 @@
                                         <nav>
                                             <ol class="breadcrumb p-0 m-b-0">
                                                 <li class="breadcrumb-item">
-                                                    <a href="<?=base_url();?>admin/"><i class="ti ti-home"></i></a>
+                                                    <a href="<?=base_url();?>admin/"><i class="ti ti-book"></i></a>
                                                 </li>
                                                 <li class="breadcrumb-item">
-                                                    Dashboard
+                                                    Bookings
                                                 </li>
                                                 <li class="breadcrumb-item active text-primary" aria-current="page">Dorm Masterlist</li>
                                             </ol>

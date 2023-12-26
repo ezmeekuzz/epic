@@ -174,5 +174,11 @@ $(function () {
   $(".services-list .wrapper .list h1").matchHeight({ byRow: false });
   $(".title-wrapper").matchHeight({ byRow: false });
   $(".cont").matchHeight({ byRow: false });
-  $(".card-bullet").matchHeight({ byRow: false });
+  $(".include-wrapper").matchHeight({ byRow: false });
+});
+
+
+
+$(function () {
+  $(".equal-height").matchHeight({ byRow: false });
 });

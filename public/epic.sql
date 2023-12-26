@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2023 at 09:01 AM
+-- Generation Time: Dec 12, 2023 at 12:33 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `account_informations` (
   `account_information_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
   `dorm_id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
@@ -40,6 +41,45 @@ CREATE TABLE `account_informations` (
   `street_number` varchar(20) DEFAULT NULL,
   `parent_phone_number` varchar(15) NOT NULL,
   `parent_email_address` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `booking_id` int(11) NOT NULL,
+  `serviceType` varchar(50) NOT NULL,
+  `reference_code` varchar(50) NOT NULL,
+  `card_holder_name` varchar(100) NOT NULL,
+  `booking_date` date NOT NULL,
+  `base_price` double(16,2) DEFAULT NULL,
+  `additional_box_quantity` int(11) DEFAULT NULL,
+  `additional_box_amount` double(16,2) DEFAULT NULL,
+  `addtl_box_total_amount` double(16,2) DEFAULT NULL,
+  `total_amount` double(16,2) NOT NULL,
+  `notes` longtext NOT NULL,
+  `picking_date` date DEFAULT NULL,
+  `picking_time` time DEFAULT NULL,
+  `status` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking_items`
+--
+
+CREATE TABLE `booking_items` (
+  `booking_item_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `size_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` double(16,2) NOT NULL,
+  `totalamount` double(16,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -147,13 +187,22 @@ CREATE TABLE `messages` (
   `messagedate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `messages`
+-- Table structure for table `service_informations`
 --
 
-INSERT INTO `messages` (`message_id`, `firstname`, `lastname`, `phone`, `email`, `message`, `messagedate`) VALUES
-(1, 'Rustom', 'Codilan', '09975304890', 'rustomcodilan@gmail.com', 'Hello World!', '0000-00-00'),
-(2, 'Rustom', 'Codilan', '09975304890', 'rustomlacrecodilan@gmail.com', 'Success!', '0000-00-00');
+CREATE TABLE `service_informations` (
+  `service_information_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `is_boxes_included` varchar(10) NOT NULL,
+  `box_quantity` int(11) NOT NULL,
+  `is_storage_additional_item` varchar(10) NOT NULL,
+  `is_storage_car_in_may` varchar(10) NOT NULL,
+  `is_storage_vehicle_in_may` varchar(10) NOT NULL,
+  `is_summer_school` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -259,7 +308,23 @@ INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `emailaddress`, `userna
 --
 ALTER TABLE `account_informations`
   ADD PRIMARY KEY (`account_information_id`),
-  ADD KEY `dorm_id` (`dorm_id`);
+  ADD KEY `dorm_id` (`dorm_id`),
+  ADD KEY `booking_id` (`booking_id`);
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`booking_id`);
+
+--
+-- Indexes for table `booking_items`
+--
+ALTER TABLE `booking_items`
+  ADD PRIMARY KEY (`booking_item_id`),
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `size_id` (`size_id`),
+  ADD KEY `booking_id` (`booking_id`);
 
 --
 -- Indexes for table `dorms`
@@ -278,6 +343,13 @@ ALTER TABLE `items`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`message_id`);
+
+--
+-- Indexes for table `service_informations`
+--
+ALTER TABLE `service_informations`
+  ADD PRIMARY KEY (`service_information_id`),
+  ADD KEY `booking_id` (`booking_id`);
 
 --
 -- Indexes for table `sizes`
@@ -300,7 +372,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `account_informations`
 --
 ALTER TABLE `account_informations`
-  MODIFY `account_information_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `account_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+
+--
+-- AUTO_INCREMENT for table `booking_items`
+--
+ALTER TABLE `booking_items`
+  MODIFY `booking_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
 
 --
 -- AUTO_INCREMENT for table `dorms`
@@ -318,7 +402,13 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `service_informations`
+--
+ALTER TABLE `service_informations`
+  MODIFY `service_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `sizes`
@@ -340,7 +430,22 @@ ALTER TABLE `users`
 -- Constraints for table `account_informations`
 --
 ALTER TABLE `account_informations`
-  ADD CONSTRAINT `account_informations_ibfk_1` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`);
+  ADD CONSTRAINT `account_informations_ibfk_1` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`),
+  ADD CONSTRAINT `account_informations_ibfk_2` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`);
+
+--
+-- Constraints for table `booking_items`
+--
+ALTER TABLE `booking_items`
+  ADD CONSTRAINT `booking_items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`),
+  ADD CONSTRAINT `booking_items_ibfk_2` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`size_id`),
+  ADD CONSTRAINT `booking_items_ibfk_3` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`);
+
+--
+-- Constraints for table `service_informations`
+--
+ALTER TABLE `service_informations`
+  ADD CONSTRAINT `service_informations_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`);
 
 --
 -- Constraints for table `sizes`
