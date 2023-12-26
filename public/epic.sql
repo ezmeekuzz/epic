@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2023 at 12:33 PM
+-- Generation Time: Dec 26, 2023 at 01:05 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,6 +43,22 @@ CREATE TABLE `account_informations` (
   `parent_email_address` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `account_informations`
+--
+
+INSERT INTO `account_informations` (`account_information_id`, `booking_id`, `dorm_id`, `first_name`, `last_name`, `student_id`, `dorm_room_number`, `phone_number`, `email_address`, `street_name`, `street_number`, `parent_phone_number`, `parent_email_address`) VALUES
+(85, 94, 11, 'Rustom', 'Codilan', 213123, 1, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '', '09975304890', 'rustomcodilan@gmail.com'),
+(86, 95, 9, 'Rustom', 'Codilan', 213123, 1, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(87, 96, 5, 'Rustom', 'Codilan', 213123, 1, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(88, 97, 5, 'Rustom', 'Codilan', 213123, 232412, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(89, 98, 11, 'Rustom', 'Codilan', 213123, 142343, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(90, 99, 21, 'Rustom', 'Codilan', 213123, 142834, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(91, 100, 16, 'Rustom', 'Codilan', 213123, 1458794, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(92, 101, 12, 'Lloyd', 'Codilan', 213123, 156435, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(93, 102, 8, 'Rustom', 'Codilan', 213123, 184545, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com'),
+(94, 103, 6, 'Rustom', 'Codilan', 213123, 1, '09975304890', 'rustomcodilan@gmail.com', 'Macabalan Piaping-itum', '2076', '09975304890', 'rustomcodilan@gmail.com');
+
 -- --------------------------------------------------------
 
 --
@@ -66,6 +82,22 @@ CREATE TABLE `bookings` (
   `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`booking_id`, `serviceType`, `reference_code`, `card_holder_name`, `booking_date`, `base_price`, `additional_box_quantity`, `additional_box_amount`, `addtl_box_total_amount`, `total_amount`, `notes`, `picking_date`, `picking_time`, `status`) VALUES
+(94, 'summer-storage', 'REF_65799dc2bbdc7', 'Michelle Rose Codilan', '2023-12-13', 425.00, 10, 50.00, 500.00, 1425.00, '', '2024-01-06', '12:30:00', 'Done'),
+(95, 'summer-advantage', 'REF_6579a25828d07', 'Rustom Codilan', '2023-12-13', 0.00, 5, 50.00, 250.00, 625.00, '', '2023-12-29', '20:00:00', 'Scheduled'),
+(96, 'summer-storage', 'REF_657c31922bcc5', 'Michelle Rose Codilan', '2023-12-15', 425.00, 0, 0.00, 0.00, 535.00, '', NULL, NULL, 'Pending'),
+(97, 'summer-storage', 'REF_657c3415c9b14', 'Michelle Rose Codilan', '2023-12-15', 425.00, 9, 50.00, 450.00, 1015.00, '', NULL, NULL, 'Pending'),
+(98, 'summer-storage', 'REF_657c349063254', 'Michelle Rose Codilan', '2023-12-15', 425.00, 10, 50.00, 500.00, 1505.00, '', NULL, NULL, 'Pending'),
+(99, 'summer-storage', 'REF_657c369e99479', 'Rustom Codilan', '2023-12-15', 425.00, 10, 50.00, 500.00, 1105.00, '', '2023-12-16', '13:30:00', 'Scheduled'),
+(100, 'summer-storage', 'REF_657c445096590', 'Michelle Rose Codilan', '2023-12-15', 425.00, 10, 50.00, 500.00, 1090.00, '', '2023-12-16', '07:30:00', 'Scheduled'),
+(101, 'summer-storage', 'REF_657c4597ae31d', 'Rustom Codilan', '2023-12-15', 425.00, 5, 50.00, 250.00, 735.00, '', '2023-12-16', '07:00:00', 'Scheduled'),
+(102, 'summer-storage', 'REF_657c511b6a51a', 'Michelle Rose Codilan', '2023-12-15', 425.00, 10, 50.00, 500.00, 1155.00, '', '2023-12-16', '07:00:00', 'Scheduled'),
+(103, 'summer-storage', 'REF_657c51e4e326e', 'Michelle Rose Codilan', '2023-12-15', 425.00, 9, 50.00, 450.00, 1275.00, '', '2023-12-16', '07:00:00', 'Scheduled');
+
 -- --------------------------------------------------------
 
 --
@@ -81,6 +113,27 @@ CREATE TABLE `booking_items` (
   `price` double(16,2) NOT NULL,
   `totalamount` double(16,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking_items`
+--
+
+INSERT INTO `booking_items` (`booking_item_id`, `booking_id`, `item_id`, `size_id`, `quantity`, `price`, `totalamount`) VALUES
+(182, 94, 15, 101, 2, 60.00, 120.00),
+(183, 94, 19, 114, 1, 50.00, 50.00),
+(184, 94, 28, 130, 3, 65.00, 195.00),
+(185, 94, 25, 126, 3, 45.00, 135.00),
+(186, 96, 26, 127, 2, 25.00, 50.00),
+(187, 96, 31, 136, 2, 30.00, 60.00),
+(188, 97, 28, 130, 1, 65.00, 65.00),
+(189, 97, 23, 122, 1, 75.00, 75.00),
+(190, 98, 23, 122, 2, 75.00, 150.00),
+(191, 98, 23, 123, 2, 115.00, 230.00),
+(192, 98, 2, 8, 2, 100.00, 200.00),
+(193, 99, 22, 121, 2, 60.00, 120.00),
+(194, 99, 31, 136, 2, 30.00, 60.00),
+(195, 100, 31, 136, 3, 30.00, 90.00),
+(196, 100, 32, 137, 3, 25.00, 75.00);
 
 -- --------------------------------------------------------
 
@@ -203,6 +256,22 @@ CREATE TABLE `service_informations` (
   `is_storage_vehicle_in_may` varchar(10) NOT NULL,
   `is_summer_school` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `service_informations`
+--
+
+INSERT INTO `service_informations` (`service_information_id`, `booking_id`, `is_boxes_included`, `box_quantity`, `is_storage_additional_item`, `is_storage_car_in_may`, `is_storage_vehicle_in_may`, `is_summer_school`) VALUES
+(80, 94, 'Yes', 10, 'Yes', 'Yes', 'No', 'Yes'),
+(81, 95, 'Yes', 5, 'Yes', '', '', ''),
+(82, 96, 'Yes', 0, 'Yes', 'No', 'No', 'Yes'),
+(83, 97, 'Yes', 9, 'Yes', 'No', 'Yes', 'No'),
+(84, 98, 'Yes', 10, 'Yes', 'Yes', 'No', 'Yes'),
+(85, 99, 'Yes', 10, 'Yes', 'No', 'No', 'No'),
+(86, 100, 'Yes', 10, 'Yes', 'No', 'Yes', 'No'),
+(87, 101, 'Yes', 5, 'Yes', 'Yes', 'No', 'Yes'),
+(88, 102, 'Yes', 10, 'Yes', 'No', 'Yes', 'No'),
+(89, 103, 'Yes', 9, 'Yes', 'No', 'Yes', 'No');
 
 -- --------------------------------------------------------
 
@@ -372,19 +441,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `account_informations`
 --
 ALTER TABLE `account_informations`
-  MODIFY `account_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `account_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `booking_items`
 --
 ALTER TABLE `booking_items`
-  MODIFY `booking_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
+  MODIFY `booking_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT for table `dorms`
@@ -408,7 +477,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `service_informations`
 --
 ALTER TABLE `service_informations`
-  MODIFY `service_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `service_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `sizes`
