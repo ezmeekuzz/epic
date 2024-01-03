@@ -43,6 +43,8 @@ $routes->get('/admin/bookings/updateStatus/(:num)', 'admin\BookingsController::u
 $routes->get('/admin/bookings/bookingDetails', 'admin\BookingsController::bookingDetails');
 $routes->get('/admin/bookings/exportToCsv', 'admin\BookingsController::exportToCsv');
 $routes->get('/admin/bookings/exportToExcel', 'admin\BookingsController::exportToExcel');
+$routes->post('/admin/bookings/updateTotalAmount', 'admin\BookingsController::updateTotalAmount');
+$routes->post('/admin/bookings/updateDynamicTotalAmount', 'admin\BookingsController::updateDynamicTotalAmount');
 //Users
 $routes->get('/admin/add-user', 'admin\AdduserController::index');
 $routes->post('/admin/adduser/insert', 'admin\AdduserController::insert');

@@ -40,7 +40,7 @@ $(document).ready(function () {
         ],
         "columnDefs": [
             { "className": "bookingDetails", "targets": [1, 2, 3, 4, 5, 6, 7, 8] },
-            { "targets": [0, 1, 2, 3, 4, 5, 6, 7], "createdCell": function (td, cellData, rowData, row, col) {
+            { "targets": [1, 2, 3, 4, 5, 6, 7, 8], "createdCell": function (td, cellData, rowData, row, col) {
                 $(td).attr('data-id', rowData.booking_id);
             }}
         ],
@@ -167,4 +167,88 @@ $(document).ready(function () {
 });
 function validateInteger(element) {
     element.innerText = element.innerText.replace(/[^\d]/g, '');
+    
+    const parsedValue = parseInt(element.innerText, 10);
+    
+    if (parsedValue > 10) {
+        element.innerText = '10';
+    }
+    updateTotalAmount(element);
 }
+
+function setDefaultIfEmpty(element) {
+    const trimmedContent = element.innerText.trim();
+    
+    if (trimmedContent === '' || parseInt(trimmedContent, 10) === 0) {
+        element.innerText = '1';
+        updateTotalAmount(element);
+    }
+}
+
+function updateTotalAmount(element) {
+    
+    const qty = parseInt(element.innerText, 10);
+    const bookingId = document.getElementById('booking_id').value;
+    const addtl_box_total_amount = document.getElementById('addtl_box_total_amount');
+    const total_amount = document.getElementById('total_amount');
+    
+    fetch('/admin/bookings/updateTotalAmount', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ qty, bookingId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        addtl_box_total_amount.innerText = data.newAddtlTotalAmount;
+        total_amount.innerText = data.newTotalAmount;
+        console.log('Total amount updated:', data.totalAmount);
+    })
+    .catch(error => {
+        console.error('Error updating total amount:', error);
+    });
+}
+
+function validateDynamicInteger(element) {
+    element.innerText = element.innerText.replace(/[^\d]/g, '');
+
+    updateDynamicTotalAmount(element);
+}
+function setDynamicDefaultIfEmpty(element) {
+    const trimmedContent = element.innerText.trim();
+    
+    if (trimmedContent === '' || parseInt(trimmedContent, 10) === 0) {
+        element.innerText = '1';
+        updateDynamicTotalAmount(element);
+    }
+}
+
+function updateDynamicTotalAmount(element) {
+    const qty = parseInt(element.innerText, 10);
+    const bookingId = document.getElementById('booking_id').value;
+
+    // Get the nearest input element with the name 'booking_item_id'
+    const booking_item_id = element.closest('tr').querySelector('[name="booking_item_id"]').value;
+    const totalAmountElement = element.closest('tr').querySelector('.totalAmount');
+    const total_amount = document.getElementById('total_amount');
+
+    fetch('/admin/bookings/updateDynamicTotalAmount', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ qty, bookingId, booking_item_id }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        totalAmountElement.innerHTML = '$' + data.totalamount;
+        total_amount.innerText = data.TotalAmount;
+        console.log('Total amount updated:', data);
+    })
+    .catch(error => {
+        console.error('Error updating total amount:', error);
+    });
+}
+
+

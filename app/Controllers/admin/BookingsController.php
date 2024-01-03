@@ -119,6 +119,7 @@ class BookingsController extends BaseController
                 <thead>
                     <tr>
                         <th colspan="2" style="text-align: center; text-transform: uppercase;">Booking Details</th>
+                        <th hidden><input type="text" name="booking_id" id="booking_id" value="<?=$bookingDetails['booking_id'];?>" /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -152,15 +153,15 @@ class BookingsController extends BaseController
                     </tr>
                     <tr>
                         <td style="font-weight: bold;">Additional Box Quantity (50.00 per Box)</td>
-                        <td contenteditable="true" oninput="validateInteger(this)"><?=$bookingDetails['additional_box_quantity'];?></td>
+                        <td contenteditable="true" oninput="validateInteger(this);" onblur="setDefaultIfEmpty(this);"><?=$bookingDetails['additional_box_quantity'];?></td>
                     </tr>
                     <tr>
                         <td style="font-weight: bold;">Additional Box Total Amount</td>
-                        <td><?=$bookingDetails['addtl_box_total_amount'];?></td>
+                        <td id="addtl_box_total_amount"><?=$bookingDetails['addtl_box_total_amount'];?></td>
                     </tr>
                     <tr>
                         <td style="font-weight: bold;">Total Amount</td>
-                        <td><?=$bookingDetails['total_amount'];?></td>
+                        <td id="total_amount"><?=$bookingDetails['total_amount'];?></td>
                     </tr>
                     <tr>
                         <td style="font-weight: bold;">Notes</td>
@@ -263,9 +264,10 @@ class BookingsController extends BaseController
                     <?php foreach($bookingItemDetails as $items) : ?>
                     <tr>
                         <td style="font-weight: bold;"><?=$items['item_name'].' '.$items['size'];?></td>
-                        <td contenteditable="true" oninput="validateInteger(this)"><?=$items['quantity']?></td>
+                        <td contenteditable="true" oninput="validateDynamicInteger(this)" onblur="setDynamicDefaultIfEmpty(this);"><?=$items['quantity']?></td>
                         <td><?=$items['cost']?></td>
-                        <td>$<?=$items['totalamount'];?></td>
+                        <td class="totalAmount">$<?=$items['totalamount'];?></td>
+                        <td hidden><input type="text" name="booking_item_id" id="booking_item_id" value="<?=$items['booking_item_id'];?>" /></td>
                     </tr>
                     <?php endforeach; ?>
                     <?php endif; ?>
@@ -666,4 +668,85 @@ class BookingsController extends BaseController
         $serviceInformationDetails = $serviceInformationsModel->where('booking_id', $bookingId)->findAll();
         return $serviceInformationDetails;
     }
+    public function updateTotalAmount()
+    {
+        $json = $this->request->getJSON();
+        $qty = $json->qty;
+        $bookingId = $json->bookingId;
+
+        $bModel = new BookingsModel();
+        $booking = $bModel->find($bookingId);
+
+        if (!$booking) {
+            return $this->response->setJSON(['error' => 'Booking not found.']);
+        }
+
+        $amount = $booking['additional_box_amount'];
+        $oldBoxTotalAmount = $booking['addtl_box_total_amount'];
+
+        $newAddtlTotalAmount = number_format($amount) * $qty;
+
+        $diff = $newAddtlTotalAmount - $oldBoxTotalAmount;
+
+        $newTotalAmount = $booking['total_amount'] + $diff;
+
+        $data = [
+            'additional_box_quantity' => $qty,
+            'addtl_box_total_amount' => $newAddtlTotalAmount,
+            'total_amount' => $newTotalAmount,
+        ];
+
+        $bModel->update($bookingId, $data);
+
+        return $this->response->setJSON([
+            'amount' => $amount,
+            'totalAmount' => $newTotalAmount,
+            'newAddtlTotalAmount' => $newAddtlTotalAmount,
+            'newTotalAmount' => $newTotalAmount,
+            'oldBoxTotalAmount' => $oldBoxTotalAmount,
+            'diff' => $diff,
+        ]);
+    }
+    public function updateDynamicTotalAmount()
+    {
+        $json = $this->request->getJSON();
+        $qty = $json->qty;
+        $bookingId = $json->bookingId;
+        $bookingItemId = $json->booking_item_id;
+    
+        $b2Model = new BookingsModel();
+        $booking2 = $b2Model->find($bookingId);
+    
+        $bModel = new BookingItemsModel();
+        $booking = $bModel->find($bookingItemId);
+    
+        if (!$booking) {
+            return $this->response->setJSON(['error' => 'Booking item not found.']);
+        }
+    
+        $price = $booking['price'];
+        
+        $newTotalAmount = $price * $qty;
+    
+        $bModel->update($bookingItemId, ['quantity' => $qty, 'totalamount' => $newTotalAmount]);
+
+        $sumTotalAmount = $bModel->selectSum('totalamount')->where('booking_id', $bookingId)->get()->getRow()->totalamount ?? 0;
+        
+        $addtl_box_total_amount = $booking2['addtl_box_total_amount'];
+        $base_price = $booking2['base_price'];
+
+        $TotalAmount = $sumTotalAmount + $addtl_box_total_amount + $base_price;
+        
+        $b2Model->update($bookingId, ['total_amount' => $TotalAmount]);
+    
+        $data = [
+            'TotalAmount' => $TotalAmount,
+            'sumTotalAmount' => $sumTotalAmount,
+            'price' => $price,
+            'totalamount' => $newTotalAmount
+        ];
+    
+        return $this->response->setJSON($data);
+    }
+    
 }

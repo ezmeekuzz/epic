@@ -23,11 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var email_address = $('#email_address').val();
         var dorm_id = $('#dorm_id').val();
         var dorm_room_number = $('#dorm_room_number').val();
-        var street_name = $('#street_name').val();
         var parent_phone_number = $('#parent_phone_number').val();
         var parent_email_address = $('#parent_email_address').val();
         
-        if(!first_name || !last_name || !student_id || !parent_email_address || !phone_number || !email_address || !dorm_id || !dorm_room_number || !street_name || !parent_phone_number) {
+        if(!first_name || !last_name || !student_id || !parent_email_address || !phone_number || !email_address || !dorm_id || !dorm_room_number || !parent_phone_number) {
             Swal.fire({
                 title: "Warning",
                 text: "Fields should not be empty!",
