@@ -66,7 +66,7 @@
                             <div class="col-12">
                              <div class="form-wrapper common-wrapper">
                                  <h3>Dorm Room Number  *</h3>
-                                  <input type="number" value="1" min="1" name="dorm_room_number" id="dorm_room_number">
+                                  <input type="number" min="1" name="dorm_room_number" id="dorm_room_number">
                              </div>  
                              <div class="option-field">
                               <div class="form-row">

@@ -66,3 +66,33 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/scheduling/service-information/' + serviceType;
     });
 });
+$(document).ready(function() {
+    // Listen for changes in the dorm_id select element
+    $('#dorm_id').on('change', function() {
+        // Get the selected value
+        var selectedDorm = $(this).val();
+
+        // Check if a dorm is selected
+        if (selectedDorm) {
+            // If a dorm is selected, empty the street_name and street_number fields
+            $('#street_name').val('');
+            $('#street_number').val('');
+            $('#dorm_room_number').val('');
+            // Enable and make the fields editable
+            $('#street_name').prop('readonly', false);
+            $('#street_number').prop('readonly', false);
+            $('#dorm_room_number').prop('readonly', false);
+            $('#street_name').prop('disabled', false);
+            $('#street_number').prop('disabled', false);
+            $('#dorm_room_number').prop('disabled', false);
+        } else {
+            // Disable and make the fields readonly
+            $('#street_name').prop('readonly', true);
+            $('#street_number').prop('readonly', true);
+            $('#dorm_room_number').prop('readonly', true);
+            $('#street_name').prop('disabled', true);
+            $('#street_number').prop('disabled', true);
+            $('#dorm_room_number').prop('disabled', true);
+        }
+    });
+});

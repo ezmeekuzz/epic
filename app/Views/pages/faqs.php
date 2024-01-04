@@ -30,51 +30,6 @@
       <section class="accordion">
         <div class="container">
           <div class="accordion">
-            <!-- <div class="accordion-item">
-              <div class="accordion-title">
-                What is a part of the basic package that you provide?
-<i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </i>
-              </div>
-              <div class="accordion-content">
-                Over the last 13 years we have served 1000s of students at HPU. We have found that the typical student uses 5 large boxes (18 inches by 18 inches by 24 Inches in sizes). You can always add additional boxes or extra items. Included in our package is the tape, pick-up, storage, and the delivery back to your dorm room. Please go to our services page (link)
-to see more details.
-              </div>
-            </div>
-            <div class="accordion-item">
-              <div class="accordion-title">
-                When should I sign up? <i class="fa fa-chevron-down" aria-hidden="true"></i>
-              </div>
-              <div class="accordion-content">
-               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora veniam perferendis minima esse quas beatae assumenda maxime veritatis doloremque exercitationem.
-              </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-title">
-                    Do I need to be present when you pick up or drop off? <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                </div>
-                <div class="accordion-content">
-                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora veniam perferendis minima esse quas beatae assumenda maxime veritatis doloremque exercitationem.
-                </div>
-              </div>
-
-              <div class="accordion-item">
-                <div class="accordion-title">
-                    Do you provide packing services? <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                </div>
-                <div class="accordion-content">
-                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora veniam perferendis minima esse quas beatae assumenda maxime veritatis doloremque exercitationem.
-                </div>
-              </div> -->
-              <!-- <div class="accordion-item">
-                <div class="accordion-title">
-                    What if we need additional boxes or need to store non-boxed items? <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                </div>
-                <div class="accordion-content">
-                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora veniam perferendis minima esse quas beatae assumenda maxime veritatis doloremque exercitationem.
-                </div>
-              </div> -->
               <div class="accordion-item">
                 <div class="accordion-title">
                   What makes EPIC a popular choice among HPU Students? <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -223,9 +178,20 @@ to see more details.
   
           </div>
           <div class="btn-accor">
-            <a href="#">READ MORE</a>
+            <a href="/services">GET STARTED</a>
           </div>
         </div>
       </section>
     </main>
+    <script>
+        $(document).ready(function() {
+            // Your accordion initialization code goes here
+            $('.accordion-title').click(function() {
+                // Toggle the visibility of the accordion content
+                $(this).next('.accordion-content').slideToggle();
+                // Toggle the chevron icon
+                $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+            });
+        });
+    </script>
     <?=$this->include('templates/footer');?>

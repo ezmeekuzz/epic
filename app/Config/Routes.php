@@ -17,7 +17,6 @@ $routes->get('/signup', 'SignupController::index');
 $routes->get('/terms-condition', 'TermsconditionController::index');
 $routes->get('/testimonials', 'TestimonialsController::index');
 $routes->get('/scheduling', 'SchedulingController::index');
-$routes->get('/scheduling/intro', 'SchedulingController::intro');
 $routes->get('/scheduling/account-information/(:any)', 'SchedulingController::accountInformation/$1');
 $routes->get('/scheduling/service-information/(:any)', 'SchedulingController::serviceInformation/$1');
 $routes->get('/scheduling/choose-schedule/(:any)', 'SchedulingController::chooseSchedule/$1');

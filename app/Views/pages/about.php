@@ -43,7 +43,7 @@
                 </p>
 
                 <div class="home-btn">
-                  <a href="#">LETS GET STARTED</a>
+                  <a href="/services">LETS GET STARTED</a>
                 </div>
               </div>
             </div>

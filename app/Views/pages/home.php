@@ -21,19 +21,19 @@
                 <h2>Everything Is Provided:</h2>
                 <ul class="list">
                   <li>
-                    <img src="assets/images/Ellipse 62.png" alt="" /> &nbsp;Boxes And
+                    <img src="assets/images/Ellipse 62.png" alt="" />
                     Boxes And Packing Tape
                   </li>
                   <li>
-                    <img src="assets/images/Ellipse 62.png" alt="" /> &nbsp;Secure
+                    <img src="assets/images/Ellipse 62.png" alt="" />
                     Secure Storage
                   </li>
                   <li>
-                    <img src="assets/images/Ellipse 62.png" alt="" /> &nbsp;Pick Up
+                    <img src="assets/images/Ellipse 62.png" alt="" />
                     Pick Up From Your Dorm Room
                   </li>
                   <li>
-                    <img src="assets/images/Ellipse 62.png" alt="" /> &nbsp;Redeliver
+                    <img src="assets/images/Ellipse 62.png" alt="" />
                     Redeliver Back To Your Dorm Room
                   </li>
                 </ul>
@@ -46,7 +46,7 @@
                   </p>
                 </div>
                 <div class="home-btn">
-                  <a href="#">LETS GET STARTED</a>
+                  <a href="/services">LETS GET STARTED</a>
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@
                   <div class="title-wrapper">
                     <p style="font-size: 18px; font-weight: bold; margin-bottom: 20px;" class="equal-height">This offering is for current HPU students.</p>
                     <div>
-                      <p>Standard package includes:   </p>
+                      <p>Standard package includes   </p>
                       <h1>$425.00 </h1>
                     </div>
                   </div>

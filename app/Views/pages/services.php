@@ -192,10 +192,21 @@ to see more details.
   
           </div>
           <div class="btn-accor">
-            <a href="#">READ MORE</a>
+            <a href="/faqs">I have more questions</a>
           </div>
         </div>
       </section>
    
     </main>
+    <script>
+        $(document).ready(function() {
+            // Your accordion initialization code goes here
+            $('.accordion-title').click(function() {
+                // Toggle the visibility of the accordion content
+                $(this).next('.accordion-content').slideToggle();
+                // Toggle the chevron icon
+                $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+            });
+        });
+    </script>
     <?=$this->include('templates/footer');?>
