@@ -88,8 +88,7 @@
                   More Boxes
                 </h1>
                 <p>
-                  Includes Up To <br />
-                  $100 Coverage
+                  Unlimited  
                 </p>
               </div>
             </div>
@@ -98,13 +97,10 @@
               <div class="list">
                 <img src="assets/images/services/2.png" alt="" />
                 <h1>
-                  <!-- FREE PICKUP <br />
-                  & DELIVERY -->
                   Additional Items
                 </h1>
                 <p>
-                  On Featured <br />
-                  Dates
+                  TV, Fridge, Furniture, Cars 
                 </p>
               </div>
             </div>
@@ -118,8 +114,7 @@
                   Shipping Services
                 </h1>
                 <p>
-                  Temperature <br />
-                  Controlled Facility
+                  Let Us Handle It 
                 </p>
               </div>
             </div>
@@ -133,7 +128,7 @@
                   Summer School and Study Abroad
 
                 </h1>
-                <p>Focus On Finals</p>
+                <p>Endless Options </p>
               </div>
             </div>
           </div>

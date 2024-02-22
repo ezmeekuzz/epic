@@ -1,49 +1,129 @@
-    <?=$this->include('templates/header');?>
+<?=$this->include('templates/header');?>
     <main>
-      <!-- FOR SECTIONS -->
-
-      <section class="signup">
-        <div class="container">
-          <div class="sign-wrapper">
-            <div class="btn-sign">
-              <img src="assets/images/arrow-left-svgrepo-com (3).png" alt="" />
-              <a href="#">BACK TO SIGN IN</a>
+        <section class="scheduling-time">
+          <div class="container">
+            <div class="container-title">
+              <h2>Account Information</h2>
             </div>
-
-            <div class="content">
-              <h1>SUMMER STORAGE 2023 (May-August)</h1>
-              <p>
-                Fill Out The Form Fields Below To Reserve Your Spot Today! All
-                Fields Are Required. After You Have Completed The Signup
-                Process, You Will Receive A Verification Email. Your Service
-                Includes Pick Up And Delivery Directly To Your Dorm.
-              </p>
-              <p>
-                *By Clicking Submit You Are Agreeing To Be Charged The Total
-                Amount Selected. Your Base Price Of $425.00 (May-August)
-                Includes Five Large Boxes (Estimated Box Size Is 18”X18”X24”),
-                Tape, Pick Up, Storage And Delivery. Additional Boxes And Items
-                Are Not Included In The Base Price Of $425.00.
-              </p>
-              <p>
-                If You Require Early Storage (March-April), Please Select YES At
-                The First Checkbox Below And $75 Will Be Added Due To Extended
-                Storage.
-              </p>
-              <p>
-                If You Have Any Issues With The Order Form, Please Send Us An
-                Email Via The Contact Tab With Your Name And Number. Please
-                Place “Order Issues” In The Subject Bar. We Will Respond Within
-                24 Hours Of Receiving Your Email. You May Also Call 336-549-5216
-                To Immediate Assistance.
-              </p>
-              <div class="btn-continue">
-                <a href="#">CONTINUE</a>
-                <img src="assets/images/arrow-right.png" alt="" />
-              </div>
+            <div class="account-container">
+               <form id="account-information">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-row align-items-end">
+                            <div class="col-lg-6">
+                                <div class="form-wrapper common-wrapper">
+                                    <h3>Student Name *</h3>
+                                    <input type="text" placeholder="First Name*" name="first_name" id="first_name">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-wrapper common-wrapper">
+                                    <input type="text" placeholder="Last Name*" name="last_name" id="last_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                           <div class="col-12">
+                            <div class="form-wrapper common-wrapper">
+                                <h3>Student ID# *</h3>
+                                <input type="text" placeholder="--- ----- ----" name="student_id" id="student_id">
+                            </div>  
+                           </div>
+                        </div>
+                        <div class="form-row">
+                           <div class="col-12">
+                            <div class="form-wrapper common-wrapper">
+                                <h3>Student Phone Number *</h3>
+                                <input type="tel" name="phone_number" id="phone_number">
+                            </div>  
+                           </div>
+                        </div>
+                        <div class="form-row">
+                           <div class="col-12">
+                            <div class="form-wrapper common-wrapper">
+                                <h3>Student Email *</h3>
+                                <input type="email" name="email_address" id="email_address">
+                            </div>  
+                           </div>
+                        </div>
+                        <div class="form-row">
+                           <div class="col-12">
+                            <div class="form-wrapper common-wrapper">
+                                <h3>Password *</h3>
+                                <input type="password" name="password" id="password">
+                            </div>  
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-row">
+                            <div class="col-12">
+                             <div class="form-wrapper common-wrapper">
+                                 <h3>Dorm Name For May Pick-Up  *</h3>
+                                 <select name="dorm_id" id="dorm_id">
+                                    <option hidden></option>
+                                    <option disabled></option>
+                                    <?php foreach($records as $dorm) : ?>
+                                    <option value="<?=$dorm['dorm_id'];?>"><?=$dorm['dorm_name'];?></option>
+                                    <?php endforeach; ?>
+                                 </select>
+                             </div>  
+                            </div>
+                         </div>
+                         <div class="form-row">
+                            <div class="col-12">
+                             <div class="form-wrapper common-wrapper">
+                                 <h3>Dorm Room Number  *</h3>
+                                  <input type="number" min="1" name="dorm_room_number" id="dorm_room_number">
+                             </div>  
+                             <div class="option-field">
+                              <div class="form-row">
+                                <div class="col-lg-6">
+                                  <div class="form-wrapper common-wrapper">
+                                    <h4>Street name (optional)</h4>
+                                    <input type="text" name="street_name" id="street_name">
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-wrapper common-wrapper">
+                                    <h4>Street number (optional)</h4>
+                                    <input type="text" name="street_number" id="street_number">
+                                  </div>
+                                </div>
+                                <div class="col-lg-6"></div>
+                              </div>
+                             </div>
+                            </div>
+                         </div>
+                         <div class="form-row">
+                            <div class="col-12">
+                                <div class="form-wrapper common-wrapper">
+                                    <h3>Parent Phone Number*</h3>
+                                    <input type="tel" name="parent_phone_number" id="parent_phone_number">
+                                </div>   
+                            </div>
+                         </div>
+                         <div class="form-row">
+                            <div class="col-12">
+                                <div class="form-wrapper common-wrapper">
+                                    <h3>Parent Email *</h3>
+                                    <input type="email" name="parent_email_address" id="parent_email_address">
+                                </div>   
+                            </div>
+                         </div>
+                    </div>
+                </div>
+               </form>
+            </div>
+            <div class="container-form-footer">
+                <!--<a href="/scheduling/intro" class="back-btn"><i class="fa fa-arrow-left"></i> BACK</a>-->
+                <a href="javascript:$('#account-information').submit();" class="continue-btn">CONTINUE <i class="fa fa-arrow-right"></i></a>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
     </main>
+    <div id="loading">
+        <img id="loading-image" src="<?=base_url();?>assets_admin/img/loader.gif" alt="Loading..." />
+    </div>
+    <script src="<?=base_url();?>assets_admin/js/custom/sign-up.js"></script>
     <?=$this->include('templates/footer');?>

@@ -14,17 +14,24 @@
             </div>
 
             <div class="form">
-              <form>
-                <input type="email" placeholder="Email*" />
+              <form method="POST" action="/loginfunc">
+                <?php if (session()->has('error')) : ?>
+                  <center>
+                    <div class="alert alert-danger">
+                      <?= session('error') ?>
+                    </div>
+                  </center><br>
+                <?php endif; ?>
+                <input type="email" placeholder="Email*" name="email_address" />
                 <div class="password-wrapper">
-                  <input type="password" placeholder="Password" id="id_password"/>
+                  <input type="password" placeholder="Password" name="password" id="id_password"/>
                   <i class="fa fa-eye" id="togglePassword"></i>
                 </div>
                 <div class="forget">
                   <a href="#">Forgot password?</a>
                 </div>
-                <button>lOGIN</button>
-                <a href="#"
+                <button>LOGIN</button>
+                <a href="/sign-up"
                   >Don't have an account yet? <span>Sign Up!</span>
                 </a>
               </form>

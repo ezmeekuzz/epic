@@ -113,20 +113,20 @@
                                     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" >
                                         <tr>
                                             <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">Base Amount </td>
-                                            <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">$<?=$additionalData['base_amount'] ?? '0.00';?> </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">Additional Boxe(s) (x<?=$additionalData['addtl_box_quantity'];?>) </td>
-                                            <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">$<?=$additionalData['addtl_box_total_amount'] ?? '0.00';?></td>
+                                            <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">$<?=$additionalData['base_amount'];?> </td>
                                         </tr>
                                         <?php if(isset($additionalData['orderItems'])) : ?>
                                         <?php foreach ($additionalData['orderItems'] as $orderItem): ?>
                                             <tr>
-                                                <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;"><?= $orderItem['item_name'].' (x'.$orderItem['item_quantity'].')'; ?></td>
-                                                <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">$<?= $orderItem['item_total_amount']; ?></td>
+                                                <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;"><?= $orderItem['item_name'].' (x'.$orderItem['quantity'].')'; ?></td>
+                                                <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">$<?= $orderItem['totalamount']; ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                         <?php endif; ?>
+                                        <tr>
+                                            <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">Study Abroad Additional Price </td>
+                                            <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">$<?=$additionalData['study_abroad_additional_storage_price'];?> </td>
+                                        </tr>
                                         <tr>
                                             <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">TOTAL </td>
                                             <td style="color: #000; font-size: 14px; margin-bottom: 20px; font-weight: 600; font-family: 'Poppins', 'fallback font 1', 'fallback font 2', sans-serif; width: 50%; border: 1px solid #89C4F2; padding: 3px 10px;">$<?=$additionalData['totalAmount']?></td>

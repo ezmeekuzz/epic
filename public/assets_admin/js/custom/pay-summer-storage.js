@@ -1,70 +1,106 @@
-function displayStoredData() {
-    
-    var storedData = localStorage.getItem('studentData');
-    if (storedData) {
-        var data = JSON.parse(storedData);
-        
-        Object.keys(data).forEach(function (key) {
-            var element = document.getElementById(key);
-            if (element) {
-                element.value = data[key];
+document.addEventListener('DOMContentLoaded', function () {
+    function fetchBookingItems() {
+        $.ajax({
+            url: '/scheduling/getBookingItems', // Adjust the URL based on your project structure
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.bookingItems.length > 0) {
+                    var html = '';
+                    $.each(data.bookingItems, function (index, item) {
+                        html += '<div class="summary-row">';
+                        html += '<h2>' + item.item_name + ' / ' + item.size +' (x' + item.quantity + ')</h2>';
+                        html += '<h2 class="item-total-price">$' + item.totalamount + '<h2>';
+                        html += '</div>';
+                    });
+                    $('#dynamic-summary-rows').html(html);
+                    
+                    $('.remove-item').on('click', function (e) {
+                        e.preventDefault();
+                        var index = $(this).data('index');
+                        deleteBookingItem(index);
+                    });
+                } else {
+                    $('#dynamic-summary-rows').html('<p>No booking items found.</p>');
+                }
+            },
+            error: function () {
+                console.error('Error fetching booking items.');
             }
         });
     }
-    var storedFormData = localStorage.getItem('formData');
-    if (storedFormData) {
-        var formData = JSON.parse(storedFormData);
+    function deleteBookingItem(index) {
+        $.ajax({
+            url: '/scheduling/deleteBookingItem',
+            type: 'POST',
+            dataType: 'json',
+            data: { index: index },
+            success: function (data) {
+                if (data.success) {
+                    fetchBookingItems();
+                    fetchTotalAmount();
+                    getStudyAbroadAdditionalStoragePrice();
+                } else {
+                    console.error('Error deleting booking item.');
+                }
+            },
+            error: function () {
+                console.error('Error deleting booking item.');
+            }
+        });
+    }
+    function fetchTotalAmount() {
+        $.ajax({
+            url: '/scheduling/getTotalAmount', // Adjust the URL based on your project structure
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var totalAmount = data.totalAmount || 0; // Use 0 if totalAmount is not set
+                $('#total-price').html('$' + totalAmount);
+                $('#totalAmount').val(totalAmount);
+            },
+            error: function () {
+                console.error('Error fetching total amount.');
+            }
+        });
+    }
+    function getStudyAbroadAdditionalStoragePrice() {
+        var html = "";
+        $.ajax({
+            url: '/scheduling/getStudyAbroadAdditionalStoragePrice',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.study_abroad_additional_storage_price !== undefined) {
+                    // Use the value as needed
+                    console.log('Study Abroad Additional Storage Price:', response.study_abroad_additional_storage_price);
+                    html += '<div class="summary-row">';
+                    html += '<h2>Study Abroad Additional Storage Price – Second Semester</h2>';
+                    html += '<h2 class="item-total-price">$' + response.study_abroad_additional_storage_price + '<h2>';
+                    html += '</div>';
+                    // Call another function or update the UI with the obtained value
+                    updateUI(html);
+                } else {
+                    updateUI(html);
+                }
+            },
+            error: function() {
+                console.error('Error in AJAX request');
+            }
+        });
     }
 
-    var storedSelectedItems = localStorage.getItem('selectedItems');
-    if (storedSelectedItems) {
-        var selectedItems = JSON.parse(storedSelectedItems);
+    // Function to update the UI with study_abroad_additional_storage_price
+    function updateUI(studyAbroadAdditionalStoragePrice) {
+        // Update your UI elements with the obtained value
+        $('#studyAbroadAddtionalStoragePrice').html(studyAbroadAdditionalStoragePrice);
     }
-
-    var storedRows = localStorage.getItem('storedRows');
-    if (storedRows) {
-        
-        document.getElementById('dynamic-summary-rows').innerHTML = storedRows;
-    }
-
-    var totalAmount = localStorage.getItem('totalAmount');
-    if (totalAmount !== null && !isNaN(totalAmount)) {
-        
-        document.getElementById('total-price').innerText = '$' + parseFloat(totalAmount).toFixed(2);
-        
-        document.getElementById('totalAmount').value = parseFloat(totalAmount).toFixed(2);
-    } else {
-        console.error('Invalid storedTotalPrice value:', totalAmount);
-    }
-
-    var storedAddtlBoxAmount = localStorage.getItem('addtl_box_amount');
-    var addtl_box_quantity = localStorage.getItem('addtl_box_quantity');
-    var addtl_box_total_amount = localStorage.getItem('addtl_box_total_amount');
-    var addtl_box_name = localStorage.getItem('addtl_box_name');
-    if (storedAddtlBoxAmount !== null && !isNaN(storedAddtlBoxAmount)) {
-        
-        document.getElementById('additional-box-row').innerHTML = '<div class="summary-row"><h2>Additional Boxes</h2>' +
-            '<h2 id="box-quantity-row">$' + parseFloat(addtl_box_total_amount).toFixed(2) + '</h2>' +
-            '<input type="hidden" name="addtl_box_name" id="addtl_box_name" value="' + addtl_box_name + '" />' +
-            '<input type="hidden" name="addtl_box_amount" id="addtl_box_amount" value="' + parseFloat(storedAddtlBoxAmount).toFixed(2) + '" />' +
-            '<input type="hidden" name="addtl_box_total_amount" id="addtl_box_total_amount" value="' + parseFloat(addtl_box_total_amount).toFixed(2) + '" />' +
-            '<input type="hidden" name="addtl_box_quantity" id="addtl_box_quantity" value="' + addtl_box_quantity + '" /></div>';
-    } else {
-        console.error('Invalid storedAddtlBoxAmount value:', addtl_box_total_amount);
-    }
-
-    var storedFormData = localStorage.getItem('formData');
-    var localFormData = storedFormData ? JSON.parse(storedFormData) : {};
-
-    var is_storage_additional_item = localFormData.is_storage_additional_item;
-    var is_storage_car_in_may = localFormData.is_storage_car_in_may;
-    var is_storage_vehicle_in_may = localFormData.is_storage_vehicle_in_may;
-    var is_summer_school = localFormData.is_summer_school;
-    
-}
-
-document.addEventListener('DOMContentLoaded', displayStoredData);
-
+    $(document).ready(function () {
+        fetchBookingItems();
+        fetchTotalAmount();
+        getStudyAbroadAdditionalStoragePrice();
+    });
+});
 const appId = 'sandbox-sq0idb-WgKiAdcuQNo2HcwJ7Efcbg';
 const locationId = 'L7FXY3WQRVBWV';
 let paymentMethod;
@@ -78,11 +114,6 @@ async function initializeCard(payments) {
 
 async function createPayment() {
     const amount = document.getElementById('totalAmount').value;
-    var storedData = localStorage.getItem('studentData');
-    var localData = storedData ? JSON.parse(storedData) : {};
-
-    var storedFormData = localStorage.getItem('formData');
-    var localFormData = storedFormData ? JSON.parse(storedFormData) : {};
 
     var formData = {};
     $("#payment-form").find(":input").each(function () {
@@ -99,7 +130,7 @@ async function createPayment() {
         }
     });
     
-    var combinedData = { ...formData, ...localData, ...localFormData };
+    var combinedData = { ...formData};
 
 
     try {
@@ -216,6 +247,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 title: "Warning",
                 text: "Please enter both first name and last name!",
                 icon: "error"
+            }).then(() => {
+                cardButton.style.pointerEvents = 'auto';
             });
             return;
         }
@@ -225,6 +258,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 title: "Warning",
                 text: "Please accept the terms and conditions!",
                 icon: "error"
+            }).then(() => {
+                cardButton.style.pointerEvents = 'auto';
             });
             return;
         }
@@ -238,7 +273,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 title: "Warning",
                 text: "Square card details are incomplete!",
                 icon: "error"
-            });
+            }.then(() => {
+                cardButton.style.pointerEvents = 'auto';
+            }));
             return;
         }
 
@@ -255,7 +292,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error(e.message);
         } finally {
             hideLoadingSpinner();
-            localStorage.clear();
             Swal.fire({
                 title: "Payment Successful",
                 text: "Payment has been successfully paid!",
@@ -276,14 +312,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const cardButton = document.getElementById('card-button');
     cardButton.addEventListener('click', async function (event) {
+        cardButton.style.pointerEvents = 'none';
         await handlePaymentMethodSubmission(event, card);
     });
-}); 
-
-$(document).ready(function() {
     
-    $(".continue-btn").click(function(e) {
-        e.preventDefault();
-        $('#card-button').click();
-    });
-});
+}); 

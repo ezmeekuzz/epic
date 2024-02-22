@@ -45,9 +45,6 @@
                                     <img src="assets/images/assets/logo.png" alt="">
                                 </div>
                             </div>
-                            <div class="col-lg-6" hidden>
-                              <button id="card-button">Submit Payment</button>
-                            </div>
                         </div>
                         <div class="form-row align-items-end">
                             <p><b>TERMS & CONDITIONS</b> <br>
@@ -70,17 +67,14 @@
                             <div class="summary-row">
                                 <h2>Base Price (x 1)</h2>
                                 <h2 id="base-price-row">$425.00</h2>
-                                <input type="hidden" name="base_name" id="base_name" value="Base Price" />
-                                <input type="hidden" name="base_amount" id="base_amount" value="425.00" />
-                                <input type="hidden" name="base_total_amount" id="base_total_amount" value="425.00" />
-                                <input type="hidden" name="base_quantity" id="base_quantity" value="1" />
                             </div>
-                            <div id="additional-box-row"></div>
+                            <!-- Placeholder for dynamically generated rows -->
                             <div id="dynamic-summary-rows"></div>
+                            <div id="studyAbroadAddtionalStoragePrice"></div>
                             <div class="total-summary-row">
                                 <h2>TOTAL</h2>
                                 <h3 id="total-price">$0.00</h3>
-                                <input type="hidden" name="totalAmount" id="totalAmount" value="0.00" />
+                                <input type="hidden" name="totalAmount" id="totalAmount" />
                             </div>
                         </div>
                     </div>
@@ -89,7 +83,7 @@
             </div>
             <div class="container-form-footer">
                 <a href="/scheduling/service-information/<?=session()->get('selectedService');?>" class="back-btn"><i class="fa fa-arrow-left"></i> BACK</a>
-                <a href="javascript:void(0);" class="continue-btn">CONTINUE <i class="fa fa-arrow-right"></i></a>
+                <a href="javascript:void(0);" id="card-button" class="continue-btn">CONTINUE <i class="fa fa-arrow-right"></i></a>
             </div>
           </div>
         </section>
@@ -199,5 +193,6 @@
         </div>
       </div>
     </div>
+    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <script src="<?=base_url();?>assets_admin/js/custom/pay-summer-storage.js"></script>
     <?=$this->include('templates/footer');?>

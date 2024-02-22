@@ -19,20 +19,14 @@
                                 </div>
                             </div>
                             <div class="form-wrapper common-wrapper">
-                                <h3>Select Quantity Of Additional Boxes You Are Purchasing.  *</h3>
+                                <!-- <h3>Select Quantity Of Additional Boxes You Are Purchasing.  *</h3> -->
+                                <h3>If you need additional boxes, please select the quantity below ($50) Each.</h3>
                                 <select name="box_quantity" id="box_quantity">
                                     <option disabled selected>Select a quantity</option>
                                     <option hidden></option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
+                                    <?php foreach($additional_box as $box) : ?>
+                                    <option value="<?=$box['size_id'];?>" data-item-id="<?=$box['item_id'];?>" data-quantity="<?=$box['size'];?>"><?=$box['size'];?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-wrapper common-wrapper">
@@ -101,7 +95,6 @@
                 </form>
             </div>
             <div class="container-form-footer">
-                <a href="/scheduling/account-information" class="back-btn"><i class="fa fa-arrow-left"></i> BACK</a>
                 <a href="javascript:void(0);" class="continue-btn">CONTINUE <i class="fa fa-arrow-right"></i></a>
             </div>
           </div>

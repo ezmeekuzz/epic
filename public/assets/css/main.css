@@ -2612,4 +2612,32 @@ body {
 .btn-add:hover {
   background-color: transparent;
   color: #89C4F2;
+}
+
+.dropdown-toggle::after {
+  content: "";
+}
+
+.scheduling .sched-wrapper {
+  padding-left: 50px;
+  height: auto;
+}
+
+.faqs-banner {
+  height: auto;
+  background-size: 80% 90%;
+  background-position: right;
+}
+
+.accordion {
+  margin-top: 0;
+  padding-top: 10px;
+}
+
+.services-list {
+  margin-bottom: 20px;
+}
+
+.checkbox-container label:before {
+  background-color: rgba(219, 219, 219, 0.31);
 }/*# sourceMappingURL=main.css.map */

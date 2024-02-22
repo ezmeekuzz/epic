@@ -12,26 +12,6 @@
             <div class="col-lg-6">
               <div class="about-content">
                 <h1>About <span>Us</span></h1>
-                <!-- <p>
-                  The mission of EPIC Storage Solutions is to provide High Point
-                  University students and parents with a convenient,
-                  accountable, and safe moving and storage experience.
-                </p>
-                <p>
-                  EPIC is locally owned and operated in High Point, NC by Anissa
-                  Roy. Anissa is a graduate of High Point College in 1991. After
-                  a successful career in corporate American, Anissa’s goal was
-                  to own and operating her own business. With that EPIC was
-                  created 2009. Over the last 13 plus years, we have had the
-                  opportunity to service 1000s of students helping us to evolve
-                  into the company we are today.
-                </p>
-                <p>
-                  We pride ourselves in providing a high touch and always
-                  available experience. This has allowed our team to personally
-                  engage in each customer relationship placing a personal touch
-                  on each parent and student experience.
-                </p> -->
                 <p>
                   The mission of EPIC Storage Solutions is to provide High Point University students and parents with a convenient, accountable, and safe moving and storage experience.
                 </p>
@@ -47,8 +27,6 @@
                 </div>
               </div>
             </div>
-
-           
           </div>
         </div>
       </section>

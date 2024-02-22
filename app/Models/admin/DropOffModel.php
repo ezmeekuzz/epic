@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use CodeIgniter\Model;
 
-class BookingsModel extends Model
+class DropOffModel extends Model
 {
-    protected $table            = 'bookings';
-    protected $primaryKey       = 'booking_id';
+    protected $DBGroup          = 'default';
+    protected $table            = 'drop_off';
+    protected $primaryKey       = 'drop_off_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'account_information_id', 'ordernumber', 'serviceType', 'reference_code', 'card_holder_name', 'card_number', 'expiry_date', 'cvc', 'booking_date', 'base_price', 'additional_box_quantity', 'additional_box_amount', 'addtl_box_total_amount', 'study_abroad_additional_storage_price', 'total_amount', 'notes', 'admin_notes', 'picking_date', 'picking_time', 'row_in_warehouse', 'status'
+        'account_information_id', 'booking_id', 'firstName', 'lastName', 'studentNumber', 'dorm_id', 'roomNumber', 'streetName', 'streetNumber', 'returnDate', 'referenceCode', 'dropOffStatus'
     ];
 
     // Dates

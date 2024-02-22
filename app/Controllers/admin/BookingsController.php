@@ -7,10 +7,13 @@ use App\Models\BookingsModel;
 use App\Models\BookingItemsModel;
 use App\Models\AccountInformationsModel;
 use App\Models\ServiceInformationsModel;
+use App\Models\admin\DropOffModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class BookingsController extends BaseController
 {
@@ -48,9 +51,6 @@ class BookingsController extends BaseController
             
             $sModel = new ServiceInformationsModel();
             $sModel->where('booking_id', $id)->delete();
-            
-            $aModel = new AccountInformationsModel();
-            $aModel->where('booking_id', $id)->delete();
             
             $bModel->delete($id);
     
@@ -105,13 +105,26 @@ class BookingsController extends BaseController
         ->findAll();
         $accountInformationDetails = $accountInformationsModel
         ->select('account_informations.*, dorms.dorm_name')
+        ->join('bookings', 'bookings.account_information_id = account_informations.account_information_id', 'left')
         ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
-        ->where('account_informations.booking_id', $bookingId)
+        ->where('bookings.booking_id', $bookingId)
         ->first();
         $serviceInformationDetails = $serviceInformationsModel->where('booking_id', $bookingId)->findAll();
         ?>
-        <button id="updateStatus" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-shopping-cart"></i> Finish</button>
-        <button id="print" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
+        <?php
+            if($bookingDetails['status'] === 'Scheduled') {
+                ?>
+                <button id="updateStatus" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-shopping-cart"></i> Finish</button>
+                <button id="reschedule" data-account-id = "<?=$bookingDetails['account_information_id'];?>" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-clock-o"></i> Send Re-Schedule Email</button>
+                <?php
+            }
+            else if($bookingDetails['status'] === 'Done') {
+                ?>
+                <button id="dropOff" data-account-id = "<?=$bookingDetails['account_information_id'];?>" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-truck"></i> Drop Off</button>
+                <?php
+            }
+        ?>
+        <a href = "/admin/bookings/generatePdf/<?=$bookingDetails['booking_id'];?>" download target="_blank" class="btn btn-info"><i class="fa fa-download"></i> Download PDF</a>
         <br/><br/>
         <div id="booking-details">
             <img src="<?=base_url();?>assets/images/Logo-header.png" />
@@ -222,28 +235,12 @@ class BookingsController extends BaseController
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="font-weight: bold;">Is Boxes Included</td>
-                        <td><?=$serviceInformationDetails[0]['is_boxes_included'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Box(es) Quantity</td>
-                        <td><?=$serviceInformationDetails[0]['box_quantity'];?></td>
-                    </tr>
-                    <tr>
                         <td style="font-weight: bold;">Do You Need Other Vehicle Storage For May - August? (Full Summer)(Motorcycle, Scooter, Bike)*</td>
-                        <td><?=$serviceInformationDetails[0]['is_storage_additional_item'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Do You Need Car Storage For May - August? (Full Summer) *</td>
-                        <td><?=$serviceInformationDetails[0]['is_storage_car_in_may'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Do You Need Other Vehicle Storage For May - August? (Full Summer)(Motorcycle, Scooter, Bike)*</td>
-                        <td><?=$serviceInformationDetails[0]['is_storage_vehicle_in_may'];?></td>
+                        <td><?=$serviceInformationDetails[0]['is_storage_additional_item'] ?? '';?></td>
                     </tr>
                     <tr>
                         <td style="font-weight: bold;">Are you doing summer school?</td>
-                        <td><?=$serviceInformationDetails[0]['is_summer_school'];?></td>
+                        <td><?=$serviceInformationDetails[0]['is_summer_school'] ?? '';?></td>
                     </tr>
                 </tbody>
             </table>
@@ -268,150 +265,6 @@ class BookingsController extends BaseController
                         <td><?=$items['cost']?></td>
                         <td class="totalAmount">$<?=$items['totalamount'];?></td>
                         <td hidden><input type="text" name="booking_item_id" id="booking_item_id" value="<?=$items['booking_item_id'];?>" /></td>
-                    </tr>
-                    <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-        <div id="printBookingDetails" hidden>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th><img src="<?=base_url();?>assets/images/Logo-header.png" /></th>
-                        <th style="text-align: right;">
-                            <span>Signature Over Printed Name : ____________________</span><br/>
-                            <span>Date of Signed : ____________________</span>
-                        </th>
-                    </tr>
-                </thead>
-            <table>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" style="text-align: center; text-transform: uppercase;">Booking Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="font-weight: bold;">Service Type</td>
-                        <td><?=$bookingDetails['serviceType'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Reference Code</td>
-                        <td><?=$bookingDetails['reference_code'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Card Holder</td>
-                        <td><?=$bookingDetails['card_holder_name'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Booking Date</td>
-                        <td><?=date('F d, Y', strtotime($bookingDetails['booking_date']));?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Pickup Date</td>
-                        <td><?=$bookingDetails['picking_date'] ? date('F d, Y', strtotime($bookingDetails['picking_date'])) : "N/A";?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Pickup Time</td>
-                        <td><?=$bookingDetails['picking_time'] ? date('h:i A', strtotime($bookingDetails['picking_time'])) : "N/A";?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Notes</td>
-                        <td><?=$bookingDetails['notes'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Schedule</td>
-                        <td><?=$bookingDetails['status'];?></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" style="text-align: center; text-transform: uppercase;">Account Informations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="font-weight: bold;">Student Name</td>
-                        <td><?=$accountInformationDetails['first_name'].' '.$accountInformationDetails['last_name'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Student ID</td>
-                        <td><?=$accountInformationDetails['student_id'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Dorm</td>
-                        <td><?=$accountInformationDetails['dorm_name'].' / Room No.'.$accountInformationDetails['dorm_room_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Phone Number</td>
-                        <td><?=$accountInformationDetails['phone_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Email Address</td>
-                        <td><?=$accountInformationDetails['email_address'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Address</td>
-                        <td><?=$accountInformationDetails['street_name'].' '.$accountInformationDetails['street_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Parent Phone Number</td>
-                        <td><?=$accountInformationDetails['parent_phone_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Parent Email Address</td>
-                        <td><?=$accountInformationDetails['parent_email_address'];?></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" style="text-align: center; text-transform: uppercase;">Service Informations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="font-weight: bold;">Is Boxes Included</td>
-                        <td><?=$serviceInformationDetails[0]['is_boxes_included'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Box(es) Quantity</td>
-                        <td><?=$serviceInformationDetails[0]['box_quantity'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Do You Need Other Vehicle Storage For May - August? (Full Summer)(Motorcycle, Scooter, Bike)*</td>
-                        <td><?=$serviceInformationDetails[0]['is_storage_additional_item'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Do You Need Car Storage For May - August? (Full Summer) *</td>
-                        <td><?=$serviceInformationDetails[0]['is_storage_car_in_may'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Do You Need Other Vehicle Storage For May - August? (Full Summer)(Motorcycle, Scooter, Bike)*</td>
-                        <td><?=$serviceInformationDetails[0]['is_storage_vehicle_in_may'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Are you doing summer school?</td>
-                        <td><?=$serviceInformationDetails[0]['is_summer_school'];?></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" style="text-align: center; text-transform: uppercase;">Additional Items</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if(COUNT($bookingItemDetails)) : ?>
-                    <?php foreach($bookingItemDetails as $items) : ?>
-                    <tr>
-                        <td colspan="2" style="font-weight: bold;"><?=$items['item_name'].' '.$items['size'].' (x'.$items['quantity'].')';?></td>
                     </tr>
                     <?php endforeach; ?>
                     <?php endif; ?>
@@ -478,11 +331,12 @@ class BookingsController extends BaseController
     public function exportToExcel()
     {
         $bookingId = $this->request->getGet('bookingId');
+        $accountInformationId = $this->request->getGet('accountInformationId');
     
         // Retrieve data based on the booking ID
         $getBookingDetails = $this->getBookingDetails($bookingId);
         $getBookingItems = $this->getBookingItems($bookingId);
-        $getAccountInformations = $this->getAccountInformations($bookingId);
+        $getAccountInformations = $this->getAccountInformations($accountInformationId);
         $getServiceInformations = $this->getServiceInformations($bookingId);
     
         // Create a new Spreadsheet object
@@ -550,31 +404,53 @@ class BookingsController extends BaseController
         
             $rowIndex += 12; // Adjust accordingly based on the number of rows in each section
         }
-            // Set header for Account Information
-    $spreadsheet->getActiveSheet()->setCellValue('A' . $rowIndex, 'Account Information')->mergeCells('A' . $rowIndex . ':D' . $rowIndex);
-    $spreadsheet->getActiveSheet()->getStyle('A' . $rowIndex . ':D' . $rowIndex)->applyFromArray($headerStyle);
+        // Set header for Account Information
+        $spreadsheet->getActiveSheet()->setCellValue('A' . $rowIndex, 'Account Information')->mergeCells('A' . $rowIndex . ':D' . $rowIndex);
+        $spreadsheet->getActiveSheet()->getStyle('A' . $rowIndex . ':D' . $rowIndex)->applyFromArray($headerStyle);
 
-    // Add Account Information data
-    $rowIndex += 1; // Move to the next row
+        // Add Account Information data
+        $rowIndex += 1; // Move to the next row
 
-    if (!empty($getAccountInformations) && array_key_exists(0, $getAccountInformations)) {
-        $accountInformationDetails = $getAccountInformations[0];
+        if (!empty($getAccountInformations) && array_key_exists(0, $getAccountInformations)) {
+            $accountInformationDetails = $getAccountInformations[0];
 
-        $accountInformationLabels = [
-            'Student Name', 'Student ID', 'Dorm', 'Phone Number', 'Email Address', 'Address',
-            'Parent Phone Number', 'Parent Email Address',
-        ];
+            $accountInformationLabels = [
+                'Student Name', 'Student ID', 'Dorm', 'Phone Number', 'Email Address', 'Address',
+                'Parent Phone Number', 'Parent Email Address',
+            ];
 
-        foreach ($accountInformationLabels as $label) {
-            $value = ''; // Default value if the key is not found
-            if (array_key_exists($label, $accountInformationDetails)) {
-                $value = $accountInformationDetails[$label];
+            foreach ($accountInformationLabels as $label) {
+                $value = ''; // Default value if the key is not found
+                if (array_key_exists($label, $accountInformationDetails)) {
+                    $value = $accountInformationDetails[$label];
+                }
+
+                $spreadsheet->getActiveSheet()->mergeCells('A' . $rowIndex . ':B' . $rowIndex);
+                $spreadsheet->getActiveSheet()->mergeCells('C' . $rowIndex . ':D' . $rowIndex);
+
+                // Add borders
+                $spreadsheet->getActiveSheet()->getStyle('A' . $rowIndex . ':D' . $rowIndex)->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        ],
+                    ],
+                ]);
+
+                $spreadsheet->getActiveSheet()->getStyle('A' . $rowIndex)->applyFromArray([
+                    'font' => [
+                        'bold' => true,
+                    ],
+                ]);
+
+                $spreadsheet->getActiveSheet()->setCellValue('A' . $rowIndex, $label);
+                $spreadsheet->getActiveSheet()->setCellValue('C' . $rowIndex, $value);
+
+                $rowIndex += 1;
             }
-
-            $spreadsheet->getActiveSheet()->mergeCells('A' . $rowIndex . ':B' . $rowIndex);
-            $spreadsheet->getActiveSheet()->mergeCells('C' . $rowIndex . ':D' . $rowIndex);
-
-            // Add borders
+        } else {
+            // Handle the case where $getAccountInformations is empty or doesn't have key 0
+            $spreadsheet->getActiveSheet()->mergeCells('A' . $rowIndex . ':D' . $rowIndex);
             $spreadsheet->getActiveSheet()->getStyle('A' . $rowIndex . ':D' . $rowIndex)->applyFromArray([
                 'borders' => [
                     'allBorders' => [
@@ -589,32 +465,10 @@ class BookingsController extends BaseController
                 ],
             ]);
 
-            $spreadsheet->getActiveSheet()->setCellValue('A' . $rowIndex, $label);
-            $spreadsheet->getActiveSheet()->setCellValue('C' . $rowIndex, $value);
+            $spreadsheet->getActiveSheet()->setCellValue('A' . $rowIndex, 'No Account Information available');
 
             $rowIndex += 1;
         }
-    } else {
-        // Handle the case where $getAccountInformations is empty or doesn't have key 0
-        $spreadsheet->getActiveSheet()->mergeCells('A' . $rowIndex . ':D' . $rowIndex);
-        $spreadsheet->getActiveSheet()->getStyle('A' . $rowIndex . ':D' . $rowIndex)->applyFromArray([
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                ],
-            ],
-        ]);
-
-        $spreadsheet->getActiveSheet()->getStyle('A' . $rowIndex)->applyFromArray([
-            'font' => [
-                'bold' => true,
-            ],
-        ]);
-
-        $spreadsheet->getActiveSheet()->setCellValue('A' . $rowIndex, 'No Account Information available');
-
-        $rowIndex += 1;
-    }
     
         // Set response headers
         $filename = 'booking_details_' . $bookingId . '.xlsx';
@@ -651,13 +505,13 @@ class BookingsController extends BaseController
         return $bookingItemDetails;
     }
 
-    private function getAccountInformations($bookingId)
+    private function getAccountInformations($accountInformationId)
     {
         $accountInformationsModel = new AccountInformationsModel();
         $accountInformationDetails = $accountInformationsModel
         ->select('account_informations.*, dorms.dorm_name')
         ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
-        ->where('account_informations.booking_id', $bookingId)
+        ->where('account_informations.account_information_id', $accountInformationId)
         ->first();
         return $accountInformationDetails;
     }
@@ -748,5 +602,162 @@ class BookingsController extends BaseController
     
         return $this->response->setJSON($data);
     }
+    public function reSchedule($bookingId, $accountInformationId)
+    {
+        $accountModel = new AccountInformationsModel();
+        $bookingModel = new BookingsModel();
+        $bookingItemModel = new BookingItemsModel();
+        
+        $booking = $bookingModel->find($bookingId);
+
+        $account = $accountModel
+                ->select('account_informations.*, dorms.*') // select the columns you need
+                ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id') // join based on the relationship
+                ->where('account_informations.account_information_id', $accountInformationId)
+                ->first(); // Assuming you expect only one result
     
+        // Check if $booking is not null before accessing its array offsets
+        if ($bookingId) {
+            $bookingItem = $bookingItemModel
+                ->select('booking_items.*, items.*') // Select the columns you need
+                ->join('items', 'items.item_id = booking_items.item_id') // Join based on the relationship
+                ->where('booking_items.booking_id', $bookingId)
+                //->where('items.item_name !=', 'Additional Box')
+                ->findAll();
+        } else {
+            // Handle the case where $booking is null
+            $bookingItem = [];
+        }
+    
+        $additionalData = [
+            'referenceCode' => $booking['reference_code'],
+            'email_address' => $account['email_address'] ?? '',
+            'parent_email_address' => $account['parent_email_address'] ?? '',
+            'parent_phone_number' => $account['parent_phone_number'] ?? '',
+            'first_name' => $account['first_name'] ?? '',
+            'last_name' => $account['last_name'] ?? '',
+            'student_id' => $account['student_id'] ?? '',
+            'phone_number' => $account['phone_number'] ?? '',
+            'dorm_name' => $account['dorm_name'] ?? '',
+            'dorm_room_number' => $account['dorm_room_number'] ?? '',
+            'base_amount' => $booking['base_price'] ?? '0.00',
+            'study_abroad_additional_storage_price' => $booking['study_abroad_additional_storage_price'] ?? '0.00',
+            'totalAmount' => $booking['total_amount'] ?? '0.00',
+            'orderItems' => $bookingItem,
+        ];
+
+        $bookingModel->update($bookingId, ['status' => 'Pending']);
+    
+        $email = \Config\Services::email();
+    
+        $email->setFrom('testing@braveegg.com', 'Epic Storage Solutions');
+        $email->setTo($account['email_address']);
+        $email->setCC($account['parent_email_address']);
+        $email->setSubject('HPU Storage Receipt – EPIC Storage');
+    
+        $email->setMailType('html');
+    
+        $emailContent = view('email_templates/order_confirmation', ['additionalData' => $additionalData]);
+        $email->setMessage($emailContent);
+    
+        $email->send();
+        //echo $email->printDebugger();
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Reschedule email has been sent!']);
+    }
+    public function dropOff($bookingId, $accountInformationId)
+    {
+        $accountModel = new AccountInformationsModel();
+        $dOffModel = new DropOffModel();
+
+        $referenceCode = 'REF_' . uniqid();
+
+        $data = [
+            'account_information_id' => $accountInformationId,
+            'booking_id' => $bookingId,
+            'referenceCode' => $referenceCode,
+            'dropOffStatus' => 'Pending',
+        ];
+
+        $dOffModel->insert($data);
+
+        $account = $accountModel
+                ->select('account_informations.*, dorms.*') // select the columns you need
+                ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id') // join based on the relationship
+                ->where('account_informations.account_information_id', $accountInformationId)
+                ->first(); // Assuming you expect only one result
+    
+        $email = \Config\Services::email();
+    
+        $email->setFrom('testing@braveegg.com', 'Epic Storage Solutions');
+        $email->setTo($account['email_address']);
+        //$email->setCC($account['parent_email_address']);
+        $email->setSubject('Drop Off Notification – EPIC Storage');
+    
+        $email->setMailType('html');
+    
+        $emailContent = view('email_templates/drop_off_noti', ['referenceCode' => $referenceCode]);
+        $email->setMessage($emailContent);
+    
+        $email->send();
+        //echo $email->printDebugger();
+        return $this->response->setJSON(['status' => 'success', 'message' => $email->printDebugger()]);
+    }
+    public function generatePdf($bookingId)
+    {
+        $path = 'assets/images/Logo-header.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        
+        $bookingsModel = new BookingsModel();
+        $bookingItemsModel = new BookingItemsModel();
+        $accountInformationsModel = new AccountInformationsModel();
+        $serviceInformationsModel = new ServiceInformationsModel();
+        
+        $bookingDetails = $bookingsModel->find($bookingId);
+        $bookingItemDetails = $bookingItemsModel
+        ->select('booking_items.*, items.item_name, sizes.size, sizes.cost')
+        ->join('items', 'items.item_id = booking_items.item_id', 'left')
+        ->join('sizes', 'sizes.size_id = booking_items.size_id', 'left')
+        ->where('booking_items.booking_id', $bookingId)
+        ->findAll();
+        $accountInformationDetails = $accountInformationsModel
+        ->select('account_informations.*, dorms.dorm_name')
+        ->join('bookings', 'bookings.account_information_id = account_informations.account_information_id', 'left')
+        ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
+        ->where('bookings.booking_id', $bookingId)
+        ->first();
+        $serviceInformationDetails = $serviceInformationsModel->where('booking_id', $bookingId)->first();
+
+        $data = [
+            'bookingDetails' => $bookingDetails,
+            'accountInformationDetails' => $accountInformationDetails,
+            'bookingItemDetails' => $bookingItemDetails,
+            'serviceInformationDetails' => $serviceInformationDetails,
+            'logo' => $base64
+        ];
+        // Load the Dompdf library
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isHtml5ParserEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        // HTML content for the PDF
+        $html = view('components/printBooking', $data);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // Set paper size (optional)
+        $dompdf->setPaper('letter', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF
+        $dompdf->stream('document.pdf', ['Attachment' => false]);
+    }
 }

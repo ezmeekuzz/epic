@@ -13,7 +13,7 @@ class AccountInformationsModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'booking_id', 'dorm_id', 'first_name', 'last_name', 'student_id', 'dorm_room_number', 'phone_number', 'email_address', 'street_name', 'street_number', 'parent_phone_number', 'parent_email_address'
+        'dorm_id', 'first_name', 'last_name', 'student_id', 'dorm_room_number', 'phone_number', 'email_address', 'password', 'street_name', 'street_number', 'parent_phone_number', 'parent_email_address'
     ];
 
     // Dates

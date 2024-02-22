@@ -132,23 +132,44 @@ function submitFormAjax() {
         return;
     }
 
+    // Log the values for debugging
+    console.log('Date Input Value:', dateInput.value);
+    console.log('Time Input Value:', timeInput.value);
+
+    // Check if the selected date is before the current date
+    const selectedDate = new Date(dateInput.value);
+    const currentDate = new Date();
+
+    // Log the values for debugging
+    console.log('Selected Date:', selectedDate);
+    console.log('Current Date:', currentDate);
+
+    if (selectedDate < currentDate) {
+        Swal.fire({
+            title: "Warning",
+            text: "Please select a date and time after the current date!",
+            icon: "error"
+        });
+        return;
+    }
+
     // Prepare form data
     const formData = new FormData(document.getElementById('chooseSchedule'));
 
     $.ajax({
-        url:"/scheduling/finalizeSchedule",
+        url: "/scheduling/finalizeSchedule",
         method: 'POST',
         data: formData,
         dataType: 'json',
         contentType: false,
         processData: false,
-        beforeSend: function() {
+        beforeSend: function () {
             $('#loading').css('display', 'flex');
         },
-        complete: function(){
+        complete: function () {
             $('#loading').css('display', 'none');
         },
-        success: function(response) {
+        success: function (response) {
             if (response.status === 'success') {
                 Swal.fire({
                     title: "Success",
@@ -165,11 +186,12 @@ function submitFormAjax() {
                 });
             }
         },
-        error: function() {
+        error: function () {
             alert('Error occurred while inserting data.');
         }
     });
 }
+
 const continueButton = document.querySelector('.continue-btn');
 continueButton.addEventListener('click', submitFormAjax);
 

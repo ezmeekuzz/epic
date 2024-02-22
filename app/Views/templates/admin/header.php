@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="<?=base_url();?>assets_admin/css/style.css" />
     <link rel="stylesheet" type="text/css" href="<?=base_url();?>assets_admin/css/style2.css" />
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/cropperjs/dist/cropper.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
     <style type="text/css">
         .modal-lg{
             max-width: 80% !important;

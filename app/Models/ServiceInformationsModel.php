@@ -13,7 +13,7 @@ class ServiceInformationsModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'booking_id', 'is_boxes_included', 'box_quantity', 'is_storage_additional_item', 'is_storage_car_in_may', 'is_storage_vehicle_in_may', 'is_summer_school'
+        'booking_id', 'is_storage_additional_item', 'is_studying_abroad', 'is_summer_school'
     ];
 
     // Dates

@@ -13,13 +13,7 @@
               <div class="faqs-content">
                 <h1>Still Have <span>Questions?</span></h1>
                 <p>
-                  We pride ourselves in having a high touch and highly available
-                  staff to answer your questions. Below you will find some
-                  common questions that we are asked each year. If you do not
-                  find the answers that you are looking for, please call our
-                  office at 335-549-5216. The owner of EPIC will be happy to
-                  answer any question you may have or provide you will some
-                  advice on our service offerings.
+                  We pride ourselves in having a high touch and highly available staff to answer your questions. Below you will find some commonly asked questions. If you still have questions. please call our office at 335-549-5216. We will be happy to answer any questions that you may still have or provide you will some advice on our service offerings and process. 
                 </p>
               </div>
             </div>

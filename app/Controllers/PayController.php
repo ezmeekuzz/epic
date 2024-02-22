@@ -15,6 +15,10 @@ class PayController extends BaseController
 {
     public function index()
     {
+        // Check if the user is logged in
+        if (!session()->has('account_information_id')) {
+            return redirect()->to('/login');
+        }
         if (!session()->has('selectedService') || empty(session()->get('selectedService'))) {
             return redirect()->to('/');
         }
@@ -84,6 +88,21 @@ class PayController extends BaseController
     private function savePayment()
     {
         $bookingModel = new BookingsModel();
+    
+        $accountInformationId = session()->get('account_information_id');
+        $serviceType = session()->get('selectedService');
+
+        $booking = $bookingModel
+                ->where('account_information_id', $accountInformationId)
+                ->where('serviceType', $serviceType)
+                ->where('status', 'Ongoing')
+                ->findAll();
+        
+        $bookingId = $booking[0]['booking_id'];
+        $referenceCode = $booking[0]['reference_code'];
+        $base_amount = $booking[0]['base_price'];
+        $total_amount = $booking[0]['total_amount'];
+        $study_abroad_additional_storage_price = $booking[0]['study_abroad_additional_storage_price'];
 
         $body = $this->request->getBody();
 
@@ -91,149 +110,80 @@ class PayController extends BaseController
         
         $additionalData = $postData['additionalData'];
 
-        $referenceCode = 'REF_' . uniqid();
-
         $formData = [
-            'reference_code' => $referenceCode,
-            'serviceType' => session()->get('selectedService'),
             'card_holder_name' => $additionalData['fname'].' '.$additionalData['lname'],
             'booking_date' => date('Y-m-d'),
-            'base_price' => $additionalData['base_amount'] ?? 0,
-            'additional_box_amount' => $additionalData['addtl_box_amount'] ?? 0,
-            'addtl_box_total_amount' => $additionalData['addtl_box_total_amount'] ?? 0,
-            'additional_box_quantity' => $additionalData['addtl_box_quantity'] ?? 0,
-            'total_amount' => $additionalData['totalAmount'] ?? 0,
-            'status' => 'Pending'
+            'notes' => $additionalData['notes'],
+            'status' => 'Pending',
         ];
         
-        $bookingModel->insert($formData);
-        $bookingId = $bookingModel->insertID();
-        $this->insertAccountInformation($bookingId, $additionalData);
-        $this->insertServiceInformation($bookingId, $additionalData);
-        $this->insertBookingItems($bookingId, $additionalData);
-        $this->sendEmailtoStudent($additionalData, $referenceCode);
+        $bookingModel->update($bookingId, $formData);
+        $this->sendEmailtoStudent($additionalData, $referenceCode, $bookingId, $base_amount, $total_amount, $study_abroad_additional_storage_price);
         
         return redirect()->to('/success');
     }
-    private function insertAccountInformation($bookingId, $additionalData)
-    {
-        $accountInformationModel = new AccountInformationsModel();
-        
-        $formData = [
-            'booking_id' => $bookingId,
-            'dorm_id' => $additionalData['dorm_id'],
-            'first_name' => $additionalData['first_name'],
-            'last_name' => $additionalData['last_name'],
-            'student_id' => $additionalData['student_id'],
-            'dorm_room_number' => $additionalData['dorm_room_number'],
-            'phone_number' => $additionalData['phone_number'],
-            'email_address' => $additionalData['email_address'],
-            'street_name' => $additionalData['street_name'],
-            'street_number' => $additionalData['street_number'],
-            'parent_phone_number' => $additionalData['parent_phone_number'],
-            'parent_email_address' => $additionalData['parent_email_address'],
-        ];
-        
-        $accountInformationModel->insert($formData);
-    }
-    private function insertServiceInformation($bookingId, $additionalData)
-    {
-        $serviceInformationModel = new ServiceInformationsModel();
-        
-        $formData = [
-            'booking_id' => $bookingId,
-            'is_boxes_included' => $additionalData['is_boxes_included'] ?? "",
-            'box_quantity' => $additionalData['box_quantity'] ?? "",
-            'is_storage_additional_item' => $additionalData['is_storage_additional_item'] ?? "",
-            'is_storage_car_in_may' => $additionalData['is_storage_car_in_may'] ?? "",
-            'is_storage_vehicle_in_may' => $additionalData['is_storage_vehicle_in_may'] ?? "",
-            'is_summer_school' => $additionalData['is_summer_school'] ?? "",
-        ];
-        
-        $serviceInformationModel->insert($formData);
-    }
-    private function insertBookingItems($bookingId, $additionalData)
-    {
-        $bookingItemModel = new BookingItemsModel();
-        if (isset($additionalData['order_item_id[]']) && is_array($additionalData['order_item_id[]'])) {
-            $order_item_id = $additionalData['order_item_id[]'];
-            for($i=0; $i < COUNT($order_item_id); $i++) {
-                $formData = [
-                    'booking_id' => $bookingId,
-                    'item_id' => $additionalData['order_item_id[]'][$i],
-                    'size_id' => $additionalData['order_size_id[]'][$i],
-                    'quantity' => $additionalData['item_quantity[]'][$i],
-                    'price' => $additionalData['item_amount[]'][$i],
-                    'totalamount' => $additionalData['item_total_amount[]'][$i]
-                ];
-                
-                $bookingItemModel->insert($formData);
-            }
-        }
-    }
-    private function sendEmailtoStudent($additionalData, $referenceCode)
+    private function sendEmailtoStudent($additionalData, $referenceCode, $bookingId, $base_amount, $total_amount, $study_abroad_additional_storage_price)
     {
         $dModel = new DormsModel();
-        
-        $dorm = isset($additionalData['dorm_id']) ? $dModel->find($additionalData['dorm_id']) : null;
-        
-        if ($dorm) {
-            $additionalData['dorm_name'] = $dorm['dorm_name'];
+        $accountModel = new AccountInformationsModel();
+        $bookingModel = new BookingsModel();
+        $bookingItemModel = new BookingItemsModel();
+    
+        $accountInformationId = session()->get('account_information_id');
+        $serviceType = session()->get('selectedService');
+    
+        $account = $accountModel
+                ->select('account_informations.*, dorms.*') // select the columns you need
+                ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id') // join based on the relationship
+                ->where('account_informations.account_information_id', $accountInformationId)
+                ->first(); // Assuming you expect only one result
+    
+        // Check if $booking is not null before accessing its array offsets
+        if ($bookingId) {
+            $bookingItem = $bookingItemModel
+                ->select('booking_items.*, items.*') // Select the columns you need
+                ->join('items', 'items.item_id = booking_items.item_id') // Join based on the relationship
+                ->where('booking_items.booking_id', $bookingId)
+                //->where('items.item_name !=', 'Additional Box')
+                ->findAll();
         } else {
-            
+            // Handle the case where $booking is null
+            $bookingItem = [];
         }
-        
-        if (isset($additionalData['order_item_id[]'])) {
-            $order_item_ids = (array) $additionalData['order_item_id[]'];
-            $orderItems = [];
-            
-            $itemModel = new ItemsModel();
-            $totalAmounts = $additionalData['item_total_amount[]'];
-            $itemQuantity = $additionalData['item_quantity[]'];
-            
-            $itemCount = count($order_item_ids);
-        
-            for ($i = 0; $i < $itemCount; $i++) {
-                $itemId = $order_item_ids[$i];
-                
-                $item = $itemModel->find($itemId);
-        
-                if ($item) {
-                    $itemName = $item['item_name'];
-                    
-                    $itemTotalAmount = is_array($totalAmounts) ? (count($totalAmounts) > 1 ? $totalAmounts[$i] : $additionalData['item_total_amount[]']) : $additionalData['item_total_amount[]'];
-                    $itemTotalQuantity = is_array($itemQuantity) ? (count($itemQuantity) > 1 ? $itemQuantity[$i] : $additionalData['item_quantity[]']) : $additionalData['item_quantity[]'];
-        
-                    $orderItems[] = [
-                        'item_name' => $itemName,
-                        'item_total_amount' => $itemTotalAmount,
-                        'item_quantity' => $itemTotalQuantity,
-                    ];
-                } else {
-                    
-                }
-            }
-            
-            $additionalData['orderItems'] = $orderItems;
-        }
-        
-        $additionalData['referenceCode'] = $referenceCode;
-        
+    
+        $additionalData = [
+            'referenceCode' => $referenceCode,
+            'email_address' => $account['email_address'] ?? '',
+            'parent_email_address' => $account['parent_email_address'] ?? '',
+            'parent_phone_number' => $account['parent_phone_number'] ?? '',
+            'first_name' => $account['first_name'] ?? '',
+            'last_name' => $account['last_name'] ?? '',
+            'student_id' => $account['student_id'] ?? '',
+            'phone_number' => $account['phone_number'] ?? '',
+            'dorm_name' => $account['dorm_name'] ?? '',
+            'dorm_room_number' => $account['dorm_room_number'] ?? '',
+            'base_amount' => $base_amount ?? '0.00',
+            'study_abroad_additional_storage_price' => $study_abroad_additional_storage_price ?? '0.00',
+            'totalAmount' => $total_amount ?? '0.00',
+            'orderItems' => $bookingItem,
+        ];
+    
         $email = \Config\Services::email();
-        
+    
         $email->setFrom('testing@braveegg.com', 'Epic Storage Solutions');
-        $email->setTo($additionalData['email_address']);
-        $email->setCC($additionalData['parent_email_address']);
+        $email->setTo($account['email_address']);
+        $email->setCC($account['parent_email_address']);
         $email->setSubject('HPU Storage Receipt – EPIC Storage');
-        
+    
         $email->setMailType('html');
-        
+    
         $emailContent = view('email_templates/order_confirmation', ['additionalData' => $additionalData]);
         $email->setMessage($emailContent);
-        
+    
         $email->send();
-        echo $email->printDebugger();        
+        echo $email->printDebugger();
     }
+    
     
     public function removeServiceSession()
     {

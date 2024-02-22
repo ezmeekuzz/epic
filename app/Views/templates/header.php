@@ -27,10 +27,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>   
       #loading {
           position: fixed;
@@ -50,12 +49,25 @@
           width: 10%;
           opacity: 1;
       }
+      .item-total-price {
+          margin-left: auto; /* Push it to the right by setting the left margin to auto */
+      }
+      .remove-item {
+          margin-right: 10px; /* Adjust margin as needed */
+          color: #FF0000;
+      }
+
+      .remove-item:hover {
+          text-decoration: none; /* Remove the default underline effect on hover */
+          color: #FF0000; /* Keep the color the same on hover */
+          cursor: pointer; /* Set cursor to pointer on hover, indicating it's clickable */
+      }
     </style>
   </head>
   <body>
     <!-- FOR HEADER -->
 
-    <header class="header-2">
+    <header class="<?php if(isset($header_1)) { echo 'header-1'; } else { echo 'header-2';} ?>">
       <div class="container">
         <div class="navbar-container" id="navbar">
           <nav class="navbar navbar-expand-lg main_nav">

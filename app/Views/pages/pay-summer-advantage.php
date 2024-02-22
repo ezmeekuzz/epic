@@ -45,9 +45,6 @@
                                     <img src="assets/images/assets/logo.png" alt="">
                                 </div>
                             </div>
-                            <div class="col-lg-6" hidden>
-                              <button id="card-button">Submit Payment</button>
-                            </div>
                         </div>
                         <div class="form-row align-items-end">
                             <p><b>TERMS & CONDITIONS</b> <br>
@@ -67,7 +64,6 @@
                                 <label>Service Type</label>
                                 <input type="hidden" name="serviceType" id="serviceType" value="<?=session()->get('selectedService');?>" />
                             </div>
-                            <div id="additional-box-row"></div>
                             <div id="dynamic-summary-rows"></div>
                             <div class="total-summary-row">
                                 <h2>TOTAL</h2>
@@ -81,7 +77,7 @@
             </div>
             <div class="container-form-footer">
                 <a href="/scheduling/service-information/<?=session()->get('selectedService');?>" class="back-btn"><i class="fa fa-arrow-left"></i> BACK</a>
-                <a href="javascript:void(0);" class="continue-btn">CONTINUE <i class="fa fa-arrow-right"></i></a>
+                <a href="javascript:void(0);" id="card-button" class="continue-btn">CONTINUE <i class="fa fa-arrow-right"></i></a>
             </div>
           </div>
         </section>
@@ -191,5 +187,6 @@
         </div>
       </div>
     </div>
+    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <script src="<?=base_url();?>assets_admin/js/custom/pay-summer-advantage.js"></script>
     <?=$this->include('templates/footer');?>

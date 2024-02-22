@@ -1,13 +1,7 @@
 
             <header class="app-header top-bar">
                 <!-- begin navbar -->
-                <nav class="navbar navbar-expand-md">            
-                    <div hidden>
-                        <input type="text" name="mcounter1" id="mcounter1">
-                        <input type="text" name="mcounter2" id="mcounter2">
-                        <input type="text" name="ncounter1" id="ncounter1">
-                        <input type="text" name="ncounter2" id="ncounter2">
-                    </div>
+                <nav class="navbar navbar-expand-md">      
                     <!-- begin navbar-header -->
                     <div class="navbar-header d-flex align-items-center">
                         <a href="javascript:void:(0)" class="mobile-toggle">
@@ -40,6 +34,12 @@
                                 <a href="<?=base_url()?>admin/bookings" aria-expanded="false">
                                     <i class="nav-icon ti ti-book"></i>
                                     <span class="nav-title">Bookings</span>
+                                </a>
+                            </li>
+                            <li <?php if($activelink == 'calendarschedules') { echo 'class="active"'; } ?>>
+                                <a href="<?=base_url()?>admin/calendar-schedules" aria-expanded="false">
+                                    <i class="nav-icon ti ti-calendar"></i>
+                                    <span class="nav-title">Calendar Schedules</span>
                                 </a>
                             </li>
                             <li class="nav-static-title">Users</li>
@@ -80,11 +80,11 @@
                                     <li <?php if($activelink == 'itemmasterlist') { echo 'class="active"'; } ?>> <a href='<?=base_url();?>admin/item-masterlist'>Item Masterlist</a> </li>
                                 </ul>
                             </li>
-                            <li class="nav-static-title">Notifications</li>
-                            <li <?php if($activelink == 'notifications') { echo 'class="active"'; } ?>>
-                                <a href="<?=base_url()?>admin/notifications" aria-expanded="false">
-                                    <i class="nav-icon ti ti-bell"></i>
-                                    <span class="nav-title">Notification</span>
+                            <li class="nav-static-title">Drop Off</li>
+                            <li <?php if($activelink == 'dropoff') { echo 'class="active"'; } ?>>
+                                <a href="<?=base_url()?>admin/drop-off" aria-expanded="false">
+                                    <i class="nav-icon ti ti-truck"></i>
+                                    <span class="nav-title">Drop Off</span>
                                 </a>
                             </li>
                             <li class="nav-static-title">Logout</li>
