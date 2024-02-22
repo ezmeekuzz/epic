@@ -713,6 +713,7 @@ class BookingsController extends BaseController
         $bookingItemsModel = new BookingItemsModel();
         $accountInformationsModel = new AccountInformationsModel();
         $serviceInformationsModel = new ServiceInformationsModel();
+        $dropOffModel = new DropOffModel();
         
         $bookingDetails = $bookingsModel->find($bookingId);
         $bookingItemDetails = $bookingItemsModel
@@ -727,6 +728,12 @@ class BookingsController extends BaseController
         ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
         ->where('bookings.booking_id', $bookingId)
         ->first();
+        $dropOffDetails = $dropOffModel
+        ->select('drop_off.*, dorms.dorm_name')
+        ->join('bookings', 'bookings.account_information_id = drop_off.account_information_id', 'left')
+        ->join('dorms', 'dorms.dorm_id = drop_off.dorm_id', 'left')
+        ->where('bookings.booking_id', $bookingId)
+        ->first();
         $serviceInformationDetails = $serviceInformationsModel->where('booking_id', $bookingId)->first();
 
         $data = [
@@ -734,6 +741,7 @@ class BookingsController extends BaseController
             'accountInformationDetails' => $accountInformationDetails,
             'bookingItemDetails' => $bookingItemDetails,
             'serviceInformationDetails' => $serviceInformationDetails,
+            'dropOffDetails' => $dropOffDetails,
             'logo' => $base64
         ];
         // Load the Dompdf library
@@ -752,7 +760,7 @@ class BookingsController extends BaseController
         $dompdf->loadHtml($html);
 
         // Set paper size (optional)
-        $dompdf->setPaper('letter', 'portrait');
+        $dompdf->setPaper('a4', 'portrait');
 
         // Render the HTML as PDF
         $dompdf->render();
