@@ -211,6 +211,7 @@ class BookingDetailsController extends BaseController
             'quantity' => $this->request->getPost('quantity'),
             'price' => $this->request->getPost('price'),
             'totalamount' => $this->request->getPost('totalamount'),
+            'is_balanced' => 'Yes',
             'order_date' => date('Y-m-d')
         ];
     

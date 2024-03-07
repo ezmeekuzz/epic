@@ -115,7 +115,7 @@ class BookingsController extends BaseController
         }
     
         $filteredRecords = $bModel
-                        ->select('bookings.*, account_informations.*, drop_off.*, dorms.*, dorms.dorm_name as dorm_pick_up, drop_off_dorms.dorm_name as dorm_drop_off')
+                        ->select('bookings.*, bookings.booking_id as bookingId, account_informations.*, drop_off.*, dorms.*, dorms.dorm_name as dorm_pick_up, drop_off_dorms.dorm_name as dorm_drop_off')
                         ->join('account_informations', 'account_informations.account_information_id = bookings.account_information_id', 'left')
                         ->join('drop_off', 'drop_off.booking_id = bookings.booking_id', 'left')
                         ->join('dorms as dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
@@ -126,11 +126,11 @@ class BookingsController extends BaseController
         foreach ($filteredRecords as $record) {
 
             $balancedOwed = $bookingItemModel
-                        ->selectSum('totalamount', 'total_sum')
-                        ->where('is_balanced', 'Yes')
-                        ->where('booking_id', $record['booking_id'])
-                        ->get()
-                        ->getRow()->total_sum;
+            ->where('is_balanced', 'Yes')
+            ->where('booking_id', $record['bookingId'])
+            ->selectSum('totalamount', 'total_sum')
+            ->get()
+            ->getRowArray()['total_sum'];
             $csvData[] = [
                 $record['ordernumber'],
                 $record['serviceType'],

@@ -439,6 +439,7 @@ $('a.checkmark').click(function () {
         success: function (response) {
             console.log(response);
             var newRow = '<tr>' +
+                '<td style="font-weight: bold;"><div class="form-group form-check"> <input type="checkbox" checked name="is_balanced" id="is_balanced'+ response.booking_item_id +'" class="form-control is_balanced" onchange="updateDatabase(this)"><label class="form-check-label" for="is_balanced'+ response.booking_item_id +'">Yes</label></div></td>' +
                 '<td style="font-weight: bold;">' + response.item_name + '</td>' +
                 '<td style="font-weight: bold;">' + response.size + '</td>' +
                 '<td><input type="number" onkeydown="return false;" class="form-control" value="' + response.quantity + '"></td>' +
