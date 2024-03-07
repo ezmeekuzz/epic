@@ -42,7 +42,11 @@ $routes->post('/pay/sendPayment', 'PayController::sendPayment');
 $routes->post('/pay/processPayment', 'PayController::processPayment');
 $routes->get('/pay/removeServiceSession', 'PayController::removeServiceSession');
 $routes->get('/logout', 'LogoutController::index');
+$routes->get('/forgot-password', 'ForgotPasswordController::index');
+$routes->get('/change-password', 'ChangePasswordController::index');
 $routes->post('/loginfunc', 'LoginController::loginfunc');
+$routes->post('/sendEmail', 'ForgotPasswordController::sendEmail');
+$routes->post('/updatePassword', 'ChangePasswordController::updatePassword');
 
 //Admin Routes
 $routes->get('/admin/login', 'admin\LoginController::index');

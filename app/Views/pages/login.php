@@ -28,7 +28,7 @@
                   <i class="fa fa-eye" id="togglePassword"></i>
                 </div>
                 <div class="forget">
-                  <a href="#">Forgot password?</a>
+                  <a href="/forgot-password">Forgot password?</a>
                 </div>
                 <button>LOGIN</button>
                 <a href="/sign-up"
