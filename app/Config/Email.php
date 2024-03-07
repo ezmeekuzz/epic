@@ -6,7 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = 'testing@riftofheroes.info';
+    public string $fromEmail  = 'support@epicstoragehpu.com';
     public string $fromName   = 'Epic Storage Solutions';
     public string $recipients = '';
 
@@ -28,12 +28,12 @@ class Email extends BaseConfig
     /**
      * SMTP Server Address
      */
-    public string $SMTPHost = 'mail.riftofheroes.info';
+    public string $SMTPHost = 'mail.epicstoragehpu.com';
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'testing@riftofheroes.info';
+    public string $SMTPUser = 'support@epicstoragehpu.com';
 
     /**
      * SMTP Password
