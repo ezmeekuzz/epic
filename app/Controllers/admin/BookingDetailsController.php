@@ -211,6 +211,7 @@ class BookingDetailsController extends BaseController
             'quantity' => $this->request->getPost('quantity'),
             'price' => $this->request->getPost('price'),
             'totalamount' => $this->request->getPost('totalamount'),
+            'order_date' => date('Y-m-d')
         ];
     
         $bookingDetailsModel = new BookingItemsModel();
@@ -313,6 +314,20 @@ class BookingDetailsController extends BaseController
 
         // Return a success response
         return $this->response->setJSON(['status' => 'success']);
+    }
+    public function updateBalanceStatus()
+    {
+        $bookingItemId = $this->request->getPost('booking_item_id');
+        $isChecked = filter_var($this->request->getPost('is_checked'), FILTER_VALIDATE_BOOLEAN);
+
+        $bookingItemModel = new BookingItemsModel();
+
+        $updateData = ['is_balanced' => ($isChecked) ? 'Yes' : ''];
+
+        $bookingItemModel->update($bookingItemId, $updateData);
+
+        // Respond to the AJAX request
+        echo json_encode(['status' => 'success']);
     }
     public function test()
     {

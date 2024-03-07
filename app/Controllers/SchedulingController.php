@@ -207,6 +207,7 @@ class SchedulingController extends BaseController
             'quantity' => $quantity,
             'price' => $additionalBoxPrice,
             'totalamount' => $additionalBoxTotalAmount,
+            'order_date' => date('Y-m-d')
         ];
     
         if ($bookingItem) {
@@ -306,6 +307,7 @@ class SchedulingController extends BaseController
             'quantity' => 1,
             'price' => $summerSchoolDeliveryFee[0]['cost'],
             'totalamount' => $summerSchoolDeliveryFee[0]['cost'],
+            'order_date' => date('Y-m-d')
         ];
     
         $bookingItemModel->insert($data);
@@ -391,7 +393,8 @@ class SchedulingController extends BaseController
             'size_id' => $size_id,
             'quantity' => $quantity,
             'price' => $price,
-            'totalamount' => $totalAmount
+            'totalamount' => $totalAmount,
+            'order_date' => date('Y-m-d')
         ];
     
         if ($bookingItem) {

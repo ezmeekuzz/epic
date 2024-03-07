@@ -57,7 +57,6 @@ class DropOffController extends BaseController
                     'student_id' => $this->request->getPost('studentNumber'),
                     'street_name' => $this->request->getPost('streetName'),
                     'street_number' => $this->request->getPost('streetNumber'),
-                    'dorm_id' => $this->request->getPost('dorm_id'),
                     'dorm_room_number' => $this->request->getPost('roomNumber'),
                 ]
             );

@@ -152,6 +152,47 @@ $(document).ready(function () {
             }
         });
     });
+    $(document).on('click', '#pickUp', function () {
+        // Get the data from the button attributes
+        var accountId = $(this).data('account-id');
+        var bookingId = $(this).data('id');
+
+        // Prepare the data to be sent
+        var requestData = {
+            account_id: accountId,
+            booking_id: bookingId
+        };
+
+        // Make the Ajax request
+        $.ajax({
+            type: 'POST',  // You can change this to 'GET' or any other method based on your server-side implementation
+            url: '/bookings/pickUp/' + bookingId + '/' + accountId,  // Replace with your actual controller URL
+            data: requestData,
+            dataType: 'json',
+            beforeSend: function() {
+                $('#loading').css('display', 'flex');
+            },
+            complete: function(){
+                $('#loading').css('display', 'none');
+            },
+            success: function(response) {
+                // Handle the success response from the server
+                console.log('Ajax request successful', response);
+                swal({
+                    type: 'success',
+                    title: 'Success',
+                    text: 'Pick Up Notification email has been sent!',
+                });
+                // You can do additional actions here if needed
+            },
+            error: function(error) {
+                // Handle the error response from the server
+                console.error('Ajax request failed', error);
+
+                // You can do additional error handling here
+            }
+        });
+    });
     $('#exportCsv').on('click', function () {
         var selectedIds = [];
         
@@ -382,7 +423,7 @@ $('a.checkmark').click(function () {
     var quantity = $('#quantity').val();
     var newItemAmount = $('#newItemAmount').text();
     var newItemTotalAmount = parseFloat($('#newItemTotalAmount').text().replace('$', '')) || 0;
-
+    var date = new Date();
     $.ajax({
         url: '/admin/bookingdetails/insertBookingDetails',
         method: 'POST',
@@ -402,6 +443,7 @@ $('a.checkmark').click(function () {
                 '<td style="font-weight: bold;">' + response.size + '</td>' +
                 '<td><input type="number" onkeydown="return false;" class="form-control" value="' + response.quantity + '"></td>' +
                 '<td>' + response.price + '</td>' +
+                '<td>' + date + '</td>' +
                 '<td class="totalAmount">$' + response.totalamount + '</td>' +
                 '<td hidden><input type="text" name="booking_item_id" id="booking_item_id" value="' + response.booking_item_id + '" /></td>' +
                 '<td><a href="javascript:" style="color: red; font-size: 20px;" onclick="deleteRow(this);"><i class="fa fa-trash"></i></a></td>' +
@@ -469,6 +511,26 @@ function updateAdminNotes(bookingId, adminNotes) {
         },
         error: function (error) {
             console.log(error);
+        }
+    });
+}
+function updateDatabase(checkbox) {
+    var isChecked = checkbox.checked;
+    var bookingItemId = checkbox.id.replace('is_balanced', '');
+
+    // Send AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '/admin/bookingdetails/updateBalanceStatus', // Update with your actual controller method URL
+        data: {
+            booking_item_id: bookingItemId,
+            is_checked: isChecked
+        },
+        success: function(response) {
+            console.log('Database updated successfully');
+        },
+        error: function(error) {
+            console.error('Error updating database');
         }
     });
 }

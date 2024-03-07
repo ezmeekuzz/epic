@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 18, 2024 at 02:14 PM
+-- Generation Time: Mar 07, 2024 at 03:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,7 +48,8 @@ CREATE TABLE `account_informations` (
 --
 
 INSERT INTO `account_informations` (`account_information_id`, `dorm_id`, `first_name`, `last_name`, `student_id`, `dorm_room_number`, `phone_number`, `email_address`, `password`, `street_name`, `street_number`, `parent_phone_number`, `parent_email_address`) VALUES
-(105, 7, 'James', 'Bond', 234214234, 32434, '09975304890', 'rustomcodilan@gmail.com', '$2y$10$Lc/1dAeVTlijZTrp07AZLOPbRbDH8ABZBYPFUqJrQNtH.C.AkrdKe', 'Macabalan Piaping-Itum', '67562', '09975304890', 'rustomcodilan@gmail.com');
+(105, 22, 'Rustom', 'Codilan', 2147483647, 62543, '09975304890', 'rustomcodilan@gmail.com', '$2y$10$Lc/1dAeVTlijZTrp07AZLOPbRbDH8ABZBYPFUqJrQNtH.C.AkrdKe', 'Macabalan Piaping-itum', '72652', '09975304890', 'rustomcodilan@gmail.com'),
+(106, 9, 'Rustom', 'Codilan', 2147483647, 3441232, '09975304890', 'robertgobbil@gmail.com', '$2y$10$.G4jcZm0PuUF2wIPoxGjY..i3Kf7Gm8FExqW9i.iOa6MJVoRqZMuq', 'Macabalan Piaping Itum', '', '09975304890', 'rustomlacrecodilan@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -58,6 +59,7 @@ INSERT INTO `account_informations` (`account_information_id`, `dorm_id`, `first_
 
 CREATE TABLE `bookings` (
   `booking_id` int(11) NOT NULL,
+  `ordernumber` varchar(20) NOT NULL,
   `account_information_id` int(11) DEFAULT NULL,
   `serviceType` varchar(50) NOT NULL,
   `reference_code` varchar(50) NOT NULL,
@@ -70,10 +72,21 @@ CREATE TABLE `bookings` (
   `study_abroad_additional_storage_price` double(16,2) DEFAULT NULL,
   `total_amount` double(16,2) NOT NULL,
   `notes` longtext NOT NULL,
+  `admin_notes` longtext NOT NULL,
   `picking_date` date DEFAULT NULL,
   `picking_time` time DEFAULT NULL,
+  `row_in_warehouse` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`booking_id`, `ordernumber`, `account_information_id`, `serviceType`, `reference_code`, `card_holder_name`, `booking_date`, `base_price`, `additional_box_quantity`, `additional_box_amount`, `addtl_box_total_amount`, `study_abroad_additional_storage_price`, `total_amount`, `notes`, `admin_notes`, `picking_date`, `picking_time`, `row_in_warehouse`, `status`) VALUES
+(190, '2025 - 100', 105, 'summer-storage', 'REF_65e5b923a802f', 'Rustom Codilan', '2024-03-04', 425.00, 10, 50.00, 500.00, 1625.00, 4250.00, '', '', '2024-08-29', '12:00:00', NULL, 'Scheduled'),
+(191, '2025 - 101', 106, 'summer-storage', 'REF_65e5b99f51249', 'Rustom Codilan', '2024-03-04', 425.00, 10, 50.00, 500.00, 1140.00, 2280.00, '', '', '2024-08-15', '12:30:00', NULL, 'Scheduled'),
+(192, '2025 - 102', 105, 'summer-storage', 'REF_65e5c28b456e6', NULL, '2024-03-04', 425.00, 10, 50.00, 500.00, 0.00, 925.00, '', '', NULL, NULL, NULL, 'Ongoing');
 
 -- --------------------------------------------------------
 
@@ -88,8 +101,26 @@ CREATE TABLE `booking_items` (
   `size_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `price` double(16,2) NOT NULL,
-  `totalamount` double(16,2) NOT NULL
+  `totalamount` double(16,2) NOT NULL,
+  `is_balanced` varchar(20) DEFAULT NULL,
+  `order_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking_items`
+--
+
+INSERT INTO `booking_items` (`booking_item_id`, `booking_id`, `item_id`, `size_id`, `quantity`, `price`, `totalamount`, `is_balanced`, `order_date`) VALUES
+(538, 190, 41, 159, 10, 50.00, 500.00, NULL, '2024-03-04'),
+(539, 190, 28, 130, 5, 65.00, 325.00, NULL, '2024-03-04'),
+(540, 190, 22, 121, 5, 60.00, 300.00, NULL, '2024-03-04'),
+(541, 190, 43, 161, 1, 75.00, 75.00, '', '2024-03-04'),
+(542, 191, 41, 159, 10, 50.00, 500.00, NULL, '2024-03-04'),
+(543, 191, 25, 125, 2, 25.00, 50.00, NULL, '2024-03-04'),
+(545, 191, 16, 105, 2, 45.00, 90.00, NULL, '2024-03-04'),
+(546, 191, 43, 161, 1, 75.00, 75.00, NULL, '2024-03-04'),
+(547, 190, 15, 104, 5, 100.00, 500.00, 'Yes', '2024-03-04'),
+(548, 192, 41, 159, 10, 50.00, 500.00, NULL, '2024-03-04');
 
 -- --------------------------------------------------------
 
@@ -157,6 +188,14 @@ CREATE TABLE `drop_off` (
   `referenceCode` varchar(20) NOT NULL,
   `dropOffStatus` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `drop_off`
+--
+
+INSERT INTO `drop_off` (`drop_off_id`, `account_information_id`, `booking_id`, `firstName`, `lastName`, `studentNumber`, `dorm_id`, `roomNumber`, `streetName`, `streetNumber`, `returnDate`, `referenceCode`, `dropOffStatus`) VALUES
+(22, 105, 188, 'Rustom', 'Codilan', '781265782391', 22, 62543, 'Macabalan Piaping-itum', '72652', '2025-05-15', 'REF_65dde1f383b75', 'Scheduled'),
+(23, 105, 188, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'REF_65dff8888060e', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -234,6 +273,14 @@ CREATE TABLE `service_informations` (
   `is_studying_abroad` varchar(10) DEFAULT NULL,
   `is_summer_school` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `service_informations`
+--
+
+INSERT INTO `service_informations` (`service_information_id`, `booking_id`, `is_storage_additional_item`, `is_studying_abroad`, `is_summer_school`) VALUES
+(130, 190, 'Yes', 'Yes', 'Yes'),
+(131, 191, 'Yes', 'Yes', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -423,19 +470,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `account_informations`
 --
 ALTER TABLE `account_informations`
-  MODIFY `account_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `account_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
 -- AUTO_INCREMENT for table `booking_items`
 --
 ALTER TABLE `booking_items`
-  MODIFY `booking_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=472;
+  MODIFY `booking_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=549;
 
 --
 -- AUTO_INCREMENT for table `dorms`
@@ -447,7 +494,7 @@ ALTER TABLE `dorms`
 -- AUTO_INCREMENT for table `drop_off`
 --
 ALTER TABLE `drop_off`
-  MODIFY `drop_off_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `drop_off_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -465,7 +512,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `service_informations`
 --
 ALTER TABLE `service_informations`
-  MODIFY `service_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `service_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `sizes`

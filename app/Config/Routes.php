@@ -58,6 +58,7 @@ $routes->delete('/admin/bookings/delete/(:num)', 'admin\BookingsController::dele
 $routes->delete('/admin/dropoff/delete/(:num)', 'admin\DropOffController::delete/$1');
 $routes->get('/admin/bookings/updateStatus/(:num)', 'admin\BookingsController::updateStatus/$1');
 $routes->get('/admin/bookings/generatePdf/(:num)', 'admin\BookingsController::generatePdf/$1');
+$routes->get('/admin/bookings/previewPdf/(:num)', 'admin\BookingsController::previewPdf/$1');
 $routes->get('/admin/dropoff/generatePdf/(:num)', 'admin\DropOffController::generatePdf/$1');
 $routes->get('/admin/bookings/bookingDetails', 'admin\BookingsController::bookingDetails');
 $routes->get('/admin/bookings/exportToCsv', 'admin\BookingsController::exportToCsv');
@@ -66,6 +67,7 @@ $routes->post('/admin/bookings/updateTotalAmount', 'admin\BookingsController::up
 $routes->post('/admin/bookings/updateDynamicTotalAmount', 'admin\BookingsController::updateDynamicTotalAmount');
 $routes->post('bookings/reSchedule/(:segment)/(:segment)', 'admin\BookingsController::reSchedule/$1/$2');
 $routes->post('bookings/dropOff/(:segment)/(:segment)', 'admin\BookingsController::dropOff/$1/$2');
+$routes->post('bookings/pickUp/(:segment)/(:segment)', 'admin\BookingsController::pickUp/$1/$2');
 $routes->get('/admin/booking-details/(:num)', 'admin\BookingDetailsController::index/$1');
 $routes->post('/admin/bookingdetails/updatePickUpDate', 'admin\BookingDetailsController::updatePickUpDate');
 $routes->post('/admin/bookingdetails/updatePickUpTime', 'admin\BookingDetailsController::updatePickUpTime');
@@ -77,7 +79,9 @@ $routes->post('/admin/bookingdetails/insertBookingDetails', 'admin\BookingDetail
 $routes->post('/admin/bookingdetails/finalTotalAmount', 'admin\BookingDetailsController::finalTotalAmount');
 $routes->post('/admin/bookingdetails/updateBookingItemDetails', 'admin\BookingDetailsController::updateBookingItemDetails');
 $routes->post('/admin/bookingdetails/updateAdminNotes', 'admin\BookingDetailsController::updateAdminNotes');
-$routes->get('/bookingdetails/test', 'admin\BookingDetailsController::test');
+$routes->post('/admin/bookingdetails/updateBalanceStatus', 'admin\BookingDetailsController::updateBalanceStatus');
+$routes->post('/admin/bookings/sendDropOffNotificationToAll', 'admin\BookingsController::sendDropOffNotificationToAll');
+$routes->post('/admin/bookings/sendPickUpNotificationToAll', 'admin\BookingsController::sendPickUpNotificationToAll');
 
 //Users
 $routes->get('/admin/add-user', 'admin\AdduserController::index');

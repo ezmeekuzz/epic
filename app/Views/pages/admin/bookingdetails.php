@@ -33,7 +33,9 @@
                                 <button id="updateStatus" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-shopping-cart"></i> Finish</button>
                                 <button id="reschedule" data-account-id = "<?=$bookingDetails['account_information_id'];?>" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-clock-o"></i> Send Re-Schedule Email</button>
                                 <button id="dropOff" data-account-id = "<?=$bookingDetails['account_information_id'];?>" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-truck"></i> Drop Off</button>
+                                <button id="pickUp" data-account-id = "<?=$bookingDetails['account_information_id'];?>" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-truck"></i> Pick up</button>
                                 <a href = "/admin/bookings/generatePdf/<?=$bookingDetails['booking_id'];?>" download target="_blank" class="btn btn-info"><i class="fa fa-download"></i> Download PDF</a>
+                                <a href = "/admin/bookings/previewPdf/<?=$bookingDetails['booking_id'];?>" target="_blank" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Preview PDF</a>
                                 <img src="<?=base_url();?>assets/images/Logo-header.png" />
                                 <table class="table table-bordered">
                                     <thead>
@@ -155,11 +157,11 @@
                                         </tr>
                                         <tr>
                                             <td style="font-weight: bold;">Study Abroad</td>
-                                            <td id="studyAbroad"><?=$serviceInformationDetails[0]['is_studying_abroad'];?></td>
+                                            <td id="studyAbroad"><?php echo !empty($serviceInformationDetails) ? $serviceInformationDetails[0]['is_studying_abroad'] : 'N/A';?></td>
                                         </tr>
                                         <tr>
                                             <td style="font-weight: bold;">Summer School</td>
-                                            <td><?=$serviceInformationDetails[0]['is_summer_school'];?></td>
+                                            <td><?php echo !empty($serviceInformationDetails) ? $serviceInformationDetails[0]['is_summer_school'] : 'N/A';?></td>
                                         </tr>
                                         <tr>
                                             <td style="font-weight: bold;">Row in Warehouse</td>
@@ -172,13 +174,15 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th colspan="6" style="text-align: center; text-transform: uppercase;">Additional Items</th>
+                                            <th colspan="8" style="text-align: center; text-transform: uppercase;">Additional Items</th>
                                         </tr>
                                         <tr>
+                                            <th>Is it a balanced?</th>
                                             <th>Item</th>
                                             <th>Size</th>
                                             <th>Quantity</th>
                                             <th>Amount</th>
+                                            <th>Order Date</th>
                                             <th>Total Amount</th>
                                             <th></th>
                                         </tr>
@@ -191,10 +195,17 @@
                                                 $totalAmountSum += $items['totalamount']; // Add the current totalamount to the sum
                                             ?>
                                                 <tr>
+                                                    <td>
+                                                        <div class="form-group form-check">
+                                                            <input type="checkbox" name="is_balanced" id="is_balanced<?= $items['booking_item_id']; ?>" class="form-control is_balanced" onchange="updateDatabase(this)" <?php echo ($items['is_balanced'] == 'Yes') ? 'checked' : ''; ?>>
+                                                            <label class="form-check-label" for="is_balanced<?= $items['booking_item_id']; ?>">Yes</label>
+                                                        </div>
+                                                    </td>
                                                     <td style="font-weight: bold;"><?= $items['item_name']; ?></td>
                                                     <td style="font-weight: bold;"><?= $items['size']; ?></td>
                                                     <td><input type="number" name="orig_quantity" id="orig_quantity" onkeydown="return false;" <?php if ($items['item_name'] === 'Additional Box') { echo 'max="10"'; } ?> <?php if ($items['item_name'] === 'Summer School Deliver Fee') { echo 'readonly'; } ?> oninput="validateInteger(this);" class="form-control orig_quantity" value="<?= $items['quantity'] ?>"></td>
                                                     <td class="orig_cost"><?= $items['cost'] ?></td>
+                                                    <td><?=$items['order_date'];?></td>
                                                     <td class="totalAmount">$<?= $items['totalamount']; ?></td>
                                                     <td hidden><input type="text" name="booking_item_id" class="booking_item_id" id="booking_item_id" value="<?= $items['booking_item_id']; ?>" /></td>
                                                     <td>
@@ -205,6 +216,7 @@
                                                 </tr>
                                             <?php endforeach; ?>
                                             <tr>
+                                                <td></td>
                                                 <td>
                                                     <select class="form-control chosen-select" data-placeholder="Select an Item" name="item_id" id="item_id">
                                                         <option></option>
@@ -219,13 +231,13 @@
                                                     </select>
                                                 </td>
                                                 <td><input type="number" min="1" onkeydown="return false;" class="form-control" name="quantity" id="quantity"></td>
-                                                <td id="newItemAmount">$0.00</td>
+                                                <td colspan="2" id="newItemAmount">$0.00</td>
                                                 <td id="newItemTotalAmount">$0.00</td>
                                                 <td><a href="javascript:" class="checkmark" style="color: green; font-size: 20px;"><i class="fa fa-check"></i></a></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4" style="text-align: right; font-weight: bold;">Total:</td>
-                                                <td colspan="2" class="overAllTotalAmount" id="totalAmountRow">$<?= number_format($totalAmountSum, 2); ?></td>
+                                                <td colspan="4" class="overAllTotalAmount" id="totalAmountRow">$<?= number_format($totalAmountSum, 2); ?></td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>

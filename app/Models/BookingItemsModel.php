@@ -13,7 +13,7 @@ class BookingItemsModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'booking_id', 'item_id', 'size_id', 'quantity', 'price', 'totalamount'
+        'booking_id', 'item_id', 'size_id', 'quantity', 'price', 'totalamount', 'is_balanced', 'order_date'
     ];
 
     // Dates

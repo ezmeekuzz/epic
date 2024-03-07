@@ -86,193 +86,6 @@ class BookingsController extends BaseController
         
         return $this->response->setJSON($data);
     }
-    public function bookingDetails()
-    {
-        
-        $bookingId = $this->request->getGet('bookingId');
-        
-        $bookingsModel = new BookingsModel();
-        $bookingItemsModel = new BookingItemsModel();
-        $accountInformationsModel = new AccountInformationsModel();
-        $serviceInformationsModel = new ServiceInformationsModel();
-        
-        $bookingDetails = $bookingsModel->find($bookingId);
-        $bookingItemDetails = $bookingItemsModel
-        ->select('booking_items.*, items.item_name, sizes.size, sizes.cost')
-        ->join('items', 'items.item_id = booking_items.item_id', 'left')
-        ->join('sizes', 'sizes.size_id = booking_items.size_id', 'left')
-        ->where('booking_items.booking_id', $bookingId)
-        ->findAll();
-        $accountInformationDetails = $accountInformationsModel
-        ->select('account_informations.*, dorms.dorm_name')
-        ->join('bookings', 'bookings.account_information_id = account_informations.account_information_id', 'left')
-        ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
-        ->where('bookings.booking_id', $bookingId)
-        ->first();
-        $serviceInformationDetails = $serviceInformationsModel->where('booking_id', $bookingId)->findAll();
-        ?>
-        <?php
-            if($bookingDetails['status'] === 'Scheduled') {
-                ?>
-                <button id="updateStatus" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-shopping-cart"></i> Finish</button>
-                <button id="reschedule" data-account-id = "<?=$bookingDetails['account_information_id'];?>" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-clock-o"></i> Send Re-Schedule Email</button>
-                <?php
-            }
-            else if($bookingDetails['status'] === 'Done') {
-                ?>
-                <button id="dropOff" data-account-id = "<?=$bookingDetails['account_information_id'];?>" data-id="<?=$bookingDetails['booking_id'];?>" class="btn btn-info"><i class="fa fa-truck"></i> Drop Off</button>
-                <?php
-            }
-        ?>
-        <a href = "/admin/bookings/generatePdf/<?=$bookingDetails['booking_id'];?>" download target="_blank" class="btn btn-info"><i class="fa fa-download"></i> Download PDF</a>
-        <br/><br/>
-        <div id="booking-details">
-            <img src="<?=base_url();?>assets/images/Logo-header.png" />
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" style="text-align: center; text-transform: uppercase;">Booking Details</th>
-                        <th hidden><input type="text" name="booking_id" id="booking_id" value="<?=$bookingDetails['booking_id'];?>" /></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="font-weight: bold;">Service Type</td>
-                        <td><?=$bookingDetails['serviceType'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Reference Code</td>
-                        <td><?=$bookingDetails['reference_code'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Card Holder</td>
-                        <td><?=$bookingDetails['card_holder_name'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Booking Date</td>
-                        <td><?=date('F d, Y', strtotime($bookingDetails['booking_date']));?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Pickup Date</td>
-                        <td><?=$bookingDetails['picking_date'] ? date('F d, Y', strtotime($bookingDetails['picking_date'])) : "N/A";?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Pickup Time</td>
-                        <td><?=$bookingDetails['picking_time'] ? date('h:i A', strtotime($bookingDetails['picking_time'])) : "N/A";?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Base Price</td>
-                        <td><?=$bookingDetails['base_price'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Additional Box Quantity (50.00 per Box)</td>
-                        <td contenteditable="true" oninput="validateInteger(this);" onblur="setDefaultIfEmpty(this);"><?=$bookingDetails['additional_box_quantity'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Additional Box Total Amount</td>
-                        <td id="addtl_box_total_amount"><?=$bookingDetails['addtl_box_total_amount'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Total Amount</td>
-                        <td id="total_amount"><?=$bookingDetails['total_amount'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Notes</td>
-                        <td><?=$bookingDetails['notes'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Schedule</td>
-                        <td><?=$bookingDetails['status'];?></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" style="text-align: center; text-transform: uppercase;">Account Informations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="font-weight: bold;">Student Name</td>
-                        <td><?=$accountInformationDetails['first_name'].' '.$accountInformationDetails['last_name'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Student ID</td>
-                        <td><?=$accountInformationDetails['student_id'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Dorm</td>
-                        <td><?=$accountInformationDetails['dorm_name'].' / Room No.'.$accountInformationDetails['dorm_room_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Phone Number</td>
-                        <td><?=$accountInformationDetails['phone_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Email Address</td>
-                        <td><?=$accountInformationDetails['email_address'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Address</td>
-                        <td><?=$accountInformationDetails['street_name'].' '.$accountInformationDetails['street_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Parent Phone Number</td>
-                        <td><?=$accountInformationDetails['parent_phone_number'];?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Parent Email Address</td>
-                        <td><?=$accountInformationDetails['parent_email_address'];?></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="2" style="text-align: center; text-transform: uppercase;">Service Informations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="font-weight: bold;">Do You Need Other Vehicle Storage For May - August? (Full Summer)(Motorcycle, Scooter, Bike)*</td>
-                        <td><?=$serviceInformationDetails[0]['is_storage_additional_item'] ?? '';?></td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: bold;">Are you doing summer school?</td>
-                        <td><?=$serviceInformationDetails[0]['is_summer_school'] ?? '';?></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th colspan="4" style="text-align: center; text-transform: uppercase;">Additional Items</th>
-                    </tr>
-                    <tr>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Amount</th>
-                        <th>Total Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if(COUNT($bookingItemDetails)) : ?>
-                    <?php foreach($bookingItemDetails as $items) : ?>
-                    <tr>
-                        <td style="font-weight: bold;"><?=$items['item_name'].' '.$items['size'];?></td>
-                        <td contenteditable="true" oninput="validateDynamicInteger(this)" onblur="setDynamicDefaultIfEmpty(this);"><?=$items['quantity']?></td>
-                        <td><?=$items['cost']?></td>
-                        <td class="totalAmount">$<?=$items['totalamount'];?></td>
-                        <td hidden><input type="text" name="booking_item_id" id="booking_item_id" value="<?=$items['booking_item_id'];?>" /></td>
-                    </tr>
-                    <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-        <?php
-    }   
     public function updateStatus($id)
     {
         $bModel = new BookingsModel();
@@ -285,6 +98,7 @@ class BookingsController extends BaseController
     public function exportToCsv()
     {
         $bModel = new BookingsModel();
+        $bookingItemModel = new BookingItemsModel();
 
         $selectedIds = $this->request->getVar('selectedIds');
         $search = $this->request->getVar('search');
@@ -300,19 +114,38 @@ class BookingsController extends BaseController
                    ->orLike('serviceType', $search);
         }
     
-        $filteredRecords = $bModel->findAll();
+        $filteredRecords = $bModel
+                        ->select('bookings.*, account_informations.*, drop_off.*, dorms.*, dorms.dorm_name as dorm_pick_up, drop_off_dorms.dorm_name as dorm_drop_off')
+                        ->join('account_informations', 'account_informations.account_information_id = bookings.account_information_id', 'left')
+                        ->join('drop_off', 'drop_off.booking_id = bookings.booking_id', 'left')
+                        ->join('dorms as dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
+                        ->join('dorms as drop_off_dorms', 'drop_off_dorms.dorm_id = drop_off.dorm_id', 'left')
+                        ->findAll();
         
         $csvData = [];
         foreach ($filteredRecords as $record) {
+
+            $balancedOwed = $bookingItemModel
+                        ->selectSum('totalamount', 'total_sum')
+                        ->where('is_balanced', 'Yes')
+                        ->where('booking_id', $record['booking_id'])
+                        ->get()
+                        ->getRow()->total_sum;
             $csvData[] = [
+                $record['ordernumber'],
                 $record['serviceType'],
-                $record['card_holder_name'],
-                $record['booking_date'],
-                $record['base_price'],
-                $record['additional_box_quantity'],
-                $record['addtl_box_total_amount'],
-                $record['total_amount'],
-                $record['status'],
+                $record['first_name'],
+                $record['last_name'],
+                $record['student_id'],
+                $record['email_address'],
+                $record['phone_number'],
+                $record['parent_email_address'],
+                $record['parent_phone_number'],
+                $record['dorm_pick_up'],
+                !empty($record['picking_date']) ? date('F d, Y', strtotime($record['picking_date'])) : "N/A",
+                $record['dorm_drop_off'],
+                !empty($record['returnDate']) ? date('F d, Y', strtotime($record['returnDate'])) : "N/A",
+                $balancedOwed,
             ];
         }
         
@@ -320,7 +153,7 @@ class BookingsController extends BaseController
         $csvFilePath = WRITEPATH . 'uploads/' . $csvFileName;
     
         $file = fopen($csvFilePath, 'w');
-        fputcsv($file, ['Service Type', 'Card Holder Name', 'Booking Date', 'Base Price', 'Additional Box Quantity', 'Additional Box Total Amount', 'Total Amount', 'Status']);
+        fputcsv($file, ['Order #', 'Service Offering', 'First Name', 'last Name', 'Student ID', 'Student Email', 'Student Phone', 'Parent Email', 'Parent Phone', 'Pick Up Dorm', 'Pick Up Date', 'Drop Off Dorm', 'Drop Off Date', 'Balanced Owed']);
         foreach ($csvData as $data) {
             fputcsv($file, $data);
         }
@@ -522,86 +355,6 @@ class BookingsController extends BaseController
         $serviceInformationDetails = $serviceInformationsModel->where('booking_id', $bookingId)->findAll();
         return $serviceInformationDetails;
     }
-    public function updateTotalAmount()
-    {
-        $json = $this->request->getJSON();
-        $qty = $json->qty;
-        $bookingId = $json->bookingId;
-
-        $bModel = new BookingsModel();
-        $booking = $bModel->find($bookingId);
-
-        if (!$booking) {
-            return $this->response->setJSON(['error' => 'Booking not found.']);
-        }
-
-        $amount = $booking['additional_box_amount'];
-        $oldBoxTotalAmount = $booking['addtl_box_total_amount'];
-
-        $newAddtlTotalAmount = number_format($amount) * $qty;
-
-        $diff = $newAddtlTotalAmount - $oldBoxTotalAmount;
-
-        $newTotalAmount = $booking['total_amount'] + $diff;
-
-        $data = [
-            'additional_box_quantity' => $qty,
-            'addtl_box_total_amount' => $newAddtlTotalAmount,
-            'total_amount' => $newTotalAmount,
-        ];
-
-        $bModel->update($bookingId, $data);
-
-        return $this->response->setJSON([
-            'amount' => $amount,
-            'totalAmount' => $newTotalAmount,
-            'newAddtlTotalAmount' => $newAddtlTotalAmount,
-            'newTotalAmount' => $newTotalAmount,
-            'oldBoxTotalAmount' => $oldBoxTotalAmount,
-            'diff' => $diff,
-        ]);
-    }
-    public function updateDynamicTotalAmount()
-    {
-        $json = $this->request->getJSON();
-        $qty = $json->qty;
-        $bookingId = $json->bookingId;
-        $bookingItemId = $json->booking_item_id;
-    
-        $b2Model = new BookingsModel();
-        $booking2 = $b2Model->find($bookingId);
-    
-        $bModel = new BookingItemsModel();
-        $booking = $bModel->find($bookingItemId);
-    
-        if (!$booking) {
-            return $this->response->setJSON(['error' => 'Booking item not found.']);
-        }
-    
-        $price = $booking['price'];
-        
-        $newTotalAmount = $price * $qty;
-    
-        $bModel->update($bookingItemId, ['quantity' => $qty, 'totalamount' => $newTotalAmount]);
-
-        $sumTotalAmount = $bModel->selectSum('totalamount')->where('booking_id', $bookingId)->get()->getRow()->totalamount ?? 0;
-        
-        $addtl_box_total_amount = $booking2['addtl_box_total_amount'];
-        $base_price = $booking2['base_price'];
-
-        $TotalAmount = $sumTotalAmount + $addtl_box_total_amount + $base_price;
-        
-        $b2Model->update($bookingId, ['total_amount' => $TotalAmount]);
-    
-        $data = [
-            'TotalAmount' => $TotalAmount,
-            'sumTotalAmount' => $sumTotalAmount,
-            'price' => $price,
-            'totalamount' => $newTotalAmount
-        ];
-    
-        return $this->response->setJSON($data);
-    }
     public function reSchedule($bookingId, $accountInformationId)
     {
         $accountModel = new AccountInformationsModel();
@@ -702,6 +455,60 @@ class BookingsController extends BaseController
         //echo $email->printDebugger();
         return $this->response->setJSON(['status' => 'success', 'message' => $email->printDebugger()]);
     }
+    public function pickUp($bookingId, $accountInformationId)
+    {
+        $bookingModel = new BookingsModel();
+        $bookingItemModel = new BookingItemsModel();
+    
+        $bookings = $bookingModel
+            ->where('bookings.booking_id', $bookingId)
+            ->where('bookings.account_information_id', $accountInformationId)
+            ->join('account_informations', 'bookings.account_information_id = account_informations.account_information_id', 'left')
+            ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
+            ->find();
+        
+            $bookingItem = $bookingItemModel
+                ->where('booking_id', $bookingId)
+                ->join('items', 'booking_items.item_id=items.item_id', 'left')
+                ->join('sizes', 'booking_items.size_id=sizes.size_id', 'left')
+                ->findAll();
+        
+            $additionalData = [
+                'referenceCode' => $bookings[0]['reference_code'] ?? '',
+                'email_address' => $bookings[0]['email_address'] ?? '',
+                'parent_email_address' => $bookings[0]['parent_email_address'] ?? '',
+                'parent_phone_number' => $bookings[0]['parent_phone_number'] ?? '',
+                'first_name' => $bookings[0]['first_name'] ?? '',
+                'last_name' => $bookings[0]['last_name'] ?? '',
+                'student_id' => $bookings[0]['student_id'] ?? '',
+                'phone_number' => $bookings[0]['phone_number'] ?? '',
+                'dorm_name' => $bookings[0]['dorm_name'] ?? '',
+                'dorm_room_number' => $bookings[0]['dorm_room_number'] ?? '',
+                'base_amount' => $bookings[0]['base_price'] ?? '0.00',
+                'study_abroad_additional_storage_price' => $bookings[0]['study_abroad_additional_storage_price'] ?? '0.00',
+                'totalAmount' => $bookings[0]['total_amount'] ?? '0.00',
+                'orderItems' => $bookingItem,
+            ];
+        
+            $email = \Config\Services::email();
+        
+            $email->setFrom('testing@braveegg.com', 'Epic Storage Solutions');
+            $email->setTo($bookings[0]['email_address']);
+            $email->setSubject('Pick Up Schedule Notification – EPIC Storage');
+            $email->setMailType('html');
+        
+            // Load the email template with the additional data
+            $emailContent = view('email_templates/order_confirmation', ['additionalData' => $additionalData]);
+            $email->setMessage($emailContent);
+        
+            // Send the email
+            $email->send();
+        
+            // Uncomment the line below if you want to print email debugging information
+            // echo $email->printDebugger();
+        
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Email sent successfully']);
+    }
     public function generatePdf($bookingId)
     {
         $path = 'assets/images/Logo-header.png';
@@ -767,5 +574,175 @@ class BookingsController extends BaseController
 
         // Output the generated PDF
         $dompdf->stream('document.pdf', ['Attachment' => false]);
+    }
+    public function previewPdf($bookingId)
+    {
+        $path = 'assets/images/Logo-header.png';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        
+        $bookingsModel = new BookingsModel();
+        $bookingItemsModel = new BookingItemsModel();
+        $accountInformationsModel = new AccountInformationsModel();
+        $serviceInformationsModel = new ServiceInformationsModel();
+        $dropOffModel = new DropOffModel();
+        
+        $bookingDetails = $bookingsModel->find($bookingId);
+        $bookingItemDetails = $bookingItemsModel
+        ->select('booking_items.*, items.item_name, sizes.size, sizes.cost')
+        ->join('items', 'items.item_id = booking_items.item_id', 'left')
+        ->join('sizes', 'sizes.size_id = booking_items.size_id', 'left')
+        ->where('booking_items.booking_id', $bookingId)
+        ->findAll();
+        $accountInformationDetails = $accountInformationsModel
+        ->select('account_informations.*, dorms.dorm_name')
+        ->join('bookings', 'bookings.account_information_id = account_informations.account_information_id', 'left')
+        ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
+        ->where('bookings.booking_id', $bookingId)
+        ->first();
+        $dropOffDetails = $dropOffModel
+        ->select('drop_off.*, dorms.dorm_name')
+        ->join('bookings', 'bookings.account_information_id = drop_off.account_information_id', 'left')
+        ->join('dorms', 'dorms.dorm_id = drop_off.dorm_id', 'left')
+        ->where('bookings.booking_id', $bookingId)
+        ->first();
+        $serviceInformationDetails = $serviceInformationsModel->where('booking_id', $bookingId)->first();
+
+        $data = [
+            'bookingDetails' => $bookingDetails,
+            'accountInformationDetails' => $accountInformationDetails,
+            'bookingItemDetails' => $bookingItemDetails,
+            'serviceInformationDetails' => $serviceInformationDetails,
+            'dropOffDetails' => $dropOffDetails,
+            'logo' => $base64
+        ];
+        // Load the Dompdf library
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isHtml5ParserEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        // HTML content for the PDF
+        $html = view('components/printBooking', $data);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // Set paper size (optional)
+        $dompdf->setPaper('a4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF
+        $pdfContent = $dompdf->output();
+
+        $data['pdfContent'] = $pdfContent;
+
+        return view('components/preview', $data);
+    }
+    public function sendDropOffNotificationToAll()
+    {
+        $bookingModel = new BookingsModel();
+        $dropOffModel = new DropOffModel();
+    
+        $bookings = $bookingModel
+            ->where('bookings.status', 'Scheduled')
+            ->join('account_informations', 'bookings.account_information_id = account_informations.account_information_id', 'left')
+            ->get()
+            ->getResultArray();
+    
+        $email = \Config\Services::email();
+    
+        $totalEmails = count($bookings);
+        $successMessages = []; // To store success messages for each email sent
+    
+        foreach ($bookings as $index => $booking) {
+            $dropOffExists = $dropOffModel->where('booking_id', $booking['booking_id'])->get()->getResult();
+    
+            $email->setFrom('testing@braveegg.com', 'Epic Storage Solutions');
+    
+            if (empty($dropOffExists)) {
+                $email->setTo($booking['email_address']);
+                $email->setSubject('Drop Off Notification – EPIC Storage');
+                $email->setMailType('html');
+                $emailContent = view('email_templates/drop_off_noti', ['referenceCode' => $booking['reference_code']]);
+                $email->setMessage($emailContent);
+                $email->send();
+                $email->clear();
+                $successMessages[] = 'Email sent to ' . $booking['email_address'];
+    
+                // Return progress after each email sent
+                $progress = ($index + 1) / $totalEmails * 100;
+                $this->response->setJSON(['status' => 'progress', 'progress' => $progress]);
+            }
+        }
+    
+        // Return success messages for all emails sent
+        return $this->response->setJSON(['status' => 'success', 'messages' => $successMessages]);
+    }
+    public function sendPickUpNotificationToAll()
+    {
+        $bookingModel = new BookingsModel();
+        $bookingItemModel = new BookingItemsModel();
+    
+        $bookings = $bookingModel
+            ->where('bookings.status', 'Pending')
+            ->join('account_informations', 'bookings.account_information_id = account_informations.account_information_id', 'left')
+            ->join('dorms', 'dorms.dorm_id = account_informations.dorm_id', 'left')
+            ->get()
+            ->getResultArray();
+    
+        $email = \Config\Services::email();
+    
+        $totalEmails = count($bookings);
+        $successMessages = []; // To store success messages for each email sent
+    
+        foreach ($bookings as $index => $booking) {
+
+            $bookingItem = $bookingItemModel
+                        ->where('booking_id', $booking['booking_id'])
+                        ->join('items', 'booking_items.item_id=items.item_id', 'left')
+                        ->join('sizes', 'booking_items.size_id=sizes.size_id', 'left')
+                        ->findAll();
+
+            $additionalData = [
+                'referenceCode' => $booking['reference_code'],
+                'email_address' => $booking['email_address'] ?? '',
+                'parent_email_address' => $booking['parent_email_address'] ?? '',
+                'parent_phone_number' => $booking['parent_phone_number'] ?? '',
+                'first_name' => $booking['first_name'] ?? '',
+                'last_name' => $booking['last_name'] ?? '',
+                'student_id' => $booking['student_id'] ?? '',
+                'phone_number' => $booking['phone_number'] ?? '',
+                'dorm_name' => $booking['dorm_name'] ?? '',
+                'dorm_room_number' => $booking['dorm_room_number'] ?? '',
+                'base_amount' => $booking['base_price'] ?? '0.00',
+                'study_abroad_additional_storage_price' => $booking['study_abroad_additional_storage_price'] ?? '0.00',
+                'totalAmount' => $booking['total_amount'] ?? '0.00',
+                'orderItems' => $bookingItem,
+            ];
+
+            $email->setFrom('testing@braveegg.com', 'Epic Storage Solutions');
+            $email->setTo($booking['email_address']);
+            $email->setSubject('Pick Up Schedule Notification – EPIC Storage');
+            $email->setMailType('html');
+            $emailContent = view('email_templates/order_confirmation', ['additionalData' => $additionalData]);
+            $email->setMessage($emailContent);
+            $email->send();
+            $email->clear();
+            $successMessages[] = 'Email sent to ' . $booking['email_address'];
+
+            // Return progress after each email sent
+            $progress = ($index + 1) / $totalEmails * 100;
+            $this->response->setJSON(['status' => 'progress', 'progress' => $progress]);
+        }
+    
+        // Return success messages for all emails sent
+        return $this->response->setJSON(['status' => 'success', 'messages' => $successMessages]);
     }
 }

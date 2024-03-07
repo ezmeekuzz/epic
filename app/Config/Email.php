@@ -6,7 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = 'testing@braveegg.com';
+    public string $fromEmail  = 'testing@riftofheroes.info';
     public string $fromName   = 'Epic Storage Solutions';
     public string $recipients = '';
 
@@ -28,17 +28,17 @@ class Email extends BaseConfig
     /**
      * SMTP Server Address
      */
-    public string $SMTPHost = 'mail.braveegg.com';
+    public string $SMTPHost = 'mail.riftofheroes.info';
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'testing@braveegg.com';
+    public string $SMTPUser = 'testing@riftofheroes.info';
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = 'P@ssw0rd@2022';
+    public string $SMTPPass = 'P@ssw0rd@2024';
 
     /**
      * SMTP Port
@@ -48,7 +48,7 @@ class Email extends BaseConfig
     /**
      * SMTP Timeout (in seconds)
      */
-    public int $SMTPTimeout = 5;
+    public int $SMTPTimeout = 300;
 
     /**
      * Enable persistent SMTP connections
@@ -77,7 +77,7 @@ class Email extends BaseConfig
     /**
      * Type of mail, either 'text' or 'html'
      */
-    public string $mailType = 'text';
+    public string $mailType = 'html';
 
     /**
      * Character set (utf-8, iso-8859-1, etc.)

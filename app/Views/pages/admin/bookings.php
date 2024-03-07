@@ -37,6 +37,8 @@
                                             <div class="float-right">
                                                 <div class="form-group">
                                                     <a class="btn btn-success" href="javascript:void(0);" id="exportCsv"><i class="fa fa-file-excel-o"></i> Export</a>
+                                                    <a class="btn btn-success" href="javascript:void(0);" id="sendAllDropOffNotification"><i class="fa fa-truck"></i> Send Drop Off Notification to Everyone</a>
+                                                    <a class="btn btn-success" href="javascript:void(0);" id="sendAllPickUpNotification"><i class="fa fa-truck"></i> Send Pick Up Notification to Everyone</a>
                                                 </div>
                                             </div>
                                         </div>
